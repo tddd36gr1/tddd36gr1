@@ -15,7 +15,7 @@ import os, os.path;
 source_dir = 'src';
 
 # Executables. These files will be installed into bin folder (example /usr/local/bin).
-scripts = ['src/hello_world.py']
+scripts = ['src/banner.py', 'src/widgets.py', 'src/handle_special_keys.py']
 
 # Included packages from source directory.
 packages = ['']
@@ -43,7 +43,7 @@ for dirpath, dirnames, filenames in os.walk(source_dir):
 
 
 setup(
-    name = 'pythonhildonhelloworld',
+    name = 'maemo4hildonwidgets',
     version = '0.1',
     author = '',
     
@@ -51,6 +51,5 @@ setup(
     package_dir = package_dir,
     scripts = scripts,
     data_files=[]
-    
 )
 
