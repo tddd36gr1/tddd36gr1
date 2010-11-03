@@ -1,14 +1,33 @@
 #!/usr/bin/env python2.5
- 
 import gtk
 import hildon
  
-window = hildon.Window()
-window.connect("destroy", gtk.main_quit)
-label = gtk.Label("Joy aer en biff!")
-window.add(label)
+class HelloWorldApp(hildon.Program):
+  def __init__(self):
+    hildon.Program.__init__(self)
  
-label.show()
-window.show()
+    self.window = hildon.Window()
+    self.window.connect("destroy", gtk.main_quit)
+    self.add_window(self.window)
+    
+    vbox = gtk.VBox()
+    self.window.add(vbox)
  
-gtk.main()
+    topbox = gtk.HBox()
+    vbox.pack_start(topbox, False)
+ 
+    button = gtk.Button("Do not TOUCH")
+    button.connect("clicked", gtk.main_quit)
+    topbox.pack_start(button, False)
+ 
+    label = gtk.Label("Hello World!")
+    topbox.pack_start(label, False)
+    
+    self.window.show_all()
+ 
+  def run(self):
+    self.window.show_all()
+    gtk.main()
+ 
+app = HelloWorldApp()
+app.run()
