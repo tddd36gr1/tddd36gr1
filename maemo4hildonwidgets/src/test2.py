@@ -5,7 +5,7 @@ import hildon
  
 window = hildon.Window()
 window.connect("destroy", gtk.main_quit)
-label = gtk.Label("Joy är en biff!")
+label = gtk.Label("Joy aer en biff!")
 window.add(label)
  
 label.show()
