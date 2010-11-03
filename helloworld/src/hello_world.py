@@ -1,11 +1,14 @@
 import gtk
+import hildon
 
 class MainWindow(gtk.Window):
     label = None
 
     def __init__(self):
-        gtk.Window.__init__(self)
+        #gtk.Window.__init__(self)
+        
         self.connect('destroy', gtk.main_quit)
+        #hildon.program.get_instance()        
 
         vbox = gtk.VBox()
         self.add(vbox)
