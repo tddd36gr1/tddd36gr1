@@ -22,8 +22,6 @@ class HelloWorldApp(hildon.Program):
  
     label = gtk.Label("Hello World!")
     topbox.pack_start(label, False)
-    
-    self.window.show_all()
  
   def run(self):
     self.window.show_all()
