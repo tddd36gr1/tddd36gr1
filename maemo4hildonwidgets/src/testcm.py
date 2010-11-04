@@ -18,35 +18,43 @@ class HelloWorldApp(hildon.Program):
     
     left_box_vbox = gtk.VBox()
     main_hbox.add(left_box_vbox)
+
     
     right_box_vbox = gtk.VBox()
     main_hbox.add(right_box_vbox)
     
     top_box_hbox = gtk.HBox()
     right_box_vbox.add(top_box_hbox)
-    #top_box_hbox.setSize(height=5, width=5)
+    
     
     
 
     main_box_hbox = gtk.HBox()
     right_box_vbox.add(main_box_hbox)
  
-    button = gtk.Button(("Quit"))
+    button = gtk.Button(("k1"))
     button.connect("clicked", gtk.main_quit)
-    left_box_vbox.pack_start(button, expand=True, fill=True, padding=0)
+    left_box_vbox.pack_start(button, expand=False, fill=False, padding=0)
+    button.set_size_request(10,30)
     
-    button = gtk.Button("knapp2")
-    button.connect("clicked", gtk.main_quit)
-    left_box_vbox.pack_start(button, expand=True, fill=True, padding=0)
+    button2 = gtk.Button("k2")
+    button2.connect("clicked", gtk.main_quit)
+    left_box_vbox.pack_start(button2, expand=False, fill=False, padding=0)
+    button2.set_size_request(10,30)
     
-    button = gtk.Button("knapp3")
-    button.connect("clicked", gtk.main_quit)
-    left_box_vbox.pack_start(button, expand=True, fill=True, padding=0)
-    
+    button3 = gtk.Button("k3")
+    button3.connect("clicked", gtk.main_quit)
+    left_box_vbox.pack_start(button3, expand=False, fill=False, padding=0)
+    button3.set_size_request(10,30)
     
     label = gtk.Label("Uber nokia super jattebra!     13:37 ")
     top_box_hbox.pack_start(label, False)
- 
+    label.set_size_request(500,50)
+    
+    self.window.fullscreen()
+    self.window.set_title('hellu')
+    
+    
  
   def run(self):
     self.window.show_all()
