@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Kartkomponent Demo
+Comment=Kartkomponent
+Exec=/home/user/kartkomponent-demo/run
+Icon=liu
+Type=Application
