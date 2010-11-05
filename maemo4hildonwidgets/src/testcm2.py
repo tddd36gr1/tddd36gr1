@@ -12,6 +12,11 @@ class HelloWorldApp(hildon.Program):
     
 #    layout = gtk.Layout(hadjustment=500, vadjustment=500)
 #    layout.set_size(750,750)
+
+    #Color
+    e = gtk.Entry()
+    map = e.get_colormap()
+    colour = map.alloc_color("red") # light red
        
     main_hbox = gtk.HBox(homogeneous=False, spacing=0)
     self.window.add(main_hbox)
@@ -24,6 +29,7 @@ class HelloWorldApp(hildon.Program):
     
     top_box_hbox = gtk.HBox()
     right_box_vbox.add(top_box_hbox)
+    top_box_hbox.modify_bg(gtk.STATE_NORMAL, colour)
 
     main_box_hbox = gtk.HBox()
     right_box_vbox.add(main_box_hbox)
