@@ -42,6 +42,18 @@ class HelloWorldApp(hildon.Program):
     button3.connect("clicked", gtk.main_quit)
     button3.set_size_request(70,70)
     self.layout.put(button3, 0, 200)
+    
+    button4 = gtk.Button()
+    button4.add(image)
+    button4.connect("clicked", gtk.main_quit)
+    button4.set_size_request(70,70)
+    self.layout.put(button4, 0, 300)
+    
+    button5 = gtk.Button()
+    button5.add(image)
+    button5.connect("clicked", gtk.main_quit)
+    button5.set_size_request(70,70)
+    self.layout.put(button5, 0, 400)
 
     
 #    button = gtk.Button(("k1"))
