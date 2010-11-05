@@ -1,0 +1,6 @@
+<map>
+	<name id="Campus Valla och Ryd" />
+	<area level="1" path="kartdata/map1/map1.xml" />
+	<area level="2" path="kartdata/map2/map2.xml" />
+	<area level="3" path="kartdata/map3/map3.xml" />
+</map>

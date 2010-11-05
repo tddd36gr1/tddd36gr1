@@ -1,0 +1,19 @@
+<tiles>
+	<base width="900" height="800" />
+	<size cols="3" rows="5" />
+	<tile file="map1_tile0000.png" id="0000" minlat="58.4184000" maxlat="58.4126080" minlon="15.5501000" maxlon="15.5708300" type="normal" />
+	<tile file="map1_tile0001.png" id="0001" minlat="58.4184000" maxlat="58.4126080" minlon="15.5708300" maxlon="15.5915600" type="normal" />
+	<tile file="map1_tile0002.png" id="0002" minlat="58.4184000" maxlat="58.4126080" minlon="15.5915600" maxlon="15.6122900" type="end" />
+	<tile file="map1_tile0003.png" id="0003" minlat="58.4126080" maxlat="58.4068160" minlon="15.5501000" maxlon="15.5708300" type="normal" />
+	<tile file="map1_tile0004.png" id="0004" minlat="58.4126080" maxlat="58.4068160" minlon="15.5708300" maxlon="15.5915600" type="normal" />
+	<tile file="map1_tile0005.png" id="0005" minlat="58.4126080" maxlat="58.4068160" minlon="15.5915600" maxlon="15.6122900" type="end" />
+	<tile file="map1_tile0006.png" id="0006" minlat="58.4068160" maxlat="58.4010240" minlon="15.5501000" maxlon="15.5708300" type="normal" />
+	<tile file="map1_tile0007.png" id="0007" minlat="58.4068160" maxlat="58.4010240" minlon="15.5708300" maxlon="15.5915600" type="normal" />
+	<tile file="map1_tile0008.png" id="0008" minlat="58.4068160" maxlat="58.4010240" minlon="15.5915600" maxlon="15.6122900" type="end" />
+	<tile file="map1_tile0009.png" id="0009" minlat="58.4010240" maxlat="58.3952320" minlon="15.5501000" maxlon="15.5708300" type="normal" />
+	<tile file="map1_tile0010.png" id="0010" minlat="58.4010240" maxlat="58.3952320" minlon="15.5708300" maxlon="15.5915600" type="normal" />
+	<tile file="map1_tile0011.png" id="0011" minlat="58.4010240" maxlat="58.3952320" minlon="15.5915600" maxlon="15.6122900" type="end" />
+	<tile file="map1_tile0012.png" id="0012" minlat="58.3952320" maxlat="58.3894400" minlon="15.5501000" maxlon="15.5708300" type="normal" />
+	<tile file="map1_tile0013.png" id="0013" minlat="58.3952320" maxlat="58.3894400" minlon="15.5708300" maxlon="15.5915600" type="normal" />
+	<tile file="map1_tile0014.png" id="0014" minlat="58.3952320" maxlat="58.3894400" minlon="15.5915600" maxlon="15.6122900" type="end" />
+</tiles>

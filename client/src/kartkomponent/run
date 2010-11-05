@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /home/user/kartkomponent-demo
+python main.py

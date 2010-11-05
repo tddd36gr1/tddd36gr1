@@ -1,0 +1,44 @@
+<tiles>
+	<base width="1500" height="1280" />
+	<size cols="5" rows="8" />
+	<tile file="map2_tile0000.png" id="0000" minlat="58.4184000" maxlat="58.4148160" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0001.png" id="0001" minlat="58.4184000" maxlat="58.4148160" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0002.png" id="0002" minlat="58.4184000" maxlat="58.4148160" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0003.png" id="0003" minlat="58.4184000" maxlat="58.4148160" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0004.png" id="0004" minlat="58.4184000" maxlat="58.4148160" minlon="15.6013400" maxlon="15.6141500" type="end" />
+	<tile file="map2_tile0005.png" id="0005" minlat="58.4148160" maxlat="58.4112320" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0006.png" id="0006" minlat="58.4148160" maxlat="58.4112320" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0007.png" id="0007" minlat="58.4148160" maxlat="58.4112320" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0008.png" id="0008" minlat="58.4148160" maxlat="58.4112320" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0009.png" id="0009" minlat="58.4148160" maxlat="58.4112320" minlon="15.6013400" maxlon="15.6141500" type="end" />
+	<tile file="map2_tile0010.png" id="0010" minlat="58.4112320" maxlat="58.4076480" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0011.png" id="0011" minlat="58.4112320" maxlat="58.4076480" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0012.png" id="0012" minlat="58.4112320" maxlat="58.4076480" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0013.png" id="0013" minlat="58.4112320" maxlat="58.4076480" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0014.png" id="0014" minlat="58.4112320" maxlat="58.4076480" minlon="15.6013400" maxlon="15.6141500" type="end" />
+	<tile file="map2_tile0015.png" id="0015" minlat="58.4076480" maxlat="58.4040640" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0016.png" id="0016" minlat="58.4076480" maxlat="58.4040640" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0017.png" id="0017" minlat="58.4076480" maxlat="58.4040640" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0018.png" id="0018" minlat="58.4076480" maxlat="58.4040640" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0019.png" id="0019" minlat="58.4076480" maxlat="58.4040640" minlon="15.6013400" maxlon="15.6141500" type="end" />
+	<tile file="map2_tile0020.png" id="0020" minlat="58.4040640" maxlat="58.4004800" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0021.png" id="0021" minlat="58.4040640" maxlat="58.4004800" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0022.png" id="0022" minlat="58.4040640" maxlat="58.4004800" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0023.png" id="0023" minlat="58.4040640" maxlat="58.4004800" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0024.png" id="0024" minlat="58.4040640" maxlat="58.4004800" minlon="15.6013400" maxlon="15.6141500" type="end" />
+	<tile file="map2_tile0025.png" id="0025" minlat="58.4004800" maxlat="58.3968960" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0026.png" id="0026" minlat="58.4004800" maxlat="58.3968960" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0027.png" id="0027" minlat="58.4004800" maxlat="58.3968960" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0028.png" id="0028" minlat="58.4004800" maxlat="58.3968960" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0029.png" id="0029" minlat="58.4004800" maxlat="58.3968960" minlon="15.6013400" maxlon="15.6141500" type="end" />
+	<tile file="map2_tile0030.png" id="0030" minlat="58.3968960" maxlat="58.3933120" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0031.png" id="0031" minlat="58.3968960" maxlat="58.3933120" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0032.png" id="0032" minlat="58.3968960" maxlat="58.3933120" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0033.png" id="0033" minlat="58.3968960" maxlat="58.3933120" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0034.png" id="0034" minlat="58.3968960" maxlat="58.3933120" minlon="15.6013400" maxlon="15.6141500" type="end" />
+	<tile file="map2_tile0035.png" id="0035" minlat="58.3933120" maxlat="58.3897280" minlon="15.5501000" maxlon="15.5629100" type="normal" />
+	<tile file="map2_tile0036.png" id="0036" minlat="58.3933120" maxlat="58.3897280" minlon="15.5629100" maxlon="15.5757200" type="normal" />
+	<tile file="map2_tile0037.png" id="0037" minlat="58.3933120" maxlat="58.3897280" minlon="15.5757200" maxlon="15.5885300" type="normal" />
+	<tile file="map2_tile0038.png" id="0038" minlat="58.3933120" maxlat="58.3897280" minlon="15.5885300" maxlon="15.6013400" type="normal" />
+	<tile file="map2_tile0039.png" id="0039" minlat="58.3933120" maxlat="58.3897280" minlon="15.6013400" maxlon="15.6141500" type="end" />
+</tiles>
