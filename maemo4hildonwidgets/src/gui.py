@@ -14,45 +14,50 @@ class HelloWorldApp(hildon.Program):
     self.window = hildon.Window()
     self.window.connect("destroy", gtk.main_quit)
     self.add_window(self.window)
+    self.window.fullscreen()
+    self.window.set_title('hellu')
+    
+    #creates a color
     color = gtk.gdk.color_parse('#234fdb')
+    
+    #creates the table 2x2
     table = gtk.Table(2, 2, False)
     self.window.add(table)
-    
 
-
-    #skapar layout
+    #creates layout
     self.layout = gtk.Layout(None, None)
     self.layout.set_size(600, 600)
-    #self.layout.modify_bg(gtk.STATE_NORMAL, color)
+    #self.layout.modify_bg(gtk.STATE_NORMAL, color) #code for modifying background color
+    
+    #puts the layout into the top left corner of the table
     table.attach(self.layout, 0, 1, 0, 1, gtk.FILL|gtk.EXPAND, gtk.FILL|gtk.EXPAND, 0, 0)
     
+    #creates a horisontal box onto the layout on coordinates x=100 y=100
     self.main_hbox = gtk.HBox(homogeneous=False, spacing=0)
     self.layout.put(self.main_hbox, 100, 100)
-    
-    labeltest2 = gtk.Label("weeee")
-    self.main_hbox_testbox = gtk.HBox(homogeneous=False, spacing=0)
-    self.main_hbox_testbox.pack_start(labeltest2, False)
     
     testlabel = gtk.Label("hej")
     self.main_hbox.pack_start(testlabel, False)
     
+    #creates a label onto another horisontal box for testing purposes
+    labeltest2 = gtk.Label("weeee")
+    self.main_hbox_testbox = gtk.HBox(homogeneous=False, spacing=0)
+    self.main_hbox_testbox.pack_start(labeltest2, False)
 
     #scrollbar
-    vScrollbar = gtk.VScrollbar(None)
-    table.attach(vScrollbar, 1, 2, 0, 1, gtk.FILL|gtk.SHRINK, gtk.FILL|gtk.SHRINK, 0, 0)    
-    
-    vAdjust = self.layout.get_vadjustment()
-    vScrollbar.set_adjustment(vAdjust)
+    #vScrollbar = gtk.VScrollbar(None)
+    #table.attach(vScrollbar, 1, 2, 0, 1, gtk.FILL|gtk.SHRINK, gtk.FILL|gtk.SHRINK, 0, 0)    
+    #vAdjust = self.layout.get_vadjustment()
+    #vScrollbar.set_adjustment(vAdjust)
 
-    #lagga in bild
+    #imports a picture
     image = gtk.Image()
     image.set_from_file("testbild.gif")
     
-    
-    #lagga till knappar pa vertikal
+    #vertical buttons
     self.button1 = gtk.Button()
     self.button1.add(image)
-    self.button1.connect("clicked", self.CallableChanger,"hej")
+    self.button1.connect("clicked", self.ChangeHbox)
     self.button1.set_size_request(70,70)
     self.layout.put(self.button1, 0, 0)
     
@@ -61,28 +66,24 @@ class HelloWorldApp(hildon.Program):
     self.button2.set_size_request(70,70)
     self.layout.put(self.button2, 0, 100)
     
-    button3 = gtk.Button()
-    button3.add(image)
-    button3.connect("clicked", gtk.main_quit)
-    button3.set_size_request(70,70)
-    self.layout.put(button3, 0, 200)
+    self.button3 = gtk.Button()
+    self.button3.connect("clicked", gtk.main_quit)
+    self.button3.set_size_request(70,70)
+    self.layout.put(self.button3, 0, 200)
     
-    button4 = gtk.Button()
-    button4.add(image)
-    button4.connect("clicked", gtk.main_quit)
-    button4.set_size_request(70,70)
-    self.layout.put(button4, 0, 300)
+    self.button4 = gtk.Button()
+    self.button4.connect("clicked", gtk.main_quit)
+    self.button4.set_size_request(70,70)
+    self.layout.put(self.button4, 0, 300)
     
-    button5 = gtk.Button()
-    button5.add(image)
-    button5.connect("clicked", gtk.main_quit)
-    button5.set_size_request(70,70)
-    self.layout.put(button5, 0, 400)
+    self.button5 = gtk.Button()
+    self.button5.connect("clicked", gtk.main_quit)
+    self.button5.set_size_request(70,70)
+    self.layout.put(self.button5, 0, 400)
     
-    #knappar horisontellt
+    #horisontal buttons
     self.button6 = gtk.Button()
-    self.button6.add(image)
-    self.button6.connect("clicked", self.CallableChanger,"hej")
+    self.button6.connect("clicked", gtk.main_quit)
     self.button6.set_size_request(150,30)
     self.layout.put(self.button6, 100, 440)
     
@@ -91,40 +92,28 @@ class HelloWorldApp(hildon.Program):
     self.button7.set_size_request(150,30)
     self.layout.put(self.button7, 300, 440)
     
-    button8 = gtk.Button()
-    button8.add(image)
-    button8.connect("clicked", gtk.main_quit)
-    button8.set_size_request(150,30)
-    self.layout.put(button8, 500, 440)
+    self.button8 = gtk.Button()
+    self.button8.connect("clicked", gtk.main_quit)
+    self.button8.set_size_request(150,30)
+    self.layout.put(self.button8, 500, 440)
     
-    
-    # Label   
-    label = gtk.Label("Uber nokia super jattebra!     13:37 ")
+    # top label  
+    label = gtk.Label("Nokia n810")
     label.set_size_request(500,50)
     label.set_alignment(xalign=0.5, yalign=0)
     label.modify_font(pango.FontDescription("sans 12"))
     self.layout.put(label, 100, 0)
     
-    #kod for fullscreen och label
-    self.window.fullscreen()
-    self.window.set_title('hellu') 
- 
-  def CallableChanger(self,widget, data = None):
+    #Function that changes hbox
+  def ChangeHbox(self,widget, data = None):
     self.main_hbox.destroy()
     self.layout.put(self.main_hbox_testbox, 100, 100)
     self.window.show_all()
-    
-        
-        #self.button2.set_label(data)
-        
+    #self.button2.set_label(data)  #Changes name on the buttons
         
   def run(self):
-    
     self.window.show_all()
-    gtk.main()
-    
-  
-        
+    gtk.main() 
  
 app = HelloWorldApp()
 app.run()
