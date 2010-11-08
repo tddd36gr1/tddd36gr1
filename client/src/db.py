@@ -4,7 +4,7 @@ from class_ import base_objects
 
 #Initializing database by opening MySQL-database
 #and creating a new SQLAlchemy session
-engine = create_engine('mysql://pythonserver:tddd36gr1@localhost/pythonserver')
+engine = create_engine('sqlite:///db/n810.db')
 Session = sessionmaker(bind=engine)
 session = Session()
 session.new
