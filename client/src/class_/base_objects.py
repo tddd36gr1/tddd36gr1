@@ -40,6 +40,7 @@ class StatusCode(Base):
     name = Column(String(45))
 
     def __init__(self, name):
+    
         self.name = name
         
     def __repr__(self):
