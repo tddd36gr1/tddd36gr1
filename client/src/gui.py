@@ -5,7 +5,7 @@ import hildon
 import pango
 import pygtk
 import sys
-        
+#eej he je         
  
 class HelloWorldApp(hildon.Program):
   def __init__(self):
