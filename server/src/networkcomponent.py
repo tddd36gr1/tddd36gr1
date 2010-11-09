@@ -1,4 +1,5 @@
 # coding=utf8
+
 '''
 Created on 8 nov 2010
 
@@ -8,9 +9,10 @@ Created on 8 nov 2010
 import socket
 import threading
 import time
+import pickle
 
 
-# 
+# startar upp trådar för varje mottaget paket
 class Threadednetwork(threading.Thread):
 
     def __init__(self,conn,addr):
@@ -26,13 +28,14 @@ class Threadednetwork(threading.Thread):
         #splitar datat
         spliteddata = data.split('<>')
         data = spliteddata[0]
+        data = pickle.loads(data)
         datatype = spliteddata[1]
 
         #skrev ut datan förut
         #print data+' '+datatype
         self.conn.close()
 
-#     
+# startar upp servern så att den ligger och lyssnar på anslutningar    
 class NetworkServer(threading.Thread):
     
     def __init__(self):
@@ -66,8 +69,9 @@ def send(destination,package,type):
     PORT = 50011          # The same port as used by the server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
-    paket=package+'<>'+type
-    s.send(paket)
+    packat = pickle.dumps(package)
+    package = packat+'<>'+type
+    s.send(package)
     #data = s.recv(1024)
     s.close()
     #print 'Received', repr(data)
