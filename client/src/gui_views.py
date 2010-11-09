@@ -50,7 +50,6 @@ class HelloWorldApp(hildon.Program):
     self.eventTable = gtk.Table(1, 1, False)
     self.event_hbox = gtk.HBox(homogeneous=False, spacing=0)
     self.event_hbox.set_size_request(700, 400)
-    #self.layout.put(self.event_hbox, 75, 25)
     self.event_hbox.pack_start(self.eventTable, True, True, 0)
     self.eventlayout = gtk.Layout(None, None)
     self.eventlayout.set_size(700, 400)
@@ -58,11 +57,10 @@ class HelloWorldApp(hildon.Program):
     self.eventlayout.modify_bg(gtk.STATE_NORMAL, color2)
     self.eventlabel = gtk.Label("Eventbox")
     self.eventlayout.put(self.eventlabel, 10, 0)
-
-    
     self.check_button = gtk.CheckButton(label="test", use_underline=True)
     self.eventlayout.put(self.check_button, 10, 30)
     
+    self.check_button.connect("clicked", self.Send_to_DB)
 
     ##    imports a picture
     image = gtk.Image()
@@ -135,6 +133,9 @@ class HelloWorldApp(hildon.Program):
     self.RemoveBoxes()
     self.layout.put(self.event_hbox, 75, 25)
     self.event_hbox.show_all()
+    
+  def Send_to_DB(self,widget, data = None):
+    print "hej"
 
   def run(self):
     self.window.show_all()

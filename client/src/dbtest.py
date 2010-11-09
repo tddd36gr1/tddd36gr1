@@ -1,3 +1,5 @@
+# coding=utf8
+
 """ EXEMPELKOD för hur man kan använda databasen """
 
 import db
