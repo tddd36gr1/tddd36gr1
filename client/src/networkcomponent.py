@@ -51,9 +51,9 @@ class NetworkServer(threading.Thread):
 
 class Main():
     
-    NetworkServer().start()
+    def serverStart(self):
+        NetworkServer().start()
     
-    time.sleep(5)
     
     # funktion for att skicka data over natverket
     def send(destination,package,type):
