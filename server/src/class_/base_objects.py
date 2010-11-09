@@ -1,3 +1,5 @@
+# coding=utf8
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP
 from sqlalchemy.orm import relation, backref
@@ -40,6 +42,7 @@ class StatusCode(Base):
     name = Column(String(45))
 
     def __init__(self, name):
+    
         self.name = name
         
     def __repr__(self):

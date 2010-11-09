@@ -1,3 +1,5 @@
+# coding=utf8
+
 from sqlalchemy.orm import  sessionmaker
 from sqlalchemy import create_engine
 from class_ import base_objects

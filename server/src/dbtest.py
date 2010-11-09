@@ -1,3 +1,4 @@
+# coding=utf8
 """ EXEMPELKOD för hur man kan använda databasen """
 
 import db
@@ -13,4 +14,4 @@ db.add(Employee('AA:AA:AA:AA:AA', 'MONGO', 'Svensson'))
 #db.add(Mission('Se pa film', 0.0, 0.0, 0.0, 2))
 
 for employee in db.get_all(Employee):
-    print employee
+    print employee.fname+' '+employee.lname
