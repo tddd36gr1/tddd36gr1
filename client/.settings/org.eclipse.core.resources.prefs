@@ -1,0 +1,13 @@
+#Tue Nov 09 11:23:46 CET 2010
+eclipse.preferences.version=1
+encoding//src/db.py=utf8
+encoding//src/dbtest.py=utf8
+encoding//src/gui.py=utf8
+encoding//src/gui_views.py=utf8
+encoding//src/hello_world.py=utf8
+encoding//src/kartkomponent/data_storage.py=utf-8
+encoding//src/kartkomponent/gui.py=utf-8
+encoding//src/kartkomponent/gui_map.py=utf-8
+encoding//src/kartkomponent/main.py=utf-8
+encoding//src/kartkomponent/map_xml_reader.py=utf-8
+encoding//src/networkcomponent.py=utf8
