@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 # coding=utf8
-=======
-#coding=utf8
->>>>>>> 5f62e8874a840c09d43d30da7bea1cb2b3c3ff12
+
 '''
 Created on 8 nov 2010
 
@@ -14,7 +11,7 @@ import threading
 import time
 
 
-# 
+# startar upp trådar för varje mottaget paket
 class Threadednetwork(threading.Thread):
 
     def __init__(self,conn,addr):
@@ -36,7 +33,7 @@ class Threadednetwork(threading.Thread):
         #print data+' '+datatype
         self.conn.close()
 
-#     
+# startar upp servern så att den ligger och lyssnar på anslutningar    
 class NetworkServer(threading.Thread):
     
     def __init__(self):
