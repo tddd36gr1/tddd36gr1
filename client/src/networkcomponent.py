@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # coding=utf8
+=======
+#coding=utf8
+>>>>>>> 5f62e8874a840c09d43d30da7bea1cb2b3c3ff12
 '''
 Created on 8 nov 2010
 

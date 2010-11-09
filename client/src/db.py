@@ -1,4 +1,4 @@
-# coding=utf8
+#coding=utf8
 
 from sqlalchemy.orm import  sessionmaker
 from sqlalchemy import create_engine
@@ -6,7 +6,7 @@ from class_ import base_objects
 
 #Initializing database by opening MySQL-database
 #and creating a new SQLAlchemy session
-engine = create_engine('sqlite:///db/n810.db')
+engine = create_engine('sqlite:///db/n810.db', encoding='utf-8')
 Session = sessionmaker(bind=engine)
 session = Session()
 session.new
