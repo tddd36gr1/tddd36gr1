@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #Wed Nov 10 15:31:50 CET 2010
+=======
+#Wed Nov 10 15:26:15 CET 2010
+>>>>>>> a059267277dd159ea0b5c529935b332e7a71c548
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
 >>>>>>>=5f62e8874a840c09d43d30da7bea1cb2b3c3ff12
@@ -9,7 +13,6 @@ encoding//src/dbtest.py=utf8
 encoding//src/gui_views.py=utf8
 encoding//src/gui_views_test.py=utf8
 encoding//src/hello_world.py=utf8
-encoding//src/kartkomponent/data_storage.py=utf-8
 encoding//src/kartkomponent/gui.py=utf-8
 encoding//src/kartkomponent/gui_map.py=utf-8
 encoding//src/kartkomponent/main.py=utf-8

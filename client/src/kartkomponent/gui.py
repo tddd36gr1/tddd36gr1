@@ -137,16 +137,21 @@ map = data_storage.MapData(mapxml.get_name(),
 map.set_focus(15.5726, 58.4035)
 
 # Ritar ut tre objekt
-map.add_object("Ambulans1", data_storage.MapObject({"longitude":15.57796,
-                                                    "latitude":58.40479},
-                                                   "ikoner/ambulans.png"))
-map.add_object("Brandbil1", data_storage.MapObject({"longitude":15.5729,
-                                                    "latitude":58.40193},
-                                                   "ikoner/brandbil.png"))
-map.add_object("Sjukhus1", data_storage.MapObject({"longitude":15.5629,
+#map.add_object("Ambulans1", data_storage.MapObject({"longitude":15.57796,
+#                                                    "latitude":58.40479},
+#                                                   "ikoner/ambulans.png"))
+#map.add_object("Brandbil1", data_storage.MapObject({"longitude":15.5729,
+#                                                    "latitude":58.40193},
+#                                                   "ikoner/brandbil.png"))
+#map.add_object("Sjukhus1", data_storage.MapObject({"longitude":15.5629,
+#                                                   "latitude":58.4093},
+#                                                  "ikoner/sjukhus.png"))
+map.add_object("Employee1", data_storage.MapObject({"longitude":15.5629,
                                                    "latitude":58.4093},
-                                                  "ikoner/sjukhus.png"))
-
+                                                  "ikoner/employee.png"))
+map.add_object("Mission1", data_storage.MapObject({"longitude":db.get_one(Mission).long,
+                                                 "latitude":db.get_one(Mission).lat},
+                                                   "ikoner/Mission.png"))
 map.add_object("Shape1", data_storage.MapObject({"longitude":15.5829,
                                                  "latitude":58.4093},
                                                 "arc(x - 5, y - 5, 10, 0, 2 * math.pi)",
