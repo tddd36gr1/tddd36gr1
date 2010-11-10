@@ -2,10 +2,11 @@
 from xml.dom import minidom
 import data_storage
 
+
 class MapXML:
     __name = None
     __levels = {}
-    __path = None
+    __path = ""
 
     def handle_name_node(self, node):
         self.__name = node.attributes['id'].value

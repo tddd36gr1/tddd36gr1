@@ -3,6 +3,8 @@ import data_storage
 import map_xml_reader
 import gui
 
+
+#def createsNotebook():
 # Kartan
 print "Läser in kartinformation från kartdata/map.xml"
 mapxml = map_xml_reader.MapXML("kartdata/map.xml")
@@ -49,7 +51,7 @@ map.add_object("Shape1", data_storage.MapObject({"longitude":15.5829,
 # Skapar grafiska interfacet.
 print "Skapar programmets GUI."
 app = gui.Gui(map)
-
 # Kör programmet
 print "Kör programmet."
-app.run()
+#app.run()
+        #return app

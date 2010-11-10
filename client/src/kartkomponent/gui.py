@@ -3,26 +3,17 @@ import gtk
 import hildon
 import gobject
 import gui_map
+import data_storage
+import map_xml_reader
 
-class Gui(hildon.Program):
+
+class Gui():
     __map = None
     __map_change_zoom = None
 
-    def on_window_state_change(self, widget, event, *args):
-        if event.new_window_state & gtk.gdk.WINDOW_STATE_FULLSCREEN:
-            self.window_in_fullscreen = True
-        else:
-            self.window_in_fullscreen = False
-
     def on_key_press(self, widget, event, *args):
-        # Ifall "fullscreen"-knappen på handdatorn har aktiverats.
-        if event.keyval == gtk.keysyms.F6:
-            if self.window_in_fullscreen:
-                self.window.unfullscreen()
-            else:
-                self.window.fullscreen()
         # Pil vänster, byter vy
-        elif event.keyval == 65361:
+        if event.keyval == 65361:
             if (self.view.get_current_page() != 0):
                 self.view.prev_page()
         # Pil höger, byter vy
@@ -37,25 +28,9 @@ class Gui(hildon.Program):
             self.__map_change_zoom("+")
 
     def __init__(self, map):
-        # Initierar hildon (GUI-biblioteket för N810)
-        hildon.Program.__init__(self)
 
         # Sparar handdatorns karta.
         self.__map = map
-
-        # Skapar programmets fönster
-        self.window = hildon.Window()
-        # Någon storlek så att PyGTK inte klagar
-        self.window.set_size_request(200, 200)
-        # Funktion som körs när prorammet ska stängas av
-        self.window.connect("destroy", self.menu_exit)
-        self.add_window(self.window)
-
-        # Möjliggör fullscreen-läge
-        self.window.connect("key-press-event", self.on_key_press)
-        self.window.connect("window-state-event", self.on_window_state_change)
-        # Programmet är inte i fullscreen-läge från början.
-        self.window_in_fullscreen = False
 
         # Skapar en notebook-komponent i vilken vi har olika sidor som fungerar
         # som vyer. En sida är för kartvyn, en sida för uppdragsvyn osv.
@@ -67,23 +42,14 @@ class Gui(hildon.Program):
         self.view.insert_page(self.create_map_view())
         self.view.insert_page(self.create_settings_view())
 
-        # Lägger in vyn i fönstret
-        self.window.add(self.view)
-
-        # Skapar menyn
-        self.window.set_menu(self.create_menu())
-
     # Skapar vyn för kartan
     def create_map_view(self):
         frame = gtk.Frame(self.__map.get_name() + " <longitude, latitude>")
         frame.set_border_width(5)
-
         map = gui_map.Map(self.__map)
         frame.add(map)
-
         # Sparar undan funktionen som möjliggör zoomning
         self.__map_change_zoom = map.change_zoom
-
         return frame
 
     # Skapar vyn för inställningar
@@ -112,26 +78,7 @@ class Gui(hildon.Program):
         frame.add(vbox)
         return frame
 
-    # Skapar en meny som kommer ligga längst upp i vårt program.
-    def create_menu(self):
-        # Skapar tre stycken meny-inlägg.
-        menuItemKarta = gtk.MenuItem("Karta")
-        menuItemInstallningar = gtk.MenuItem("Inställningar")
-        menuItemSeparator = gtk.SeparatorMenuItem()
-        menuItemExit = gtk.MenuItem("Exit")
 
-        menuItemKarta.connect("activate", self.handle_menu_items, 0)
-        menuItemInstallningar.connect("activate", self.handle_menu_items, 1)
-        menuItemExit.connect("activate", self.menu_exit)
-
-        # Skapar en meny som vi lägger in dessa inlägg i.
-        menu = gtk.Menu()
-        menu.append(menuItemKarta)
-        menu.append(menuItemInstallningar)
-        menu.append(menuItemSeparator)
-        menu.append(menuItemExit)
-
-        return menu
 
     def get_treeview(self, args):
         if len(args) == 1:
@@ -173,7 +120,37 @@ class Gui(hildon.Program):
     def menu_exit(self, widget, data=None):
         # Stänger net GUI:t.
         gtk.main_quit()
+        
+
 
     def run(self):
-        self.window.show_all()
-        gtk.main()
+        print "Kartan inladdad"
+        #gtk.main()
+        
+
+print "Läser in kartinformation från kartdata/map.xml"
+mapxml = map_xml_reader.MapXML("kartkomponent/map.xml")
+
+map = data_storage.MapData(mapxml.get_name(),
+                           mapxml.get_levels())
+
+map.set_focus(15.5726, 58.4035)
+
+# Ritar ut tre objekt
+map.add_object("Ambulans1", data_storage.MapObject({"longitude":15.57796,
+                                                    "latitude":58.40479},
+                                                   "ikoner/ambulans.png"))
+map.add_object("Brandbil1", data_storage.MapObject({"longitude":15.5729,
+                                                    "latitude":58.40193},
+                                                   "ikoner/brandbil.png"))
+map.add_object("Sjukhus1", data_storage.MapObject({"longitude":15.5629,
+                                                   "latitude":58.4093},
+                                                  "ikoner/sjukhus.png"))
+
+map.add_object("Shape1", data_storage.MapObject({"longitude":15.5829,
+                                                 "latitude":58.4093},
+                                                "arc(x - 5, y - 5, 10, 0, 2 * math.pi)",
+                                                "set_source_rgb(0, 0, 0)"))
+        
+app = Gui(map)
+app.run()
