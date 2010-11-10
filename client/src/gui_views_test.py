@@ -38,7 +38,7 @@ class HelloWorldApp(hildon.Program):
     ##    inital main view
     self.mainTable = gtk.Table(1, 1, False)
     self.main_hbox = gtk.HBox(homogeneous=False, spacing=0)
-    self.main_hbox.set_size_request(690, 500)
+    self.main_hbox.set_size_request(690, 450)
     self.main_hbox.pack_start(self.mainTable, True, True, 0)
     self.mainlayout = gtk.Layout(None, None)
     self.mainlayout.set_size(700, 400)
@@ -50,7 +50,7 @@ class HelloWorldApp(hildon.Program):
     ##creates event hbox
     self.eventTable = gtk.Table(1, 1, False)
     self.event_hbox = gtk.HBox(homogeneous=False, spacing=0)
-    self.event_hbox.set_size_request(690, 500)
+    self.event_hbox.set_size_request(690, 450)
     self.event_hbox.pack_start(self.eventTable, True, True, 0)
     self.eventlayout = gtk.Layout(None, None)
     self.eventlayout.set_size(700, 400)
@@ -65,7 +65,7 @@ class HelloWorldApp(hildon.Program):
     ##    creates map hbox
     self.mapTable = gtk.Table(1, 1, False)
     self.map_hbox = gtk.HBox(homogeneous=False, spacing=0)
-    self.map_hbox.set_size_request(690, 500)
+    self.map_hbox.set_size_request(690, 450)
     self.map_hbox.pack_start(self.mapTable, True, True, 0)
     self.maplayout = gtk.Layout(None, None)
     self.maplayout.set_size(700, 400)
@@ -112,7 +112,7 @@ class HelloWorldApp(hildon.Program):
     self.button5.set_label("Stäng")
     self.layout.put(self.button5, 0, 400)
     
-    ##    horisontal buttons
+    ##    horisontal buttons for the map hbox
     self.button6 = gtk.Button()
     self.button6.connect("clicked", gtk.main_quit)
     self.button6.set_size_request(150,30)
