@@ -6,6 +6,8 @@ import hildon
 import pango
 import pygtk
 import sys
+import db
+from class_.base_objects import Employee
         
  
 class HelloWorldApp(hildon.Program):
@@ -44,7 +46,7 @@ class HelloWorldApp(hildon.Program):
     self.mainlayout.set_size(700, 400)
     self.mainTable.attach(self.mainlayout, 0, 1, 0, 1, gtk.FILL|gtk.EXPAND, gtk.FILL|gtk.EXPAND, 0, 0)
     self.mainlayout.modify_bg(gtk.STATE_NORMAL, color2)
-    self.mainlabel = gtk.Label("Mainbox")
+    self.mainlabel = gtk.Label(db.get_one(Employee))
     self.mainlayout.put(self.mainlabel, 10, 0)
 
     ##creates event hbox
@@ -141,6 +143,3 @@ class HelloWorldApp(hildon.Program):
   def run(self):
     self.window.show_all()
     gtk.main() 
- 
-app = HelloWorldApp()
-app.run()
