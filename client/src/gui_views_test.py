@@ -27,14 +27,14 @@ class GuiMain(hildon.Program,threading.Thread):
     ##    creates the table 2x2 onto the window
     table = gtk.Table(2, 2, False)
     self.window.add(table)
-
+    
     ##    creates layout and puts into the top left corner of the table
     self.layout = gtk.Layout(None, None)
     self.layout.set_size(600, 600)
     table.attach(self.layout, 0, 1, 0, 1, gtk.FILL|gtk.EXPAND, gtk.FILL|gtk.EXPAND, 0, 0)
     self.layout.modify_bg(gtk.STATE_NORMAL, color)
     #code for modifying background color
-   
+    
     ##    creates a horisontal box onto the layout
     ##    inital main view
     self.mainTable = gtk.Table(1, 1, False)
@@ -47,7 +47,7 @@ class GuiMain(hildon.Program,threading.Thread):
     self.mainlayout.modify_bg(gtk.STATE_NORMAL, color2)
     self.mainlabel = gtk.Label("Mainbox")
     self.mainlayout.put(self.mainlabel, 10, 0)
-
+    
     ##creates event hbox
     self.eventTable = gtk.Table(1, 1, False)
     self.event_hbox = gtk.HBox(homogeneous=False, spacing=0)
@@ -72,12 +72,12 @@ class GuiMain(hildon.Program,threading.Thread):
     self.maplayout.set_size(700, 400)
     self.mapTable.attach(self.maplayout, 0, 1, 0, 1, gtk.FILL|gtk.EXPAND, gtk.FILL|gtk.EXPAND, 0, 0)
     self.maplayout.modify_bg(gtk.STATE_NORMAL, color2)
-
+    
     ##    loads the map data and puts on the hbox
     self.mapView = kartkomponent.gui.app.view
     self.mapView.set_size_request(650, 400)
     self.maplayout.put(self.mapView, 10, 0)
-
+    
     ##    imports a picture
     image = gtk.Image()
     image.set_from_file("testbild.gif")
@@ -139,38 +139,38 @@ class GuiMain(hildon.Program,threading.Thread):
 
     
   def run(self):
-      def CreateBoxes(self):
-        self.layout.put(self.event_hbox, 100, 25)
-        self.layout.put(self.map_hbox, 100, 25)
-        self.layout.put(self.main_hbox, 100, 25)
-        
-        
-      def HideBoxes(self):
-        self.main_hbox.hide()
-        self.event_hbox.hide()
-        self.map_hbox.hide()
-        
-        ##    Function that changes hbox
-      def MainView(self,widget, data = None):
-        self.HideBoxes()
-        self.main_hbox.show_all()
-        
-        ##    Function that changes to event view
-      def EventView(self,widget, data = None):
-        self.HideBoxes()
-        self.event_hbox.show_all()
-        
-        ##    Function that changes to map view
-      def MapView(self,widget, data = None):
-        self.HideBoxes()
-        self.map_hbox.show_all()
-        
-      def Send_to_DB(self,widget, data = None):
-        print "Laddar in avklarat i databasen"
+    def CreateBoxes(self):
+      self.layout.put(self.event_hbox, 100, 25)
+      self.layout.put(self.map_hbox, 100, 25)
+      self.layout.put(self.main_hbox, 100, 25)
+      
+      
+    def HideBoxes(self):
+      self.main_hbox.hide()
+      self.event_hbox.hide()
+      self.map_hbox.hide()
+      
+      ##    Function that changes hbox
+    def MainView(self,widget, data = None):
+      self.HideBoxes()
+      self.main_hbox.show_all()
+      
+      ##    Function that changes to event view
+    def EventView(self,widget, data = None):
+      self.HideBoxes()
+      self.event_hbox.show_all()
+      
+      ##    Function that changes to map view
+    def MapView(self,widget, data = None):
+      self.HideBoxes()
+      self.map_hbox.show_all()
+      
+    def Send_to_DB(self,widget, data = None):
+      print "Laddar in avklarat i databasen"
     
-      def start(self):
-        self.CreateBoxes()
-        self.window.show_all()
-        gtk.main()
+    def start(self):
+      self.CreateBoxes()
+      self.window.show_all()
+      gtk.main()
     
-      self.start()
+    self.start()
