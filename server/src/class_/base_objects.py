@@ -7,7 +7,7 @@ from sqlalchemy.orm import relation, backref
 #Declarative base for automatic mapping of objects to database tables
 Base = declarative_base()
 
-class Employee(Base):
+class Employee(Base, object):
     """
     An employee-object, each employee has one n810-tablet assigned to him/her, defined by its MAC-address
     """
@@ -34,7 +34,7 @@ class Employee(Base):
         s += "\n</Employee>"
         return s        
     
-class StatusCode(Base):
+class StatusCode(Base, object):
     """StatusCode object, just an id and a name"""
     __tablename__ = 'statuscodes'
     
@@ -49,7 +49,7 @@ class StatusCode(Base):
         """String-representation of object in xml"""
         return "<StatusCode>\n\t<name>%s</name>\n</StatusCode>" % self.name
    
-class Mission(Base):
+class Mission(Base, object):
     """Mission object, with a lot of placemark-related attributes, like longitude and latitude"""
     __tablename__ = 'missions'
     
