@@ -10,6 +10,7 @@ import socket
 import threading
 import time
 import pickle
+import main
 
 
 # startar upp trådar för varje mottaget paket
