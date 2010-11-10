@@ -7,9 +7,7 @@ from class_ import base_objects
 #Initializing database by opening MySQL-database
 #and creating a new SQLAlchemy session
 engine = create_engine('sqlite:///db/n810.db', encoding='utf-8')
-Session = sessionmaker(bind=engine)
-session = Session()
-session.new
+Session = sessionmaker(bind=engine, autocommit=True, transactional=True)
 base_objects.create_tables(engine)
 
 
@@ -17,13 +15,17 @@ def add_all(objects):
     """
     Adds a list of objects into the database
     """
+    session = Session()
     session.add_all(objects)
+    session.close()
 
 def add(object):
     """
     Adds an object into the database
     """
+    session = Session()
     session.add(object)
+    session.close()
     
 def get_all(object):
     """
@@ -31,7 +33,9 @@ def get_all(object):
     
     For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
     """
+    session = Session()
     return session.query(object).all()
+    session.close()
 
 def get_one(object):
     """
@@ -39,4 +43,6 @@ def get_one(object):
     
     For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
     """
+    session = Session()
     return session.query(object).first()
+    session.close()
