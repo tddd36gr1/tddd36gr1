@@ -7,9 +7,10 @@ import pango
 import pygtk
 import sys
 import kartkomponent.gui
+import threading
 
  
-class HelloWorldApp(hildon.Program):
+class GuiMain(hildon.Program,threading.Thread):
   def __init__(self):
     hildon.Program.__init__(self)
     
@@ -164,10 +165,10 @@ class HelloWorldApp(hildon.Program):
   def Send_to_DB(self,widget, data = None):
     print "Laddar in avklarat i databasen"
 
-  def run(self):
+  def start(self):
     self.CreateBoxes()
     self.window.show_all()
-    gtk.main() 
- 
-app = HelloWorldApp()
-app.run()
+    gtk.main()
+    
+  def run(self):
+    GuiMain.start()
