@@ -38,7 +38,7 @@ class HelloWorldApp(hildon.Program):
     ##    inital main view
     self.mainTable = gtk.Table(1, 1, False)
     self.main_hbox = gtk.HBox(homogeneous=False, spacing=0)
-    self.main_hbox.set_size_request(690, 400)
+    self.main_hbox.set_size_request(690, 500)
     self.main_hbox.pack_start(self.mainTable, True, True, 0)
     self.mainlayout = gtk.Layout(None, None)
     self.mainlayout.set_size(700, 400)
@@ -50,7 +50,7 @@ class HelloWorldApp(hildon.Program):
     ##creates event hbox
     self.eventTable = gtk.Table(1, 1, False)
     self.event_hbox = gtk.HBox(homogeneous=False, spacing=0)
-    self.event_hbox.set_size_request(690, 400)
+    self.event_hbox.set_size_request(690, 500)
     self.event_hbox.pack_start(self.eventTable, True, True, 0)
     self.eventlayout = gtk.Layout(None, None)
     self.eventlayout.set_size(700, 400)
@@ -65,7 +65,7 @@ class HelloWorldApp(hildon.Program):
     ##    creates map hbox
     self.mapTable = gtk.Table(1, 1, False)
     self.map_hbox = gtk.HBox(homogeneous=False, spacing=0)
-    self.map_hbox.set_size_request(690, 400)
+    self.map_hbox.set_size_request(690, 500)
     self.map_hbox.pack_start(self.mapTable, True, True, 0)
     self.maplayout = gtk.Layout(None, None)
     self.maplayout.set_size(700, 400)
@@ -116,17 +116,17 @@ class HelloWorldApp(hildon.Program):
     self.button6 = gtk.Button()
     self.button6.connect("clicked", gtk.main_quit)
     self.button6.set_size_request(150,30)
-    self.layout.put(self.button6, 100, 440)
+    self.maplayout.put(self.button6, 100, 400)
     
     self.button7 = gtk.Button()
     self.button7.connect("clicked", gtk.main_quit)
     self.button7.set_size_request(150,30)
-    self.layout.put(self.button7, 300, 440)
+    self.maplayout.put(self.button7, 300, 400)
     
     self.button8 = gtk.Button()
     self.button8.connect("clicked", gtk.main_quit)
     self.button8.set_size_request(150,30)
-    self.layout.put(self.button8, 500, 440)
+    self.maplayout.put(self.button8, 500, 400)
     
     ##    top label  
     label = gtk.Label("Nokia n810")
