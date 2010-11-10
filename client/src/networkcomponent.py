@@ -11,6 +11,7 @@ import threading
 import time
 import pickle
 import main
+import db
 
 
 # startar upp trådar för varje mottaget paket
@@ -31,6 +32,8 @@ class Threadednetwork(threading.Thread):
         data = spliteddata[0]
         data = pickle.loads(data)
         datatype = spliteddata[1]
+        if (datatype == 'dbObject'):
+            db.add(data)
 
         #skrev ut datan förut
         #print data+' '+datatype
