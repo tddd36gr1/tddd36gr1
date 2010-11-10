@@ -139,36 +139,38 @@ class GuiMain(hildon.Program,threading.Thread):
 
     
 
-    def CreateBoxes(self):
-        self.layout.put(self.event_hbox, 100, 25)
-        self.layout.put(self.map_hbox, 100, 25)
-        self.layout.put(self.main_hbox, 100, 25)
-      
-      
-    def HideBoxes(self):
-        self.main_hbox.hide()
-        self.event_hbox.hide()
-        self.map_hbox.hide()
-      
-      ##    Function that changes hbox
-    def MainView(self,widget, data = None):
-        self.HideBoxes()
-        self.main_hbox.show_all()
-      
-      ##    Function that changes to event view
-    def EventView(self,widget, data = None):
-        self.HideBoxes()
-        self.event_hbox.show_all()
-      
-      ##    Function that changes to map view
-    def MapView(self,widget, data = None):
-        self.HideBoxes()
-        self.map_hbox.show_all()
-      
-    def Send_to_DB(self,widget, data = None):
-        print "Laddar in avklarat i databasen"
+ 
     
     def run(self):
+        
+        def CreateBoxes(self):
+            self.layout.put(self.event_hbox, 100, 25)
+            self.layout.put(self.map_hbox, 100, 25)
+            self.layout.put(self.main_hbox, 100, 25)
+          
+          
+        def HideBoxes(self):
+            self.main_hbox.hide()
+            self.event_hbox.hide()
+            self.map_hbox.hide()
+          
+          ##    Function that changes hbox
+        def MainView(self,widget, data = None):
+            self.HideBoxes()
+            self.main_hbox.show_all()
+          
+          ##    Function that changes to event view
+        def EventView(self,widget, data = None):
+            self.HideBoxes()
+            self.event_hbox.show_all()
+          
+          ##    Function that changes to map view
+        def MapView(self,widget, data = None):
+            self.HideBoxes()
+            self.map_hbox.show_all()
+          
+        def Send_to_DB(self,widget, data = None):
+            print "Laddar in avklarat i databasen"
         self.CreateBoxes()
         self.window.show_all()
         gtk.main()
