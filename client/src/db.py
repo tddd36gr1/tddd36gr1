@@ -7,7 +7,7 @@ from class_ import base_objects
 #Initializing database by opening MySQL-database
 #and creating a new SQLAlchemy session
 engine = create_engine('sqlite:///db/n810.db', encoding='utf-8')
-Session = sessionmaker(bind=engine, autocommit=True, transactional=True)
+Session = sessionmaker(bind=engine, autoflush=True, transactional=True)
 base_objects.create_tables(engine)
 
 
@@ -17,6 +17,7 @@ def add_all(objects):
     """
     session = Session()
     session.add_all(objects)
+    session.commit()
     session.close()
 
 def add(object):
@@ -25,6 +26,7 @@ def add(object):
     """
     session = Session()
     session.add(object)
+    session.commit()
     session.close()
     
 def get_all(object):
