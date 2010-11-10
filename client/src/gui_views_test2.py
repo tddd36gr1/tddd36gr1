@@ -171,6 +171,7 @@ class GuiMain(hildon.Program,threading.Thread):
           
         def Send_to_DB(self,widget, data = None):
             print "Laddar in avklarat i databasen"
+
         self.CreateBoxes()
         self.window.show_all()
         gtk.main()
