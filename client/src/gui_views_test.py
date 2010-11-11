@@ -25,8 +25,8 @@ class HelloWorldApp(hildon.Program):
     self.window.set_title('a title')
     
     ##    creates a color
-    color = gtk.gdk.color_parse('#234fdb')
-    color2 = gtk.gdk.color_parse('red')
+    color = gtk.gdk.color_parse('#FFFFFF')
+    color2 = gtk.gdk.color_parse('#FFFFFF')
     
     ##    creates the table 2x2 onto the window
     table = gtk.Table(2, 2, False)
@@ -83,38 +83,53 @@ class HelloWorldApp(hildon.Program):
     self.maplayout.put(self.mapView, 10, 0)
 
     ##    imports a picture
-    image = gtk.Image()
-    image.set_from_file("testbild.gif")
+    imageEvent = gtk.Image()
+    imageEvent.set_from_file("menybilder/uppdrag2.jpg")
+    
+    imageCompass = gtk.Image()
+    imageCompass.set_from_file("menybilder/kompass2.jpg")
+    
+    imageTelephone = gtk.Image()
+    imageTelephone.set_from_file("menybilder/telefon2.jpg")
+    
+    imageMsg = gtk.Image()
+    imageMsg.set_from_file("menybilder/brev2.jpg")
+    
+    imageOff = gtk.Image()
+    imageOff.set_from_file("menybilder/off.jpg")
+    
+
     
     ##    vertical buttons
     self.button1 = gtk.Button()
-    #self.button1.add(image)
-    self.button1.connect("clicked", self.MainView)
-    self.button1.set_size_request(90,70)
-    self.button1.set_label("Main")
-    self.layout.put(self.button1, 0, 0)
+    self.button1.add(imageEvent)
+    self.button1.connect("clicked", self.EventView)
+    self.button1.set_size_request(80,70)
+    self.layout.put(self.button1, 0, 100)
     
     self.button2 = gtk.Button()
-    self.button2.connect("clicked", self.EventView)
-    self.button2.set_size_request(90,70)
-    self.button2.set_label("Jobb")
-    self.layout.put(self.button2, 0, 100)
+    self.button2.add(imageCompass)
+    self.button2.connect("clicked", self.MapView)
+    self.button2.set_size_request(80,70)
+    self.layout.put(self.button2, 0, 0)
+    
     
     self.button3 = gtk.Button()
-    self.button3.connect("clicked", self.MapView)
-    self.button3.set_size_request(90,70)
-    self.button3.set_label("Karta")
+    self.button3.add(imageTelephone)
+    self.button3.connect("clicked", gtk.main_quit)
+    self.button3.set_size_request(80,70)
     self.layout.put(self.button3, 0, 200)
     
     self.button4 = gtk.Button()
-    self.button4.connect("clicked", gtk.main_quit)
-    self.button4.set_size_request(90,70)
+    self.button4.add(imageMsg)
+    self.button4.connect("clicked", self.MainView)
+    self.button4.set_size_request(80,70)
     self.layout.put(self.button4, 0, 300)
     
     self.button5 = gtk.Button()
+    self.button5.add(imageOff)
     self.button5.connect("clicked", gtk.main_quit)
-    self.button5.set_size_request(90,70)
-    self.button5.set_label("Stäng")
+    self.button5.set_size_request(80,70)
     self.layout.put(self.button5, 0, 400)
     
     ##    horisontal buttons for the map hbox
