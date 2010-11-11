@@ -83,6 +83,8 @@ class HelloWorldApp(hildon.Program):
     self.mapView = kartkomponent.gui.app.view
     self.mapView.set_size_request(650, 400)
     self.maplayout.put(self.mapView, 10, 0)
+    
+    ## 
 
     ##    imports a picture
     imageEvent = gtk.Image()
