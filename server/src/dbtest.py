@@ -15,6 +15,9 @@ from class_.base_objects import Employee, StatusCode, Mission
 #db.add(Mission('Se pa film', 0.0, 0.0, 0.0, 2))
 
 #olle = db.get_one(Employee)
+#db.add_or_update(olle)
+#testarn = Employee('13:37:AS:DF:13:37','Johan', 'Åberg')
+#db.add_or_update(testarn)
 #pickledolle = pickle.dumps(olle)
 #newolle = pickle.loads(pickledolle)
 
@@ -22,5 +25,5 @@ from class_.base_objects import Employee, StatusCode, Mission
 
 #db.update(newolle)
 
-#for employee in db.get_all(Employee):
-#    print employee.fname+' '+employee.lname
+for employee in db.get_all(Employee):
+    print employee.fname+' '+employee.lname

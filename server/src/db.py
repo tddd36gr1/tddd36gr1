@@ -54,3 +54,18 @@ def update(object):
     session.merge(object)
     session.commit()
     session.close()
+    
+def add_or_update(object):
+    session = Session()
+    if (object.id == None):
+        session.close()
+        print "add"
+        add(object)
+    elif (session.query(object.__class__).get(object.id) != None):
+        session.close()
+        print "update"
+        update(object)
+    else:
+        session.close()
+        print "add"
+        add(object)
