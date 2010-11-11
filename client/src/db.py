@@ -16,7 +16,7 @@ def add_all(objects):
     Adds a list of objects into the database
     """
     session = Session()
-    session.add_all(objects)
+    session.save_all(objects)
     session.commit()
     session.close()
 
@@ -25,7 +25,7 @@ def add(object):
     Adds an object into the database
     """
     session = Session()
-    session.add(object)
+    session.save(object)
     session.commit()
     session.close()
     
@@ -48,3 +48,7 @@ def get_one(object):
     session = Session()
     return session.query(object).first()
     session.close()
+    
+def update(object):
+    session = Session()
+    session.query()
