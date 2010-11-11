@@ -9,7 +9,6 @@ def pushStart():
     
     for statuscode in db.get_all(StatusCode):
         networkcomponent.send('127.0.0.1',statuscode,'dbObject')
-        print 'statuscode'
         
     for mission in db.get_all(Mission):
         networkcomponent.send('127.0.0.1',mission,'dbObject')

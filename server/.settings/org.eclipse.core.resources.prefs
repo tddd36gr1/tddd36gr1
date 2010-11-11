@@ -1,9 +1,9 @@
-#Wed Nov 10 15:03:05 CET 2010
+#Thu Nov 11 11:35:40 CET 2010
 eclipse.preferences.version=1
 encoding//src/class_/base_objects.py=utf8
 encoding//src/db.py=utf8
 encoding//src/dbtest.py=utf8
+encoding//src/main.py=utf8
 encoding//src/networkcomponent.py=utf8
 encoding//src/pickletest.py=utf8
 encoding//src/push.py=utf8
-encoding//src/systemtest.py=utf8
