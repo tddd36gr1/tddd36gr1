@@ -1,4 +1,4 @@
-#Thu Nov 11 13:42:37 CET 2010
+#Thu Nov 11 19:11:14 CET 2010
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
 >>>>>>>=5f62e8874a840c09d43d30da7bea1cb2b3c3ff12
@@ -14,4 +14,5 @@ encoding//src/kartkomponent/gui_map.py=utf-8
 encoding//src/kartkomponent/main.py=utf-8
 encoding//src/kartkomponent/map_xml_reader.py=utf-8
 encoding//src/networkcomponent.py=utf8
+encoding//src/requesthandler.py=utf8
 encoding//src/test.py=utf8
