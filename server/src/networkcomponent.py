@@ -10,6 +10,7 @@ import socket
 import threading
 import time
 import pickle
+import requesthandler
 
 
 # startar upp trådar för varje mottaget paket
@@ -32,7 +33,8 @@ class Threadednetwork(threading.Thread):
         datatype = spliteddata[1]
 
         #skrev ut datan förut
-        print data
+        print data.id
+        requesthandler.request(data, datatype)
         self.conn.close()
 
 # startar upp servern så att den ligger och lyssnar på anslutningar    

@@ -7,6 +7,8 @@ Created on Nov 11, 2010
 import db
 
 def request(data, type):
+    print 'request starts!'
     if (type == 'db_add_or_update'):
+        print 'type correct'
         db.add_or_update(data)
     
