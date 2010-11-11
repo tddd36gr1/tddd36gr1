@@ -7,6 +7,11 @@ import pango
 import pygtk
 import sys
 import kartkomponent.gui
+import kartkomponent.gps
+import kartkomponent.map_xml_reader
+import kartkomponent.data_storage
+
+
 
  
 class HelloWorldApp(hildon.Program):
@@ -114,8 +119,9 @@ class HelloWorldApp(hildon.Program):
     
     ##    horisontal buttons for the map hbox
     self.button6 = gtk.Button()
-    self.button6.connect("clicked", gtk.main_quit)
+    self.button6.connect("clicked", self.Show_gps_pos)
     self.button6.set_size_request(150,30)
+    self.button6.set_label("Visa pos.")
     self.maplayout.put(self.button6, 100, 400)
     
     self.button7 = gtk.Button()
@@ -168,6 +174,16 @@ class HelloWorldApp(hildon.Program):
     self.CreateBoxes()
     self.window.show_all()
     gtk.main() 
+    
+  def Show_gps_pos(self,widget, data = None):
+    latt = kartkomponent.gps.get_gps_lat
+    
+    lonn = kartkomponent.gps.get_gps_lon
+    mapxml = kartkomponent.map_xml_reader.MapXML("kartkomponent/map.xml")
+    self.map = kartkomponent.data_storage.MapData(mapxml.get_name(), mapxml.get_levels())
+    self.map.add_object("Shape1", kartkomponent.data_storage.MapObject({"longitude":15.5879, "latitude":58.4000},"arc(x - 5, y - 5, 10, 0, 2 * math.pi)","set_source_rgb(0, 0, 0)"))
+    self.HideBoxes()
+    self.map_hbox.show_all()
  
 app = HelloWorldApp()
 app.run()

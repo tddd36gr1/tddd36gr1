@@ -1,4 +1,4 @@
-#Wed Nov 10 15:56:35 CET 2010
+#Thu Nov 11 10:58:20 CET 2010
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
 >>>>>>>=5f62e8874a840c09d43d30da7bea1cb2b3c3ff12
@@ -7,6 +7,7 @@ encoding//src/class_/base_objects.py=utf8
 encoding//src/db.py=utf8
 encoding//src/dbtest.py=utf8
 encoding//src/gui_views.py=utf8
+encoding//src/gui_views_test.py=utf8
 encoding//src/gui_views_test2.py=utf8
 encoding//src/hello_world.py=utf8
 encoding//src/kartkomponent/gui.py=utf-8
