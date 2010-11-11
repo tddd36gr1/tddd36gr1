@@ -51,4 +51,6 @@ def get_one(object):
     
 def update(object):
     session = Session()
-    session.query()
+    session.merge(object)
+    session.commit()
+    session.close()

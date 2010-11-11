@@ -3,6 +3,7 @@
 
 import db
 from class_.base_objects import Employee, StatusCode, Mission
+#import pickle
 
 #db.add(StatusCode('Done'))
 #db.add(Mission('Brunka', 12.2, 13.4, 0.0, 1))
@@ -13,6 +14,13 @@ from class_.base_objects import Employee, StatusCode, Mission
 #db.add(StatusCode('Testing'))
 #db.add(Mission('Se pa film', 0.0, 0.0, 0.0, 2))
 
-print db.get_one(Employee)
+#olle = db.get_one(Employee)
+#pickledolle = pickle.dumps(olle)
+#newolle = pickle.loads(pickledolle)
+
+#newolle.lname = 'Johansson'
+
+#db.update(newolle)
+
 #for employee in db.get_all(Employee):
 #    print employee.fname+' '+employee.lname
