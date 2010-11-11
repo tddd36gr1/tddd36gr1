@@ -5,9 +5,12 @@
 import db
 from class_.base_objects import Employee, StatusCode, Mission
 import networkcomponent
+import push
 
 #db.add(StatusCode('Done'))
 #db.add(Mission('Brunka', 12.2, 13.4, 0.0, 1))
-olle = Employee('00:00:00:00:00', 'Olle', 'Karlsson')
+#olle = Employee('00:00:00:00:00', 'Olle', 'Karlsson')
 
-networkcomponent.send('127.0.0.1',olle,'data')
+#networkcomponent.send('127.0.0.1',olle,'data')
+
+push.pushStart()
