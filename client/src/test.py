@@ -9,4 +9,5 @@ import networkcomponent
 import time
 
 
-networkcomponent.serverStart()
+networkcomponent.send('127.0.0.1','tard','yo')
+#networkcomponent.serverStart()
