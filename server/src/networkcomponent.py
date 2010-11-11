@@ -32,7 +32,7 @@ class Threadednetwork(threading.Thread):
         datatype = spliteddata[1]
 
         #skrev ut datan förut
-        #print data+' '+datatype
+        print data
         self.conn.close()
 
 # startar upp servern så att den ligger och lyssnar på anslutningar    

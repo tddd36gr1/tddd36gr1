@@ -1,9 +1,13 @@
 #coding=utf8
-'''
-Created on Nov 9, 2010
 
-@author: alek
-'''
-import push
+""" EXEMPELKOD för hur man kan använda databasen """
 
-push.pushStart()
+import db
+from class_.base_objects import Employee, StatusCode, Mission
+import networkcomponent
+
+#db.add(StatusCode('Done'))
+#db.add(Mission('Brunka', 12.2, 13.4, 0.0, 1))
+olle = Employee('00:00:00:00:00', 'Olle', 'Karlsson')
+
+networkcomponent.send('127.0.0.1',olle,'data')

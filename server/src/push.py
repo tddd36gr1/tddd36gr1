@@ -1,12 +1,14 @@
 #coding=utf8
 
 def pushStart():
-    import db
-    from class_.base_objects import Mission, StatusCode
+    from class_.base_objects import Employee, Mission, StatusCode
     import networkcomponent
+   
+    networkcomponent.send('127.0.0.1', Employee('aasdasd', 'f', 'asd'), 'fail')
     
-    for statuscode in db.get_all(StatusCode):
-        networkcomponent.send('192.168.2.15', statuscode, 'dbObject')
+#    for statuscode in db.get_all(StatusCode):
+#        networkcomponent.send('127.0.0.1',statuscode,'dbObject')
+#        print 'statuscode'
         
-    for mission in db.get_all(Mission):
-        networkcomponent.send('192.168.2.15', mission, 'dbObject')
+#    for mission in db.get_all(Mission):
+#        networkcomponent.send('127.0.0.1',mission,'dbObject')
