@@ -20,9 +20,11 @@ class HelloWorldApp(hildon.Program):
     
     self.window = hildon.Window()
     self.window.connect("destroy", gtk.main_quit)
+    self.window.connect("key-press-event", kartkomponent.gui.app.on_key_press)
     self.add_window(self.window)
     self.window.fullscreen()
     self.window.set_title('a title')
+    
     
     ##    creates a color
     color = gtk.gdk.color_parse('#FFFFFF')
