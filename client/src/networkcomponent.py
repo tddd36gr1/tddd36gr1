@@ -12,7 +12,7 @@ import time
 import pickle
 import ssl
 from OpenSSL import SSL
-import requesthandler
+#import requesthandler
 
 
 # startar upp trådar för varje mottaget paket
@@ -36,7 +36,7 @@ class Threadednetwork(threading.Thread):
         print data
         print 'connection closed', self.addr
         
-        requesthandler.request(data, datatype)
+        #requesthandler.request(data, datatype)
         self.conn.close()
 
 # startar upp servern så att den ligger och lyssnar på anslutningar    
