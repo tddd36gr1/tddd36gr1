@@ -6,7 +6,7 @@ from class_ import base_objects
 
 #Initializing database by opening MySQL-database
 #and creating a new SQLAlchemy session
-engine = create_engine('mysql://pythonserver:tddd36gr1@localhost/pythonserver', encoding='utf-8')
+engine = create_engine('mysql://pythonserver:tddd36gr1@localhost/pythonserver?charset=utf8', encoding='utf-8')
 Session = sessionmaker(bind=engine, autoflush=True, transactional=True)
 base_objects.create_tables(engine)
 
