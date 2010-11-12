@@ -22,7 +22,7 @@ def add_all(objects):
     session.save_all(objects)
     session.commit()
     session.close()
-    lock.acquire()
+    lock.release()
 
 def add(object):
     """
@@ -33,7 +33,7 @@ def add(object):
     session.save(object)
     session.commit()
     session.close()
-    lock.acquire()
+    lock.release()
     
 def get_all(object):
     """
@@ -45,8 +45,8 @@ def get_all(object):
     session = Session()
     return session.query(object).all()
     session.close()
-    lock.acquire()
-
+    lock.release()
+    
 def get_one(object):
     """
     Returns first object in database of the same class as the parameter
@@ -57,7 +57,7 @@ def get_one(object):
     session = Session()
     return session.query(object).first()
     session.close()
-    lock.acquire()
+    lock.release()
     
 def update(object):
     lock.acquire()
