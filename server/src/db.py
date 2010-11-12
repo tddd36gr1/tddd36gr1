@@ -3,31 +3,37 @@
 from sqlalchemy.orm import  sessionmaker
 from sqlalchemy import create_engine
 from class_ import base_objects
+from threading import Lock
+import SETTINGS
 
 #Initializing database by opening MySQL-database
 #and creating a new SQLAlchemy session
-engine = create_engine('mysql://pythonserver:tddd36gr1@localhost/pythonserver?charset=utf8', encoding='utf-8')
+engine = create_engine(SETTINGS.db_src, encoding='utf-8')
 Session = sessionmaker(bind=engine, autoflush=True, transactional=True)
 base_objects.create_tables(engine)
-
+lock = Lock()
 
 def add_all(objects):
     """
     Adds a list of objects into the database
     """
+    lock.acquire()
     session = Session()
     session.save_all(objects)
     session.commit()
     session.close()
+    lock.acquire()
 
 def add(object):
     """
     Adds an object into the database
     """
+    lock.acquire()
     session = Session()
     session.save(object)
     session.commit()
     session.close()
+    lock.acquire()
     
 def get_all(object):
     """
@@ -35,9 +41,11 @@ def get_all(object):
     
     For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
     """
+    lock.acquire()
     session = Session()
     return session.query(object).all()
     session.close()
+    lock.acquire()
 
 def get_one(object):
     """
@@ -45,15 +53,19 @@ def get_one(object):
     
     For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
     """
+    lock.acquire()
     session = Session()
     return session.query(object).first()
     session.close()
+    lock.acquire()
     
 def update(object):
+    lock.acquire()
     session = Session()
     session.merge(object)
     session.commit()
     session.close()
+    lock.release()
     
 def add_or_update(object):
     session = Session()
