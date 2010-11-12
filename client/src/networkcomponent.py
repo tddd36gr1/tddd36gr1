@@ -31,7 +31,6 @@ class Threadednetwork(threading.Thread):
         data = spliteddata[0]
         data = pickle.loads(data)
         datatype = spliteddata[1]
-
         #skrev ut datan förut
         print data.id
         requesthandler.request(data, datatype)
