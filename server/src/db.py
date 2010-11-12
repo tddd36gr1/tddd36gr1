@@ -19,7 +19,7 @@ def add_all(objects):
     """
     lock.acquire()
     session = Session()
-    session.save_all(objects)
+    session.add_all(objects)
     session.commit()
     session.close()
     lock.release()
@@ -29,11 +29,13 @@ def add(object):
     Adds an object into the database
     """
     lock.acquire()
+    print "Lock acquired"
     session = Session()
-    session.save(object)
+    session.add(object)
     session.commit()
     session.close()
     lock.release()
+    print "Lock released"
     
 def get_all(object):
     """
@@ -42,10 +44,13 @@ def get_all(object):
     For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
     """
     lock.acquire()
+    print "Lock acquired"
     session = Session()
-    return session.query(object).all()
+    result = session.query(object).all()
     session.close()
     lock.release()
+    print "Lock released"
+    return result
     
 def get_one(object):
     """
@@ -55,9 +60,10 @@ def get_one(object):
     """
     lock.acquire()
     session = Session()
-    return session.query(object).first()
+    result = session.query(object).first()
     session.close()
     lock.release()
+    return result
     
 def update(object):
     lock.acquire()
@@ -68,16 +74,17 @@ def update(object):
     lock.release()
     
 def add_or_update(object):
+    lock.acquire()
     session = Session()
+    id = session.query(object.__class__).get(object.id)
+    session.close()
+    lock.release()
     if (object.id == None):
-        session.close()
         print "add"
         add(object)
-    elif (session.query(object.__class__).get(object.id) != None):
-        session.close()
+    elif (id != None):
         print "update"
         update(object)
     else:
-        session.close()
         print "add"
         add(object)

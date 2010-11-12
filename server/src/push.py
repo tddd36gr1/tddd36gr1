@@ -11,13 +11,16 @@ def pushStart():
     #test = "åäö"
     #networkcomponent.send(ip,StatusCode(test),'db_add_or_update')
     #Send all status codes
+    print "StatusCodes"
     for statuscode in db.get_all(StatusCode):
         networkcomponent.send(ip,statuscode,'db_add_or_update')
-        
+    
+    print "Missions"
     #Send all missions
     for mission in db.get_all(Mission):
         networkcomponent.send(ip,mission,'db_add_or_update')
     
+    print "Employees"
     #Send all employees
     for employee in db.get_all(Employee): 
         networkcomponent.send(ip,employee,'db_add_or_update')
