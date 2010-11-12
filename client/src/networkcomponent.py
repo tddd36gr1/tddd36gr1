@@ -10,7 +10,6 @@ import socket
 import threading
 import time
 import pickle
-import ssl
 from OpenSSL import SSL
 #import requesthandler
 
@@ -58,7 +57,7 @@ class NetworkServer(threading.Thread):
     
         while True:
             conn, addr = s.accept()
-            sslconn = ssl.wrap_socket(conn,server_side=True,certfile="mycert.pem",keyfile="mycert.pem",ssl_version=ssl.PROTOCOL_TLSv1)
+            sslconn = SSL.wrap_socket(conn,server_side=True,certfile="mycert.pem",keyfile="mycert.pem",ssl_version=SSL.PROTOCOL_TLSv1)
             data = sslconn.read()
             Threadednetwork(conn, addr, data).start()   
           
@@ -80,9 +79,3 @@ def send(destination,package,type):
     paket = Picklatpaket+'<>'+type
     s.send(paket)
     s.close()
-    
-serverStart()
-
-time.sleep(2)
-
-send('127.0.0.1', 'penis', 'kyk')
