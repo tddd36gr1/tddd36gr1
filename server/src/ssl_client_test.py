@@ -12,6 +12,5 @@ s.connect((HOST, PORT))
 
 s.send('penis')
 data = s.recv(1024)
-s.close()
-
 print 'recieved', data
+s.close()
