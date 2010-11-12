@@ -11,10 +11,10 @@ import kartkomponent.gps
 import kartkomponent.map_xml_reader
 import kartkomponent.data_storage
 
-
+gtk.gdk.threads_init()
 
  
-class HelloWorldApp(hildon.Program):
+class HelloWorldApp(hildon.Program, gtk.Window):
   def __init__(self):
     hildon.Program.__init__(self)
     
@@ -24,6 +24,8 @@ class HelloWorldApp(hildon.Program):
     self.add_window(self.window)
     self.window.fullscreen()
     self.window.set_title('a title')
+    self.CreateBoxes()
+    self.window.show_all()
     
     
     ##    creates a color
@@ -190,8 +192,7 @@ class HelloWorldApp(hildon.Program):
     print "Laddar in avklarat i databasen"
 
   def run(self):
-    self.CreateBoxes()
-    self.window.show_all()
+
     gtk.main() 
     
   def Show_gps_pos(self,widget, data = None):
@@ -204,5 +205,5 @@ class HelloWorldApp(hildon.Program):
     self.HideBoxes()
     self.map_hbox.show_all()
  
-app = HelloWorldApp()
-app.run()
+#app = HelloWorldApp()
+#app.run()
