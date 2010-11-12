@@ -14,7 +14,7 @@ import kartkomponent.data_storage
 
 
  
-class HelloWorldApp(hildon.Program):
+class HelloWorldApp(hildon.Program, gtk.Window):
   def __init__(self):
     hildon.Program.__init__(self)
     
