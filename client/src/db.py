@@ -16,7 +16,7 @@ def add_all(objects):
     Adds a list of objects into the database
     """
     session = Session()
-    session.save_all(objects)
+    session.add_all(objects)
     session.commit()
     session.close()
 
@@ -24,10 +24,13 @@ def add(object):
     """
     Adds an object into the database
     """
+    print "fail";
+    print object.__class__
     session = Session()
-    session.save(object)
+    session.add(object)
     session.commit()
     session.close()
+    print "added";
     
 def get_all(object):
     """
@@ -56,16 +59,16 @@ def update(object):
     session.close()
     
 def add_or_update(object):
-    session = Session()
+    #session = Session()
     if (object.id == None):
-        session.close()
+        #session.close()
         print "add"
         add(object)
-    elif (session.query(object.__class__).get(object.id) != None):
-        session.close()
+    elif (Session().query(object.__class__).get(object.id) != None):
+        #session.close()
         print "update"
         update(object)
     else:
-        session.close()
+        #session.close()
         print "add"
         add(object)
