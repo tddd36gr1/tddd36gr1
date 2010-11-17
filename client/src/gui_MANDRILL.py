@@ -10,15 +10,14 @@ import kartkomponent.gui
 import kartkomponent.gps
 import kartkomponent.map_xml_reader
 import kartkomponent.data_storage
-import db
-from class_.base_objects import Mission
-
-
-
+from class_.base_objects import *
  
-class HelloWorldApp(hildon.Program):
-  def __init__(self):
+class MainGUI(hildon.Program):
+  def __init__(self, db):
     hildon.Program.__init__(self)
+    
+    #Reference to Database
+    self.db = db
     
     self.window = hildon.Window()
     self.window.connect("destroy", gtk.main_quit)
@@ -65,8 +64,8 @@ class HelloWorldApp(hildon.Program):
     self.eventlayout.set_size(700, 400)
     self.eventTable.attach(self.eventlayout, 0, 1, 0, 1, gtk.FILL|gtk.EXPAND, gtk.FILL|gtk.EXPAND, 0, 0)
     self.eventlayout.modify_bg(gtk.STATE_NORMAL, color2)
-    self.katt = db.get_one(Mission)
-    self.eventlabel = gtk.Label("Uppdrag: "+self.katt.title+", status: "+"Utryckning")
+    self.testmission = self.db.get_one(Mission)
+    self.eventlabel = gtk.Label("Uppdrag: "+self.testmission.title+", status: "+self.testmission.status_object.name)
     self.eventlayout.put(self.eventlabel, 10, 0)
     self.check_button = gtk.CheckButton(label="kryssa för avklarat", use_underline=True)
     self.eventlayout.put(self.check_button, 10, 30)
@@ -191,8 +190,8 @@ class HelloWorldApp(hildon.Program):
     
   def Send_to_DB(self,widget, data = None):
     print "Laddar in avklarat i databasen"
-    self.katt.status = 3
-    db.update(self.katt)
+    self.testmission.status = 3
+    self.db.commit()
 
   def run(self):
     self.CreateBoxes()
@@ -209,5 +208,5 @@ class HelloWorldApp(hildon.Program):
     self.HideBoxes()
     self.map_hbox.show_all()
  
-app = HelloWorldApp()
-app.run()
+def start(db):
+    MainGUI(db).run()
