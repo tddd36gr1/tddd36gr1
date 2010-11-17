@@ -10,11 +10,11 @@ import kartkomponent.gui
 import kartkomponent.gps
 import kartkomponent.map_xml_reader
 import kartkomponent.data_storage
-
+import gui_view_uppdrag
 
 
  
-class HelloWorldApp(hildon.Program, gtk.Window):
+class HelloWorldApp(hildon.Program):
   def __init__(self):
     hildon.Program.__init__(self)
     
@@ -63,11 +63,34 @@ class HelloWorldApp(hildon.Program, gtk.Window):
     self.eventlayout.set_size(700, 400)
     self.eventTable.attach(self.eventlayout, 0, 1, 0, 1, gtk.FILL|gtk.EXPAND, gtk.FILL|gtk.EXPAND, 0, 0)
     self.eventlayout.modify_bg(gtk.STATE_NORMAL, color2)
+    
     self.eventlabel = gtk.Label("Uppdrag: Rädda en katt")
     self.eventlayout.put(self.eventlabel, 10, 0)
     self.check_button = gtk.CheckButton(label="kryssa för avklarat", use_underline=True)
     self.eventlayout.put(self.check_button, 10, 30)
     self.check_button.connect("clicked", self.Send_to_DB)
+    
+    ##    creates the buttons at the bottom of the eventview 
+    self.minaUpp_button = gtk.Button(label= "Mina uppdrag", use_underline=True)
+    self.minaUpp_button.connect("clicked", self.MinaUpp)
+    self.minaUpp_button.set_size_request(170,30)
+    self.eventlayout.put(self.minaUpp_button, 0, 415)
+    
+    self.skapaUpp_button = gtk.Button(label= "Skapa uppdrag", use_underline=True)
+    self.skapaUpp_button.connect("clicked", gtk.main_quit)
+    self.skapaUpp_button.set_size_request(185,30)
+    self.eventlayout.put(self.skapaUpp_button, 170, 415)
+    
+    self.skapaUpp_button = gtk.Button(label= "Alla uppdrag", use_underline=True)
+    self.skapaUpp_button.connect("clicked", gtk.main_quit)
+    self.skapaUpp_button.set_size_request(160,30)
+    self.eventlayout.put(self.skapaUpp_button, 355, 415)
+    
+    self.slutUpp_button = gtk.Button(label= "Slutförda uppdrag", use_underline=True)
+    self.slutUpp_button.connect("clicked", gtk.main_quit)
+    self.slutUpp_button.set_size_request(165,30)
+    self.eventlayout.put(self.slutUpp_button, 515, 415)  
+    
     
     ##    creates map hbox
     self.mapTable = gtk.Table(1, 1, False)
@@ -171,9 +194,14 @@ class HelloWorldApp(hildon.Program, gtk.Window):
     self.event_hbox.hide()
     self.map_hbox.hide()
     
+  def MinaUpp(self, widget, data=None):
+    self.HideBoxes()
+    hbox2 = gui_view_uppdrag.minaUpp()
+    self.layout.put(hbox2, 100, 25)
+
+    
     ##    Function that changes hbox
   def MainView(self,widget, data = None):
-    self.HideBoxes()
     self.main_hbox.show_all()
     
     ##    Function that changes to event view
