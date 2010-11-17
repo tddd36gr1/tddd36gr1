@@ -6,15 +6,11 @@ Created on 10 nov 2010
 
 import gui_views
 from gui_views import *
-#import gui_views_test2
-#from gui_views_test2 import *
-#import threading
-#from networkcomponent import *
-import networkcomponent
+from db import DatabaseWorker
+import networkcomponentnossl as networkcomponent
 
-
-networkcomponent.serverStart()
+db = DatabaseWorker()
+networkcomponent.serverStart(db)
 gui_views.HalloWorldApp()
 #Linus testar: gui_views_test2.HelloWorldApp()
 print 'troloolololo'
-

@@ -1,26 +1,23 @@
-#coding=utf8
-
+#coding=utf-8
 """ EXEMPELKOD för hur man kan använda databasen """
 
-import db
+from db import DatabaseWorker
 from class_.base_objects import Employee, StatusCode, Mission
-import requesthandler
 
-#db.add(StatusCode('Done'))
-#db.add(Mission('Brunka', 12.2, 13.4, 0.0, 1))
-#olle = Employee('00:00:00:00:00', 'Olle', 'Karlsson')
-#db.add(olle)
+db = DatabaseWorker()
 
-#requesthandler.request((Employee('AA:AA:AA:BB:AA', 'MASDO', 'Svensson')), 'db_add_or_update')
-#db.add(StatusCode('Slutfört'))
-#db.add(Mission('Se pa film', 0.0, 0.0, 0.0, 2))
+#db.add_or_update(StatusCode('Inkommet larm'))
+#db.add_or_update(StatusCode('Utryckning!'))
+#db.add_or_update(StatusCode('Slutfort'))
+#db.add_or_update(Mission('Radda katten i tradet', 15.578, 58.4048, 0.0, 2))
+#db.add_or_update(Employee('FF:FF:AS:DF:13:37','Samuel', 'Svensson'))
+#db.get_one(Mission).title = "Pwn"
 
-#print db.get_one(Employee)
-for employee in db.get_all(Employee):
-    print employee
-    
 for mission in db.get_all(Mission):
     print mission
-    
+
 for statuscode in db.get_all(StatusCode):
     print statuscode
+    
+for employee in db.get_all(Employee):
+    print employee

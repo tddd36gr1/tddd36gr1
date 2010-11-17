@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<settings>
-<configs currentConfig="Scratchbox 1~DIABLO_ARMEL.1288776031835">
-<config executionEnvironment="org.maemo.mica.maemosdk.core.maemo" id="Scratchbox 1~DIABLO_ARMEL.1288776031835" name="DIABLO_ARMEL" sdkDisplayName="Scratchbox 1 (/scratchbox/)" sdkName="Scratchbox 1" stockConfigurationId="" targetName="DIABLO_ARMEL">
-<metaData/>
-</config>
-</configs>
-</settings>

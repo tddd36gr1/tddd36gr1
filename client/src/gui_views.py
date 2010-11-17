@@ -10,6 +10,8 @@ import kartkomponent.gui
 import kartkomponent.gps
 import kartkomponent.map_xml_reader
 import kartkomponent.data_storage
+import db
+from class_.base_objects import Mission
 
 
 
@@ -63,7 +65,8 @@ class HelloWorldApp(hildon.Program):
     self.eventlayout.set_size(700, 400)
     self.eventTable.attach(self.eventlayout, 0, 1, 0, 1, gtk.FILL|gtk.EXPAND, gtk.FILL|gtk.EXPAND, 0, 0)
     self.eventlayout.modify_bg(gtk.STATE_NORMAL, color2)
-    self.eventlabel = gtk.Label("Uppdrag: Rädda en katt")
+    self.katt = db.get_one(Mission)
+    self.eventlabel = gtk.Label("Uppdrag: "+self.katt.title+", status: "+"Utryckning")
     self.eventlayout.put(self.eventlabel, 10, 0)
     self.check_button = gtk.CheckButton(label="kryssa för avklarat", use_underline=True)
     self.eventlayout.put(self.check_button, 10, 30)
@@ -188,6 +191,8 @@ class HelloWorldApp(hildon.Program):
     
   def Send_to_DB(self,widget, data = None):
     print "Laddar in avklarat i databasen"
+    self.katt.status = 3
+    db.update(self.katt)
 
   def run(self):
     self.CreateBoxes()

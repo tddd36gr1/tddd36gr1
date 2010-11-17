@@ -28,6 +28,7 @@ class Employee(Base, object):
     def __repr__(self):
         """String-representation of object in xml"""
         s = "<Employee>"
+        s += "\n\t<id>%s</id>" % (self.id)
         s += "\n\t<n810mac>%s</n810mac>" % (self.n810mac)
         s += "\n\t<fname>%s</fname>" % (self.fname)
         s += "\n\t<lname>%s</lname>" % (self.lname)
@@ -47,7 +48,7 @@ class StatusCode(Base, object):
         
     def __repr__(self):
         """String-representation of object in xml"""
-        return "<StatusCode>\n\t<name>%s</name>\n</StatusCode>" % self.name
+        return "<StatusCode>\n\t<id>%s</id>\n\t<name>%s</name>\n</StatusCode>" % (self.id, self.name)
    
 class Mission(Base, object):
     """Mission object, with a lot of placemark-related attributes, like longitude and latitude"""
@@ -62,9 +63,9 @@ class Mission(Base, object):
     timestamp = Column(TIMESTAMP)
     status = Column(Integer, ForeignKey('statuscodes.id'))
     
-    #status_name is really a StatusCode object, for getting just the name-string and not 
+    #status_name is really a StatusCode object. For getting just the name-string and not 
     #the objects xml-representation, print status_name.name
-    status_name = relation(StatusCode, backref=backref('missions', order_by=id))
+    status_object = relation(StatusCode, backref=backref('missions', order_by=id))
 
     def __init__(self, title, long, lat, rad, status):
         """Constructor setting variables"""
@@ -77,6 +78,7 @@ class Mission(Base, object):
     def __repr__(self):
         """String-representation of object in xml"""
         s = "<Mission>"
+        s += "\n\t<id>%s</id>" % (self.id)
         s += "\n\t<title>%s</title>" % (self.title)
         s += "\n\t<long>%s</long>" % (self.long)
         s += "\n\t<lat>%s</lat>" % (self.lat)

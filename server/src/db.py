@@ -1,90 +1,89 @@
-#coding=utf8
+'''
+Created on Nov 17, 2010
 
-from sqlalchemy.orm import  sessionmaker
+@author: Mandrill
+'''
+import threading
+from sqlalchemy.orm import  sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from class_ import base_objects
-from threading import Lock
 import SETTINGS
 
-#Initializing database by opening MySQL-database
-#and creating a new SQLAlchemy session
-engine = create_engine(SETTINGS.db_src, encoding='utf-8')
-Session = sessionmaker(bind=engine, autoflush=True, transactional=True)
-base_objects.create_tables(engine)
-lock = Lock()
+class DatabaseWorker(threading.Thread):
+    """
+    This should be the only object having direct access with the database.
+    Note that there can only be ONE instance of this class. In order to use it in different components,
+    main should create the one and only instance of DatabaseWorker and pass a reference to each other component
+    needing to use the database.
+    
+    Example main.py:
+    from db import DatabaseWorker
+    import push
+    
+    db = DatabaseWorker()
+    #PASS THIS VARIABLE TO OTHER CLASSES!!!!
+    
+    push.pushStart(db)
+    """
 
-def add_all(objects):
-    """
-    Adds a list of objects into the database
-    """
-    lock.acquire()
-    session = Session()
-    session.add_all(objects)
-    session.commit()
-    session.close()
-    lock.release()
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        #Initializing database by opening MySQL-database
+        #and creating a new SQLAlchemy session
+        engine = create_engine(SETTINGS.db_src, encoding='utf-8')
+        self.__Session = scoped_session(sessionmaker(bind=engine, autoflush=True, transactional=True))
+        base_objects.create_tables(engine)
+        self.start()
 
-def add(object):
-    """
-    Adds an object into the database
-    """
-    lock.acquire()
-    print "Lock acquired"
-    session = Session()
-    session.add(object)
-    session.commit()
-    session.close()
-    lock.release()
-    print "Lock released"
+    def add_all(self, objects):
+        """
+        Adds a list of objects into the database
+        """
+        self.__Session.add_all(objects)
+        self.__Session.commit()
+        
+    def add(self, object):
+        """
+        Adds an object into the database
+        """
+        self.__Session.add(object)
+        self.__Session.commit()
+
+    def add_or_update(self, object):
+        """
+        Adds or updates the given object into the database depending
+        if there already exists an object with same id or not.
+        Used to merge unpickled objects received from the network
+        """
+        self.__Session.merge(object)
+        self.__Session.commit()
+        
+    def get_all(self, object):
+        """
+        Returns a list of all objects of the same class as the parameter from database
+        
+        For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
+        """
+        return self.__Session.query(object).all()
+
+    def get_one(self, object):
+        """
+        Returns first object in database of the same class as the parameter
+        
+        For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
+        """
+        return self.__Session.query(object).first()
     
-def get_all(object):
-    """
-    Returns a list of all objects of the same class as the parameter from database
-    
-    For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
-    """
-    lock.acquire()
-    print "Lock acquired"
-    session = Session()
-    result = session.query(object).all()
-    session.close()
-    lock.release()
-    print "Lock released"
-    return result
-    
-def get_one(object):
-    """
-    Returns first object in database of the same class as the parameter
-    
-    For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
-    """
-    lock.acquire()
-    session = Session()
-    result = session.query(object).first()
-    session.close()
-    lock.release()
-    return result
-    
-def update(object):
-    lock.acquire()
-    session = Session()
-    session.merge(object)
-    session.commit()
-    session.close()
-    lock.release()
-    
-def add_or_update(object):
-    lock.acquire()
-    session = Session()
-    id = session.query(object.__class__).get(object.id)
-    session.close()
-    lock.release()
-    if (object.id == None):
-        print "add"
-        add(object)
-    elif (id != None):
-        print "update"
-        update(object)
-    else:
-        print "add"
-        add(object)
+    def commit(self):
+        """
+        Commits object changes to the database. Use this if you get an object from the database
+        and then change some of its attributes
+        """
+        self.__Session.commit()
+        
+    def get_session(self):
+        """
+        Returns the database worker's Session-object, use at own discretion :O
+        """
+        return self.__Session
