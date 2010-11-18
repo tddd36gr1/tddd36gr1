@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<interface>
-  <requires lib="gtk+" version="2.16"/>
+<glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkWindow" id="window1">
+  <widget class="GtkWindow" id="window1">
     <property name="width_request">800</property>
     <property name="height_request">480</property>
     <property name="visible">True</property>
@@ -10,30 +10,32 @@
     <property name="default_width">800</property>
     <property name="default_height">480</property>
     <child>
-      <object class="GtkHPaned" id="hpaned1">
+      <widget class="GtkHPaned" id="hpaned1">
         <property name="width_request">800</property>
         <property name="height_request">480</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="position">80</property>
         <child>
-          <object class="GtkVButtonBox" id="main_menu">
+          <widget class="GtkVButtonBox" id="main_menu">
             <property name="visible">True</property>
             <property name="layout_style">spread</property>
             <child>
-              <object class="GtkButton" id="map_button">
+              <widget class="GtkButton" id="map_button">
                 <property name="width_request">72</property>
                 <property name="height_request">72</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <child>
-                  <object class="GtkImage" id="map_button_img">
+                  <widget class="GtkImage" id="map_button_img">
+                    <property name="width_request">72</property>
+                    <property name="height_request">72</property>
                     <property name="visible">True</property>
                     <property name="pixbuf">kompass2.jpg</property>
-                  </object>
+                  </widget>
                 </child>
-              </object>
+              </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -41,17 +43,17 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="missions_button">
+              <widget class="GtkButton" id="missions_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <child>
-                  <object class="GtkImage" id="missions_button_img">
+                  <widget class="GtkImage" id="missions_button_img">
                     <property name="visible">True</property>
                     <property name="pixbuf">uppdrag2.jpg</property>
-                  </object>
+                  </widget>
                 </child>
-              </object>
+              </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -59,17 +61,17 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="phone_button">
+              <widget class="GtkButton" id="phone_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <child>
-                  <object class="GtkImage" id="phone_button_img">
+                  <widget class="GtkImage" id="phone_button_img">
                     <property name="visible">True</property>
                     <property name="pixbuf">telefon2.jpg</property>
-                  </object>
+                  </widget>
                 </child>
-              </object>
+              </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -77,17 +79,17 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="messaging_button">
+              <widget class="GtkButton" id="messaging_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <child>
-                  <object class="GtkImage" id="messaging_button_img">
+                  <widget class="GtkImage" id="messaging_button_img">
                     <property name="visible">True</property>
                     <property name="pixbuf">brev2.jpg</property>
-                  </object>
+                  </widget>
                 </child>
-              </object>
+              </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -95,24 +97,24 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="off_button">
+              <widget class="GtkButton" id="off_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <child>
-                  <object class="GtkImage" id="off_button_img">
+                  <widget class="GtkImage" id="off_button_img">
                     <property name="visible">True</property>
                     <property name="pixbuf">off.jpg</property>
-                  </object>
+                  </widget>
                 </child>
-              </object>
+              </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">4</property>
               </packing>
             </child>
-          </object>
+          </widget>
           <packing>
             <property name="resize">False</property>
             <property name="shrink">True</property>
@@ -121,7 +123,7 @@
         <child>
           <placeholder/>
         </child>
-      </object>
+      </widget>
     </child>
-  </object>
-</interface>
+  </widget>
+</glade-interface>
