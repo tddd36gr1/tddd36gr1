@@ -32,7 +32,7 @@
                     <property name="width_request">72</property>
                     <property name="height_request">72</property>
                     <property name="visible">True</property>
-                    <property name="pixbuf">kompass2.jpg</property>
+                    <property name="pixbuf">menybilder/kompass2.jpg</property>
                   </widget>
                 </child>
               </widget>
@@ -50,7 +50,7 @@
                 <child>
                   <widget class="GtkImage" id="missions_button_img">
                     <property name="visible">True</property>
-                    <property name="pixbuf">uppdrag2.jpg</property>
+                    <property name="pixbuf">menybilder/uppdrag2.jpg</property>
                   </widget>
                 </child>
               </widget>
@@ -68,7 +68,7 @@
                 <child>
                   <widget class="GtkImage" id="phone_button_img">
                     <property name="visible">True</property>
-                    <property name="pixbuf">telefon2.jpg</property>
+                    <property name="pixbuf">menybilder/telefon2.jpg</property>
                   </widget>
                 </child>
               </widget>
@@ -86,7 +86,7 @@
                 <child>
                   <widget class="GtkImage" id="messaging_button_img">
                     <property name="visible">True</property>
-                    <property name="pixbuf">brev2.jpg</property>
+                    <property name="pixbuf">menybilder/brev2.jpg</property>
                   </widget>
                 </child>
               </widget>
@@ -104,7 +104,7 @@
                 <child>
                   <widget class="GtkImage" id="off_button_img">
                     <property name="visible">True</property>
-                    <property name="pixbuf">off.jpg</property>
+                    <property name="pixbuf">menybilder/off.jpg</property>
                   </widget>
                 </child>
               </widget>
