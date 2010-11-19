@@ -196,11 +196,7 @@ class MapWidget(gtk.DrawingArea):
             self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL],
                     t.pixbuf, 0, 0, w/2 + int(px), h/2 + int(py) )
             
-            ambulans = gtk.Image()
-            ambulans.set_from_file("ikoner/ambulans.png")
-            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL],
-                    ambulans)
-        
+            
         # Find x, y of tile in focus
         focus = self.focus
         x, y = tilenames.tileXY(focus[0], focus[1], self.zoom_level)
