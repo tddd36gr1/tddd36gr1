@@ -51,13 +51,15 @@ class NetworkServer(threading.Thread):
         PORT = 50011              # Valjer en port
         
         # Oppnar socketanslutningen
-        s = socket.socket()
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind((HOST, PORT))
         s.listen(5)
+        sslconn = socket.ssl(s)
     
         while True:
-            conn, addr = s.accept()
-            sslconn = SSL.wrap_socket(conn,server_side=True,certfile="mycert.pem",keyfile="mycert.pem",ssl_version=SSL.PROTOCOL_TLSv1)
+            #conn, addr = s.accept()
+            #sslconn = ssl.wrap_socket(conn,server_side=True,certfile="mycert.pem",keyfile="mycert.pem",ssl_version=ssl.PROTOCOL_TLSv1)
+            
             data = sslconn.read()
             Threadednetwork(conn, addr, data).start()   
           
@@ -71,7 +73,14 @@ def serverStart():
 def send(destination,package,type):
     HOST = destination    # The remote host
     PORT = 50011          # The same port as used by the server
-    #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    ctx = SSL.Context(SSL.SSLv23_METHOD)
+    ctx.set_options(SSL.OP_NO_SSLv2)
+    ctx.set_verify(SSL.VERIFY_PEER|SSL.VERIFY_FAIL_IF_NO_PEER_CERT, verify_cb) # Demand a certificate
+    ctx.use_privatekey_file (os.path.join(dir, 'server.pkey'))
+    ctx.use_certificate_file(os.path.join(dir, 'server.cert'))
+    ctx.load_verify_locations(os.path.join(dir, 'CA.cert'))
+    
     clientSSL = SSL.Context(SSL.TLSv1_METHOD)
     s = SSL.Connection(clientSSL, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
     s.connect((HOST, PORT))
@@ -79,3 +88,9 @@ def send(destination,package,type):
     paket = Picklatpaket+'<>'+type
     s.send(paket)
     s.close()
+    
+serverStart()
+    
+time.sleep(2)
+    
+send('127.0.0.1', 'penis', 'kyk')
