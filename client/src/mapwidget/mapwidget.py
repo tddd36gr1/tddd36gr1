@@ -9,7 +9,7 @@ import os.path
 import gobject
 
 
-TILE_PATH="cache"
+TILE_PATH="mapwidget/cache"
 MAX_ZOOM_LEVEL=15
 MIN_ZOOM_LEVEL=10
 
@@ -33,7 +33,7 @@ class Tile(object):
         """
         tile_path = TILE_PATH + '/%s/%s/%s.png' % (self.z,self.x, self.y)
         if not os.path.exists(tile_path):
-            tile_path = "no_image.png"
+            tile_path = "mapwidget/no_image.png"
         self.pixbuf = gtk.gdk.pixbuf_new_from_file(tile_path)
 
 class MapWidget(gtk.DrawingArea):
@@ -58,7 +58,7 @@ class MapWidget(gtk.DrawingArea):
         self.movement_from = {"x": 0, "y":0}
         self.allow_movement = False
         self.last_movement_timestamp = 0.0
-        self.set_size_request(640, 480)
+        #self.set_size_request(640, 480)
         self.window_in_fullscreen = False
 
         self.set_flags(gtk.CAN_FOCUS)
