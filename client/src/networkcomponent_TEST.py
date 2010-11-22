@@ -10,20 +10,19 @@ import time
 import threading
 import pickle
 
-from db import DatabaseWorker
-
-db = DatabaseWorker()
-
-def serverStart():
+def serverStart(db):
+    """
+    Starts the networking server and listens for connections
+    Needs a DatabaseWorker reference (db)
+    """
     server = Server(db).start()
 
 def send(data, datatype, destination):
+    """
+    Sends data to a specific destination. For valid datatyp-strings, check requesthandler.py
+    """
     client = Client(destination)
     client.clientStart()
     msg = pickle.dumps(data)+'<>'+datatype
     client.send(msg)
     client.close()
-    
-serverStart()
-
-send(StatusCode("Brunka"), 'db_add_or_update', '127.0.0.1')

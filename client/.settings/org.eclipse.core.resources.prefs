@@ -1,27 +1,20 @@
-<<<<<<< HEAD:client/.settings/org.eclipse.core.resources.prefs
-#Wed Nov 17 14:05:58 CET 2010
-=======
-#Wed Nov 17 15:46:25 CET 2010
->>>>>>> 48d639773843965c63a2e2d5a6c4ac6273539cca:client/.settings/org.eclipse.core.resources.prefs
+#Mon Nov 22 13:44:58 CET 2010
 =\=\=\=\=\=\=
-<<<<<<<=HEAD
->>>>>>>=5f62e8874a840c09d43d30da7bea1cb2b3c3ff12
+<<<<<<<=HEAD\:client/.settings/org.eclipse.core.resources.prefs
+>>>>>>>=48d639773843965c63a2e2d5a6c4ac6273539cca\:client/.settings/org.eclipse.core.resources.prefs
 eclipse.preferences.version=1
 encoding//src/class_/base_objects.py=utf8
 encoding//src/db.py=utf8
-<<<<<<< HEAD:client/.settings/org.eclipse.core.resources.prefs
-encoding//src/dbtest.py=utf8
-encoding//src/gui_view_uppdragtest.py=utf8
-encoding//src/gui_view_uppdragtest_2.py=utf8
-=======
 encoding//src/dbtest.py=utf-8
 encoding//src/gui_MANDRILL.py=utf8
->>>>>>> 48d639773843965c63a2e2d5a6c4ac6273539cca:client/.settings/org.eclipse.core.resources.prefs
+encoding//src/gui_view_uppdragtest.py=utf8
+encoding//src/gui_view_uppdragtest_2.py=utf8
 encoding//src/gui_views.py=utf8
 encoding//src/kartkomponent/gui.py=utf-8
 encoding//src/kartkomponent/gui_map.py=utf-8
 encoding//src/kartkomponent/main.py=utf-8
 encoding//src/kartkomponent/map_xml_reader.py=utf-8
+encoding//src/network_test/networkcomponent_ssl.py=utf8
 encoding//src/networkcomponent.py=utf8
 encoding//src/networkcomponentnossl.py=utf8
 encoding//src/push.py=utf8
