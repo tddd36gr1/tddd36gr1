@@ -2,7 +2,17 @@
 <interface>
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkListStore" id="mission_my_liststore">
+    <columns>
+      <!-- column-name Titel -->
+      <column type="gchararray"/>
+      <!-- column-name status -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window1">
+    <property name="width_request">800</property>
+    <property name="height_request">480</property>
     <property name="visible">True</property>
     <property name="resizable">False</property>
     <child>
@@ -155,7 +165,7 @@
                     <child>
                       <object class="GtkLabel" id="mission_my_title">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Mina uppdrag</property>
+                        <property name="label" translatable="yes">Mina ej avklarade uppdrag</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -203,54 +213,72 @@
                         <property name="hscrollbar_policy">never</property>
                         <property name="vscrollbar_policy">automatic</property>
                         <child>
-                          <object class="GtkTreeView" id="missions_my_treeview">
+                          <object class="GtkViewport" id="viewport1">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="model">mission_my_liststore</property>
-                            <property name="headers_visible">False</property>
-                            <property name="search_column">0</property>
-                            <signal name="row_activated" handler="on_missions_my_row_changed"/>
+                            <property name="resize_mode">queue</property>
                             <child>
-                              <object class="GtkTreeViewColumn" id="mission_my_titlecol">
-                                <property name="sizing">fixed</property>
-                                <property name="fixed_width">300</property>
-                                <property name="title">Titel</property>
-                                <property name="clickable">True</property>
+                              <object class="GtkHBox" id="hbox3">
+                                <property name="visible">True</property>
                                 <child>
-                                  <object class="GtkCellRendererText" id="mission_my_titlecell"/>
-                                  <attributes>
-                                    <attribute name="text">0</attribute>
-                                  </attributes>
-                                </child>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkTreeViewColumn" id="mission_my_statuscol">
-                                <property name="sizing">fixed</property>
-                                <property name="fixed_width">200</property>
-                                <property name="title">Status</property>
-                                <property name="clickable">True</property>
-                                <child>
-                                  <object class="GtkCellRendererText" id="mission_my_statuscell"/>
-                                  <attributes>
-                                    <attribute name="text">1</attribute>
-                                  </attributes>
-                                </child>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkTreeViewColumn" id="mission_my_buttoncol">
-                                <property name="title">Buttons</property>
-                                <property name="clickable">True</property>
-                                <child>
-                                  <object class="GtkCellRendererPixbuf" id="mission_my_buttoncell">
-                                    <property name="stock_id">gtk-dnd</property>
+                                  <object class="GtkTreeView" id="missions_my_treeview">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="model">mission_my_liststore</property>
+                                    <property name="headers_visible">False</property>
+                                    <property name="search_column">0</property>
+                                    <signal name="cursor_changed" handler="on_missions_my_selected_changed"/>
+                                    <child>
+                                      <object class="GtkTreeViewColumn" id="mission_my_titlecol">
+                                        <property name="sizing">fixed</property>
+                                        <property name="fixed_width">300</property>
+                                        <property name="title">Titel</property>
+                                        <property name="clickable">True</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="mission_my_titlecell"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkTreeViewColumn" id="mission_my_statuscol">
+                                        <property name="sizing">fixed</property>
+                                        <property name="fixed_width">200</property>
+                                        <property name="title">Status</property>
+                                        <property name="clickable">True</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="mission_my_statuscell"/>
+                                          <attributes>
+                                            <attribute name="text">1</attribute>
+                                          </attributes>
+                                        </child>
+                                      </object>
+                                    </child>
                                   </object>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkCellRendererText" id="mission_my_buttontext">
-                                    <property name="text">Mer info</property>
+                                  <object class="GtkLayout" id="mission_my_button_layout">
+                                    <property name="width_request">100</property>
+                                    <property name="visible">True</property>
+                                    <child>
+                                      <object class="GtkButton" id="mission_my_info_button">
+                                        <property name="label" translatable="yes">&#xD6;ppna</property>
+                                        <property name="width_request">100</property>
+                                        <property name="height_request">32</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="on_mission_my_info_button_clicked"/>
+                                      </object>
+                                    </child>
                                   </object>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
                                 </child>
                               </object>
                             </child>
@@ -365,6 +393,143 @@
             <child type="tab">
               <placeholder/>
             </child>
+            <child>
+              <object class="GtkVBox" id="vbox1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkHBox" id="hbox4">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkButton" id="button4">
+                        <property name="width_request">150</property>
+                        <property name="height_request">50</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <signal name="clicked" handler="mission_close_dialog"/>
+                        <child>
+                          <object class="GtkHBox" id="hbox5">
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkImage" id="image2">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="stock">gtk-go-back</property>
+                              </object>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label3">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">Tillbaka</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="mission_dialog_title">
+                        <property name="width_request">400</property>
+                        <property name="visible">True</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">Uppdragstitel</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow" id="scrolledwindow2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">automatic</property>
+                    <child>
+                      <object class="GtkLabel" id="mission_dialog_label">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">BLAH BLAH BLAH</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHButtonBox" id="hbuttonbox1">
+                    <property name="visible">True</property>
+                    <property name="spacing">25</property>
+                    <property name="layout_style">end</property>
+                    <child>
+                      <object class="GtkButton" id="button2">
+                        <property name="label" translatable="yes">Visa p&#xE5; karta</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <signal name="clicked" handler="mission_zoom_to_map"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="checkbutton1">
+                        <property name="label" translatable="yes">Avklarad</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <placeholder/>
+            </child>
           </object>
           <packing>
             <property name="position">1</property>
@@ -372,13 +537,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="mission_my_liststore">
-    <columns>
-      <!-- column-name Titel -->
-      <column type="gchararray"/>
-      <!-- column-name status -->
-      <column type="gchararray"/>
-    </columns>
   </object>
 </interface>

@@ -23,6 +23,7 @@ class MainGUI(hildon.Program):
         
         self.setup_window()
         self.load_and_fix_glade()
+        self.set_self_variables()
         self.add_map()
         self.insert_data()
     
@@ -47,24 +48,16 @@ class MainGUI(hildon.Program):
         hbox1 = self.builder.get_object("hbox1")
         hbox1.reparent(self.window)
         
-        self.main_notebook = self.builder.get_object("main_notebook")
-
-    def on_map_button_clicked(self, widget, data=None):
-        self.main_notebook.set_current_page(0)
+        #Hildonize mission dialog
     
-    def on_mission_button_clicked(self, widget, data=None):
-        self.main_notebook.set_current_page(1)
-
-    def on_phone_button_clicked(self, widget, data=None):
-        self.main_notebook.set_current_page(2)
-
-    def on_messaging_button_clicked(self, widget, data=None):
-        self.main_notebook.set_current_page(3)
-        
-    def on_missions_my_row_changed(self, widget, data=None):
-        entry1, entry2 = self.builder.get_object("missions_my_treeview").get_selection().get_selected()
-        entry = entry1.get_value(entry2, 0)
-        
+    def set_self_variables(self):
+        self.mission_my_liststore = self.builder.get_object("mission_my_liststore")
+        self.main_notebook = self.builder.get_object("main_notebook")
+        self.mission_my_info_button = self.builder.get_object("mission_my_info_button")
+        self.mission_my_treeview = self.builder.get_object("missions_my_treeview")
+        self.mission_my_button_layout = self.builder.get_object("mission_my_button_layout")
+        self.my_missions = self.db.get_all(Mission)
+        self.mission_selected = 0
 
     def __quit__(self, widget, data=None): 
         sys.exit(1)
@@ -80,10 +73,37 @@ class MainGUI(hildon.Program):
         self.insert_my_missions()
     
     def insert_my_missions(self):
-        mission_my_liststore = self.builder.get_object("mission_my_liststore")
-        my_missions = self.db.get_all(Mission)
-        for mission in my_missions:
-            mission_my_liststore.append((mission.title, mission.status_object.name))
+        for mission in self.my_missions:
+            self.mission_my_liststore.append((mission.title, mission.status_object.name))
+
+    def on_map_button_clicked(self, widget, data=None):
+        self.main_notebook.set_current_page(0)
+    
+    def on_mission_button_clicked(self, widget, data=None):
+        self.main_notebook.set_current_page(1)
+
+    def on_phone_button_clicked(self, widget, data=None):
+        self.main_notebook.set_current_page(2)
+
+    def on_messaging_button_clicked(self, widget, data=None):
+        self.main_notebook.set_current_page(3)
+        
+    def on_missions_my_selected_changed(self, widget, data=None):
+        dumpmodel, iter = self.mission_my_treeview.get_selection().get_selected()
+        self.mission_selected = dumpmodel.get_path(iter)[0]
+        self.mission_my_button_layout.move(self.mission_my_info_button, 0, self.mission_selected*32)
+        
+    def on_mission_my_info_button_clicked(self, widget, data=None):
+        dumpmodel, iter = self.mission_my_treeview.get_selection().get_selected()
+        self.main_notebook.set_current_page(4)
+        self.builder.get_object("mission_dialog_title").set_text(self.my_missions[self.mission_selected].title)
+        self.builder.get_object("mission_dialog_label").set_text(self.my_missions[self.mission_selected].__repr__())
+    
+    def mission_close_dialog(self, widget, data=None):
+        self.main_notebook.set_current_page(1)
+        
+    def mission_zoom_to_map(self, widget, data=None):
+        return
         
     def run(self):
         self.window.show_all()
