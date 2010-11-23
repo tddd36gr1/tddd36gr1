@@ -1,6 +1,6 @@
 #coding=utf8
 from class_.base_objects import Mission, StatusCode, Employee
-import networkcomponentnossl as networkcomponent
+import network.networkcomponent as networkcomponent
 import SETTINGS
 
 def pushStart(db):
@@ -9,6 +9,7 @@ def pushStart(db):
     """
 
     ip = SETTINGS.destination_ip
+    print ip
     
     #Send all status codes
     print "StatusCodes"
