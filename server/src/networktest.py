@@ -3,7 +3,7 @@ Created on Nov 11, 2010
 
 @author: alek
 '''
-import networkcomponentnossl as networkcomponent
+import network.networkcomponent as networkcomponent
 from db import DatabaseWorker
 db = DatabaseWorker()
 

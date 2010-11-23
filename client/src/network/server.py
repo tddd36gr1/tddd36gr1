@@ -25,9 +25,9 @@ class Server(threading.Thread):
         ctx = SSL.Context(SSL.SSLv23_METHOD)
         ctx.set_options(SSL.OP_NO_SSLv2)
         ctx.set_verify(SSL.VERIFY_PEER|SSL.VERIFY_FAIL_IF_NO_PEER_CERT, verify_cb) #Ask for a certificate
-        ctx.use_privatekey_file ('network_test/server.pkey')
-        ctx.use_certificate_file('network_test/server.cert')
-        ctx.load_verify_locations('network_test/CA.cert')
+        ctx.use_privatekey_file ('network/server.pkey')
+        ctx.use_certificate_file('network/server.cert')
+        ctx.load_verify_locations('network/CA.cert')
         
         # Starting server, open socket
         server = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
@@ -62,11 +62,9 @@ class Server(threading.Thread):
                         data = pickle.loads(data)
                         datatype = spliteddata[1]
                         
-                        #print data.id
                         #forwarding data to requesthandler
                         requesthandler.request(data, datatype, self.db)
                         
-                        #print data+' '+datatype
                     except (SSL.WantReadError, SSL.WantWriteError, SSL.WantX509LookupError):
                         pass
                     except SSL.ZeroReturnError:

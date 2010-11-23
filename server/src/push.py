@@ -1,13 +1,14 @@
 #coding=utf8
 from class_.base_objects import Mission, StatusCode, Employee
-import networkcomponentnossl as networkcomponent
+import network.networkcomponent_TEST as networkcomponent
+import SETTINGS
 
 def pushStart(db):
     """
     Starts pushing shit from database, yeh? Requires a motherf*ing DatabaseWorker
     """
 
-    ip = '192.168.2.15'
+    ip = SETTINGS.destination_ip
     
     #Send all status codes
     print "StatusCodes"
