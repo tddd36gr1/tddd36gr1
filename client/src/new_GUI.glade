@@ -392,7 +392,6 @@
                 <child>
                   <object class="GtkVBox" id="message_inbox_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_inbox_title">
                         <property name="visible">True</property>
@@ -493,7 +492,6 @@
                 <child>
                   <object class="GtkVBox" id="message_new_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_new_title">
                         <property name="visible">True</property>
@@ -570,6 +568,33 @@
                         <property name="position">1</property>
                       </packing>
                     </child>
+                    <child>
+                      <object class="GtkHBox" id="hbox6">
+                        <property name="visible">True</property>
+                        <child>
+                          <object class="GtkButton" id="button1">
+                            <property name="label" translatable="yes">Skicka</property>
+                            <property name="width_request">100</property>
+                            <property name="height_request">32</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="pack_type">end</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="position">1</property>
@@ -588,7 +613,6 @@
                 <child>
                   <object class="GtkVBox" id="message_outbox_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_outbox_title">
                         <property name="visible">True</property>
@@ -662,7 +686,6 @@
                 <child>
                   <object class="GtkVBox" id="message_sent_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_sent_title">
                         <property name="visible">True</property>

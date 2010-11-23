@@ -14,8 +14,8 @@ db = DatabaseWorker()
 #db.add_or_update(Mission('Bajsa', 15.578, 58.4048, 0.0, 2))
 #db.add_or_update(Mission('Runka', 15.578, 58.4048, 0.0, 3))
 
-#for i in range(1, 15):
-#    db.add_or_update(Mission('Testa stuff', 15.578, 58.4048, 0.0, 2))
+for i in range(1, 15):
+    db.add_or_update(Mission('Testa stuff', 15.578, 58.4048, 0.0, 2))
 #db.add_or_update(Employee('FF:FF:AS:DF:13:37','Samuel', 'Svensson'))
 #db.get_one(Mission).title = "Pwn"
 
