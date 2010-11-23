@@ -9,8 +9,9 @@ from class_.base_objects import TextMessage
 
 def request(data, type, db):
     print 'request starts!'
-    if (type == 'db_add_or_update' or type == 'textMessage'):
-        print 'type correct'
+    if (type == 'db_add_or_update'):
+        print "type: db_add_or_update"
         db.add_or_update(data)
-        
-        
+    elif (type == 'textMessxage'):
+        print "type: textMessage"
+        db.add_or_update(TextMessage(data.src, data.dst, data.msg))

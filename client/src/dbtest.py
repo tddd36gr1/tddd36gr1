@@ -2,10 +2,11 @@
 """ EXEMPELKOD för hur man kan använda databasen """
 
 from db import DatabaseWorker
-from class_.base_objects import Employee, StatusCode, Mission
+from class_.base_objects import Employee, StatusCode, Mission, TextMessage
 
 db = DatabaseWorker()
 
+#db.add_or_update(TextMessage('192.168.2.15', '192.168.2.15', 'Brunk'))
 #db.add_or_update(StatusCode('Inkommet larm'))
 #db.add_or_update(StatusCode('Utryckning!'))
 #db.add_or_update(StatusCode('Slutfort'))
@@ -26,3 +27,6 @@ for statuscode in db.get_all(StatusCode):
     
 for employee in db.get_all(Employee):
     print employee
+    
+for textmessage in db.get_all(TextMessage):
+    print textmessage
