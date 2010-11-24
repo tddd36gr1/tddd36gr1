@@ -14,7 +14,6 @@
   <object class="GtkListStore" id="message_outbox_liststore"/>
   <object class="GtkListStore" id="message_sent_liststore"/>
   <object class="GtkListStore" id="mission_all_liststore"/>
-  <object class="GtkListStore" id="liststore1"/>
   <object class="GtkWindow" id="window1">
     <property name="width_request">800</property>
     <property name="height_request">480</property>
@@ -306,30 +305,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label4">
-                    <property name="visible">True</property>
-                    <property name="yalign">0</property>
-                    <property name="label" translatable="yes">Skapa uppdrag</property>
-                    <property name="justify">center</property>
-                  </object>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel" id="mission_create_label">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Skapa uppdrag</property>
-                  </object>
-                  <packing>
-                    <property name="position">1</property>
-                    <property name="tab_fill">False</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkVBox" id="mission_all_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="mission_all_title">
                         <property name="visible">True</property>
@@ -341,6 +318,38 @@
                         <property name="expand">False</property>
                         <property name="fill">False</property>
                         <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="hbox6">
+                        <property name="visible">True</property>
+                        <child>
+                          <object class="GtkLabel" id="label4">
+                            <property name="width_request">300</property>
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Uppdrag</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label5">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Status</property>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -410,12 +419,12 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="position">1</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child type="tab">
@@ -424,14 +433,13 @@
                     <property name="label" translatable="yes">Alla uppdrag</property>
                   </object>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                     <property name="tab_fill">False</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="mission_finished_title">
                         <property name="visible">True</property>
@@ -442,6 +450,38 @@
                         <property name="expand">False</property>
                         <property name="fill">False</property>
                         <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="hbox7">
+                        <property name="visible">True</property>
+                        <child>
+                          <object class="GtkLabel" id="label6">
+                            <property name="width_request">300</property>
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Uppdrag</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label7">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Status</property>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -461,7 +501,6 @@
                                   <object class="GtkTreeView" id="mission_finished_treeview">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="model">liststore1</property>
                                   </object>
                                   <packing>
                                     <property name="position">0</property>
@@ -476,12 +515,12 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="position">1</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child type="tab">
@@ -490,7 +529,7 @@
                     <property name="label" translatable="yes">Slutf&#xF6;rda uppddrag</property>
                   </object>
                   <packing>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                     <property name="tab_fill">False</property>
                   </packing>
                 </child>
@@ -522,7 +561,6 @@
                 <child>
                   <object class="GtkVBox" id="message_inbox_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_inbox_title">
                         <property name="visible">True</property>
@@ -623,7 +661,6 @@
                 <child>
                   <object class="GtkVBox" id="message_new_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_new_title">
                         <property name="visible">True</property>
@@ -747,7 +784,6 @@
                 <child>
                   <object class="GtkVBox" id="message_outbox_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_outbox_title">
                         <property name="visible">True</property>
@@ -821,7 +857,6 @@
                 <child>
                   <object class="GtkVBox" id="message_sent_vbox">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel" id="message_sent_title">
                         <property name="visible">True</property>
@@ -935,7 +970,6 @@
             <child>
               <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkHBox" id="hbox4">
                     <property name="visible">True</property>
@@ -982,7 +1016,6 @@
                       <object class="GtkLabel" id="mission_dialog_title">
                         <property name="width_request">400</property>
                         <property name="visible">True</property>
-                        <property name="xalign">1</property>
                         <property name="label" translatable="yes">Uppdragstitel</property>
                       </object>
                       <packing>
@@ -990,12 +1023,6 @@
                         <property name="fill">False</property>
                         <property name="position">1</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>
@@ -1042,12 +1069,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton" id="checkbutton1">
+                      <object class="GtkCheckButton" id="mission_finished_checkbutton">
                         <property name="label" translatable="yes">Avklarad</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="mission_toggle_finished"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1078,5 +1106,4 @@
       </object>
     </child>
   </object>
-  <object class="GtkTextBuffer" id="message_new_textbuffer"/>
 </interface>

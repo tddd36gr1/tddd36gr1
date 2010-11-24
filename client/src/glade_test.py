@@ -40,7 +40,7 @@ class MainGUI(hildon.Program):
         #Adds window to program
         self.add_window(self.window)
         self.window.fullscreen()
-        self.window.connect("destroy", self.__quit__(None))
+        self.window.connect("destroy", gtk.main_quit)
         
     def load_and_fix_glade(self):
         self.builder = gtk.Builder()
