@@ -99,9 +99,10 @@ class Mission(Base, object):
     timestamp = Column(TIMESTAMP)
     status = Column(Integer, ForeignKey('statuscodes.id'))
 
-    
-    #status_name is really a StatusCode object. For getting just the name-string and not 
-    #the objects xml-representation, print status_name.name
+    """
+    status_name is really a StatusCode object. For getting just the name-string and not 
+    the objects xml-representation, print status_name.name
+    """
     status_object = relation(StatusCode, backref=backref('missions', order_by=id))
     missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id))
 
