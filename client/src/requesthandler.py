@@ -17,3 +17,8 @@ def request(data, type, db):
     elif (type == 'textMessage'):
         print "type: textMessage"
         db.add_or_update(TextMessage(data.src, data.dst, data.msg))
+    """   
+    elif (type == 'ping'):
+        print 'type: ping'
+        networkcomponent.send()
+    """

@@ -1,11 +1,17 @@
 #coding=utf8
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text
 from sqlalchemy.orm import relation, backref
 
 #Declarative base for automatic mapping of objects to database tables
 Base = declarative_base()
+"""
+Skapar en tabell som binder samman mission-ID med ett text-ID
+"""
+missions_to_texts = Table('missions_to_texts', Base.metadata,
+                    Column('missions_id', Integer, ForeignKey('missions.id')),
+                    Column('missiontexts_id', Integer, ForeignKey('missiontexts.id')))
 
 class Employee(Base, object):
     """
@@ -117,6 +123,21 @@ class Mission(Base, object):
         s += "\n\t<status>%s</status>" % (self.status)
         s += "\n</Mission>"
         return s
+"""
+En klass for att lagra missionbeskrivningar
+""" 
+class MissionText(Base, object):
+    __tablename__ = 'missiontexts'
+    
+    id = Column(Integer, primary_key=True)
+    descr = Column(Text)
+    
+    def __init__(self, text):
+        self.descr = text
+        #self.missions = relation('Mission', secondary=missions_to_texts, backref=backref('missiontexts', order_by=id))
+        
+    def __repr__(self):
+        return '%r' % self.descr
 
 def create_tables(engine):
     """Function for creating all database-tables"""

@@ -1,11 +1,19 @@
 #coding=utf8
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text
 from sqlalchemy.orm import relation, backref
 
-#Declarative base for automatic mapping of objects to database tables
+"""
+Declarative base for automatic mapping of objects to database tables
+"""
 Base = declarative_base()
+"""
+Skapar en tabell som binder samman mission-ID med ett text-ID
+"""
+missions_to_texts = Table('missions_to_texts', Base.metadata,
+                    Column('missions_id', Integer, ForeignKey('missions.id')),
+                    Column('missiontexts_id', Integer, ForeignKey('missiontexts.id')))
 
 class Employee(Base, object):
     """
@@ -90,18 +98,22 @@ class Mission(Base, object):
     #Timestamp attribute, haven't found out autotimestamping yet
     timestamp = Column(TIMESTAMP)
     status = Column(Integer, ForeignKey('statuscodes.id'))
-    
-    #status_name is really a StatusCode object. For getting just the name-string and not 
-    #the objects xml-representation, print status_name.name
-    status_object = relation(StatusCode, backref=backref('missions', order_by=id))
 
-    def __init__(self, title, long, lat, rad, status):
+    """
+    status_name is really a StatusCode object. For getting just the name-string and not 
+    the objects xml-representation, print status_name.name
+    """
+    status_object = relation(StatusCode, backref=backref('missions', order_by=id))
+    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id))
+
+    def __init__(self, title, long, lat, rad, status, descr):
         """Constructor setting variables"""
         self.title = title
         self.long = long
         self.lat = lat
         self.rad = rad
         self.status = status
+        self.missiontexts.append(MissionText(descr))
         
     def __repr__(self):
         """String-representation of object in xml"""
@@ -112,8 +124,24 @@ class Mission(Base, object):
         s += "\n\t<lat>%s</lat>" % (self.lat)
         s += "\n\t<rad>%s</rad>" % (self.rad)
         s += "\n\t<status>%s</status>" % (self.status)
+        s += "\n\t<beskrivning>%s</beskrivning>" % (self.missiontexts)
         s += "\n</Mission>"
         return s
+"""
+En klass for att lagra missionbeskrivningar
+""" 
+class MissionText(Base, object):
+    __tablename__ = 'missiontexts'
+    
+    id = Column(Integer, primary_key=True)
+    descr = Column(Text)
+    
+    def __init__(self, text):
+        self.descr = text
+        #self.missions = relation('Mission', secondary=missions_to_texts, backref=backref('missiontexts', order_by=id))
+        
+    def __repr__(self):
+        return '%r' % self.descr
 
 def create_tables(engine):
     """Function for creating all database-tables"""
