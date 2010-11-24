@@ -549,10 +549,9 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="message_new_table_message_text">
+                          <object class="GtkTextView" id="textview1">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -941,4 +940,5 @@
       </object>
     </child>
   </object>
+  <object class="GtkTextBuffer" id="message_new_textbuffer"/>
 </interface>
