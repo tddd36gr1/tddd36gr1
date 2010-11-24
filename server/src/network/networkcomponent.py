@@ -23,3 +23,11 @@ def send(destination, data, datatype):
     msg = pickle.dumps(data)+'<>'+datatype
     client.send(msg)
     client.close()
+    
+def usersOnline():
+    contactList = []
+    if (contactList == ''):
+        print 'No users online'
+    elif (contactList != ''):
+        print 'has users online'
+        

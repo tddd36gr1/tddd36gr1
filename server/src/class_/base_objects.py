@@ -24,6 +24,8 @@ class Employee(Base, object):
     n810mac = Column(String(17), unique=True)
     fname = Column(String(45))
     lname = Column(String(45))
+    online = Column(Boolean())
+    ip = Column(String(20))
 
     def __init__(self, n810mac, fname, lname):
         """Constructor setting variables"""
@@ -69,6 +71,7 @@ class TextMessage(Base, object):
         s += "\n</TextMessage>"
         return s          
     
+
 class StatusCode(Base, object):
     """StatusCode object, just an id and a name"""
     __tablename__ = 'statuscodes'

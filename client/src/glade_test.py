@@ -40,7 +40,7 @@ class MainGUI(hildon.Program):
         #Adds window to program
         self.add_window(self.window)
         self.window.fullscreen()
-        self.window.connect("destroy", self.__quit__(None))
+        self.window.connect("destroy", gtk.main_quit)
         
     def load_and_fix_glade(self):
         self.builder = gtk.Builder()
@@ -129,18 +129,34 @@ class MainGUI(hildon.Program):
         self.mission_my_button_layout.move(self.mission_my_info_button, 0, self.mission_selected*32)
         
     def on_mission_my_info_button_clicked(self, widget, data=None):
+        """
+        Runs when user clicks on an "open" button next to a row in the my missions view
+        Switches view to a detailed view about the selected mission
+        """
+        #Switch view
         self.main_notebook.set_current_page(4)
+        #Sets texts in the new view
         self.builder.get_object("mission_dialog_title").set_text(self.my_missions[self.mission_selected].title)
         self.builder.get_object("mission_dialog_label").set_text(self.my_missions[self.mission_selected].__repr__())
+        
+        #Sets checkbox if mission has finished status
         if (self.my_missions[self.mission_selected].status == 3):
             self.builder.get_object("mission_finished_checkbutton").set_active(True)
         else:
             self.builder.get_object("mission_finished_checkbutton").set_active(False)
     
     def mission_close_dialog(self, widget, data=None):
+        """
+        Runs when user presses "back" button in the mission detailed dialog view,
+        switches view back to mission view
+        """
         self.main_notebook.set_current_page(1)
     
     def mission_toggle_finished(self, widget, data=None):
+        """
+        Runs when user checks/unchecks the "finished" checkbox in the detailed mission dialog view
+        Sets status of mission to finished when checked and status 2 when unchecked
+        """
         button = self.builder.get_object("mission_finished_checkbutton")
         if(button.get_active()):
             self.my_missions[self.mission_selected].status = 3
@@ -152,6 +168,9 @@ class MainGUI(hildon.Program):
             self.builder.get_object("mission_dialog_label").set_text(self.my_missions[self.mission_selected].__repr__())
         
     def mission_zoom_to_map(self, widget, data=None):
+        """
+        Placeholder function, should switch to map view and zoom to the mission's placemark
+        """
         return
         
     def run(self):

@@ -5,7 +5,9 @@ Created on Nov 11, 2010
 @author: alek
 '''
 import network.networkcomponent
+from class_.base_objects import Employee
 
+onlineList = []
 def request(data, type, db):
     """
     Does different things depending on the datatype-object
@@ -19,3 +21,13 @@ def request(data, type, db):
         print 'type = textMessage'
         txtmsg = data
         network.networkcomponent.send(txtmsg.dst, txtmsg, 'textMessage')
+    
+    elif (type == 'ping'):
+        print 'type = ping'
+        employee = db.get_one_by_id(Employee, data.id)
+        employee.online = True
+        employee.ip = data.ip
+        onlineList.append(employee.fname)
+        
+        
+        
