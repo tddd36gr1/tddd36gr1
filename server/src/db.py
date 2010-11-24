@@ -87,3 +87,10 @@ class DatabaseWorker(threading.Thread):
         Returns the database worker's Session-object, use at own discretion :O
         """
         return self.__Session
+    
+    def get_one_by_id(self, object, id):
+        """
+        Fetches an object from database with a matching id
+        Example: get_one_by_id(Employee, 2) returns the employee object with id == 2
+        """
+        return Session.query(object).get(id)

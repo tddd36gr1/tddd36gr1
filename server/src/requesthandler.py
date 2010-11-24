@@ -5,6 +5,7 @@ Created on Nov 11, 2010
 @author: alek
 '''
 import network.networkcomponent
+from class_.base_objects import Employee
 
 def request(data, type, db):
     """
@@ -19,3 +20,11 @@ def request(data, type, db):
         print 'type = textMessage'
         txtmsg = data
         network.networkcomponent.send(txtmsg.dst, txtmsg, 'textMessage')
+    
+    elif (type == 'ping'):
+        print 'type = ping'
+        employee = db.get_one_by_id(Employee, data.id)
+        employee.online = True
+        employee.ip = data.ip
+        contactList = []
+        contactList.__add__('penis')
