@@ -550,8 +550,11 @@
                         </child>
                         <child>
                           <object class="GtkTextView" id="textview1">
+                            <property name="height_request">250</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="buffer">message_new_textbuffer</property>
+                            <property name="overwrite">True</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -942,4 +945,3 @@
   </object>
   <object class="GtkTextBuffer" id="message_new_textbuffer"/>
 </interface>
-
