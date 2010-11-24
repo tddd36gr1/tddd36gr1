@@ -7,6 +7,7 @@ import threading
 from sqlalchemy.orm import  sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from class_ import base_objects
+from class_.base_objects import *
 import SETTINGS
 
 class DatabaseWorker(threading.Thread):
@@ -87,3 +88,16 @@ class DatabaseWorker(threading.Thread):
         Returns the database worker's Session-object, use at own discretion :O
         """
         return self.__Session
+    
+    def get_one_by_id(self, object, id):
+        """
+        Fetches an object from database with a matching id
+        Example: get_one_by_id(Employee, 2) returns the employee object with id == 2
+        """
+        return self.__Session.query(object).get(id)
+    
+    def get_all_finished_missions(self):
+        """
+        Fetches all objects with finished status (3)
+        """
+        return self.__Session.query(Mission).filter_by(status=3)

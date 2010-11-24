@@ -58,11 +58,19 @@ class MainGUI(hildon.Program):
         Gets commonly used GTK-components from glade file + some other variables
         """
         self.mission_my_liststore = self.builder.get_object("mission_my_liststore")
+        self.mission_all_liststore = self.builder.get_object("mission_all_liststore")
+        self.mission_finished_liststore = self.builder.get_object("mission_finished_liststore")
+        
         self.main_notebook = self.builder.get_object("main_notebook")
         self.mission_my_info_button = self.builder.get_object("mission_my_info_button")
+        
         self.mission_my_treeview = self.builder.get_object("missions_my_treeview")
+        self.mission_all_treeview = self.builder.get_object("mission_all_treeview")
+        self.mission_finished_treeview = self.builder.get_object("mission_finished_treeview")
+        
         self.mission_my_button_layout = self.builder.get_object("mission_my_button_layout")
         self.mission_selected = 0
+        self.missions = self.db.get_all(Mission)
 
     def __quit__(self, widget, data=None):
         """
@@ -86,15 +94,20 @@ class MainGUI(hildon.Program):
         """
         This function is used to populate various data models
         """
-        self.insert_my_missions()
+        self.insert_missions()
     
-    def insert_my_missions(self):
+    def insert_missions(self):
         """
-        Populates my missions-view
+        Populates the missions-view
         """
-        self.my_missions = self.db.get_all(Mission)
-        for mission in self.my_missions:
+        for mission in self.db.get_all(Mission):
             self.mission_my_liststore.append((mission.title, mission.status_object.name))
+            
+        for mission in self.missions:
+            self.mission_all_liststore.append((mission.title, mission.status_object.name))
+            
+        for mission in self.db.get_all_finished_missions():
+            self.mission_finished_liststore.append((mission.title, mission.status_object.name))
 
     def on_map_button_clicked(self, widget, data=None):
         """
@@ -128,7 +141,23 @@ class MainGUI(hildon.Program):
         self.mission_selected = model.get_path(iter)[0]
         self.mission_my_button_layout.move(self.mission_my_info_button, 0, self.mission_selected*32)
         
-    def on_mission_my_info_button_clicked(self, widget, data=None):
+    def on_missions_all_selected_changed(self, widget, data=None):
+        """
+        Runs when the user selects a mission row in the All Missions-view
+        """
+        model, iter = self.mission_all_treeview.get_selection().get_selected()
+        self.mission_selected = model.get_path(iter)[0]
+        self.mission_all_button_layout.move(self.mission_all_info_button, 0, self.mission_selected*32)
+        
+    def on_missions_finished_selected_changed(self, widget, data=None):
+        """
+        Runs when the user selects a mission row in the All Missions-view
+        """
+        model, iter = self.mission_finished_treeview.get_selection().get_selected()
+        self.mission_selected = model.get_path(iter)[0]
+        self.mission_finished_button_layout.move(self.mission_finished_info_button, 0, self.mission_selected*32)
+        
+    def on_mission_info_button_clicked(self, widget, data=None):
         """
         Runs when user clicks on an "open" button next to a row in the my missions view
         Switches view to a detailed view about the selected mission
@@ -136,11 +165,11 @@ class MainGUI(hildon.Program):
         #Switch view
         self.main_notebook.set_current_page(4)
         #Sets texts in the new view
-        self.builder.get_object("mission_dialog_title").set_text(self.my_missions[self.mission_selected].title)
-        self.builder.get_object("mission_dialog_label").set_text(self.my_missions[self.mission_selected].__repr__())
+        self.builder.get_object("mission_dialog_title").set_text(self.missions[self.mission_selected].title)
+        self.builder.get_object("mission_dialog_label").set_text(self.missions[self.mission_selected].__repr__())
         
         #Sets checkbox if mission has finished status
-        if (self.my_missions[self.mission_selected].status == 3):
+        if (self.missions[self.mission_selected].status == 3):
             self.builder.get_object("mission_finished_checkbutton").set_active(True)
         else:
             self.builder.get_object("mission_finished_checkbutton").set_active(False)
@@ -159,13 +188,13 @@ class MainGUI(hildon.Program):
         """
         button = self.builder.get_object("mission_finished_checkbutton")
         if(button.get_active()):
-            self.my_missions[self.mission_selected].status = 3
+            self.missions[self.mission_selected].status = 3
             self.db.commit()
-            self.builder.get_object("mission_dialog_label").set_text(self.my_missions[self.mission_selected].__repr__())
+            self.builder.get_object("mission_dialog_label").set_text(self.missions[self.mission_selected].__repr__())
         else:
-            self.my_missions[self.mission_selected].status = 2
+            self.missions[self.mission_selected].status = 2
             self.db.commit()
-            self.builder.get_object("mission_dialog_label").set_text(self.my_missions[self.mission_selected].__repr__())
+            self.builder.get_object("mission_dialog_label").set_text(self.missions[self.mission_selected].__repr__())
         
     def mission_zoom_to_map(self, widget, data=None):
         """
