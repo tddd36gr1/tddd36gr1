@@ -41,7 +41,35 @@ class Employee(Base, object):
         s += "\n\t<fname>%s</fname>" % (self.fname)
         s += "\n\t<lname>%s</lname>" % (self.lname)
         s += "\n</Employee>"
-        return s        
+        return s      
+    
+class TextMessage(Base, object):
+    """
+    A text message
+    """
+    __tablename__ = 'text_message'
+    
+    id = Column(Integer, primary_key=True)
+    src = Column(String(20))
+    dst = Column(String(20))
+    msg = Column(String(1024))
+    
+
+    def __init__(self, src, dst, msg):
+        """Constructor setting variables"""
+        self.src = src
+        self.dst = dst
+        self.msg = msg
+        
+    def __repr__(self):
+        """String-representation of object in xml"""
+        s = "<TextMessage>"
+        s += "\n\t<id>%s</id>" % (self.id)
+        s += "\n\t<source>%s</source>" % (self.src)
+        s += "\n\t<destination>%s</destination>" % (self.dst)
+        s += "\n\t<message>%s</message>" % (self.msg)
+        s += "\n</TextMessage>"
+        return s          
     
 class StatusCode(Base, object):
     """StatusCode object, just an id and a name"""

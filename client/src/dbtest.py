@@ -20,7 +20,7 @@ db.add_or_update(Mission('Klippa Wibbe', 15.562, 58.4052, 0.0, 1, 'Cutta han!'))
 #db.get_one(Mission).title = "Pwn"
 
 for mission in db.get_all(Mission):
-    print mission
+    list.append((mission.lat, mission.long))
 """
 for statuscode in db.get_all(StatusCode):
     print statuscode

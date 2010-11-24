@@ -20,9 +20,9 @@ class Client():
         # Initialize context, verify certificate
         ctx = SSL.Context(SSL.SSLv23_METHOD)
         ctx.set_verify(SSL.VERIFY_PEER, verify_cb) #Ask for a certificate
-        ctx.use_privatekey_file ('network_test/client.pkey')
-        ctx.use_certificate_file('network_test/client.cert')
-        ctx.load_verify_locations('network_test/CA.cert')
+        ctx.use_privatekey_file ('network/client.pkey')
+        ctx.use_certificate_file('network/client.cert')
+        ctx.load_verify_locations('network/CA.cert')
         
         #Starting client
         global sock
@@ -32,7 +32,7 @@ class Client():
     #Send
     def send(self, msg):
         try:
-            sock.send(msg)
+            sock.sendall(msg)
         except SSL.Error:
             print 'Connection died unexpectedly'
             return
