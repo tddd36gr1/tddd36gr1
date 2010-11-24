@@ -1,10 +1,9 @@
-#Tue Nov 23 15:41:40 CET 2010
+#Wed Nov 24 09:50:17 CET 2010
 =\=\=\=\=\=\=
 <<<<<<<=HEAD\:client/.settings/org.eclipse.core.resources.prefs
 >>>>>>>=48d639773843965c63a2e2d5a6c4ac6273539cca\:client/.settings/org.eclipse.core.resources.prefs
 eclipse.preferences.version=1
 encoding//src/class_/base_objects.py=utf8
-encoding//src/class_/base_objects_limpan.py=utf8
 encoding//src/db.py=utf8
 encoding//src/dbtest.py=utf-8
 encoding//src/gui_MANDRILL.py=utf8
