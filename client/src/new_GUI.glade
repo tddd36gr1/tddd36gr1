@@ -185,6 +185,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="tab_pos">bottom</property>
+                <signal name="change_current_page" handler="on_mission_notebook_changed"/>
                 <child>
                   <object class="GtkVBox" id="mission_my_vbox">
                     <property name="visible">True</property>
@@ -237,7 +238,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="hscrollbar_policy">never</property>
-                        <property name="vscrollbar_policy">automatic</property>
                         <child>
                           <object class="GtkViewport" id="viewport1">
                             <property name="visible">True</property>
@@ -379,8 +379,7 @@
                       <object class="GtkScrolledWindow" id="mission_all_scrolledwindow">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="hscrollbar_policy">never</property>
                         <child>
                           <object class="GtkViewport" id="mission_all_viewport">
                             <property name="visible">True</property>
@@ -394,6 +393,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="model">mission_all_liststore</property>
                                     <property name="headers_visible">False</property>
+                                    <signal name="cursor_changed" handler="on_missions_all_selected_changed"/>
                                     <child>
                                       <object class="GtkTreeViewColumn" id="mission_all_title_treeviewcol">
                                         <property name="sizing">fixed</property>
@@ -521,8 +521,7 @@
                       <object class="GtkScrolledWindow" id="mission_finished_scrolledwindow">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="hscrollbar_policy">never</property>
                         <child>
                           <object class="GtkViewport" id="mission_finished_viewport">
                             <property name="visible">True</property>
@@ -566,6 +565,7 @@
                                     </child>
                                   </object>
                                   <packing>
+                                    <property name="expand">False</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>

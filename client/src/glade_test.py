@@ -62,15 +62,25 @@ class MainGUI(hildon.Program):
         self.mission_finished_liststore = self.builder.get_object("mission_finished_liststore")
         
         self.main_notebook = self.builder.get_object("main_notebook")
+        self.mission_notebook = self.builder.get_object("mission_notebook")
+        
         self.mission_my_info_button = self.builder.get_object("mission_my_info_button")
+        self.mission_all_info_button = self.builder.get_object("mission_all_info_button")
+        self.mission_finished_info_button = self.builder.get_object("mission_finished_info_button")
         
         self.mission_my_treeview = self.builder.get_object("missions_my_treeview")
         self.mission_all_treeview = self.builder.get_object("mission_all_treeview")
         self.mission_finished_treeview = self.builder.get_object("mission_finished_treeview")
         
         self.mission_my_button_layout = self.builder.get_object("mission_my_button_layout")
+        self.mission_all_button_layout = self.builder.get_object("mission_all_button_layout")
+        self.mission_finished_button_layout = self.builder.get_object("mission_finished_button_layout")
+        
         self.mission_selected = 0
+        self.selected_mission = None
         self.missions = self.db.get_all(Mission)
+        self.my_missions = self.db.get_all(Mission)
+        self.finished_missions = self.db.get_all_finished_missions()
 
     def __quit__(self, widget, data=None):
         """
@@ -100,14 +110,22 @@ class MainGUI(hildon.Program):
         """
         Populates the missions-view
         """
-        for mission in self.db.get_all(Mission):
+        self.mission_my_liststore.clear()
+        self.mission_all_liststore.clear()
+        self.mission_finished_liststore.clear()
+        
+        for mission in self.my_missions:
             self.mission_my_liststore.append((mission.title, mission.status_object.name))
             
         for mission in self.missions:
             self.mission_all_liststore.append((mission.title, mission.status_object.name))
             
-        for mission in self.db.get_all_finished_missions():
+        for mission in self.finished_missions:
             self.mission_finished_liststore.append((mission.title, mission.status_object.name))
+
+    def on_mission_notebook_changed(self, widget, data=None):
+        #insert_missions(self)
+        return
 
     def on_map_button_clicked(self, widget, data=None):
         """
@@ -151,7 +169,7 @@ class MainGUI(hildon.Program):
         
     def on_missions_finished_selected_changed(self, widget, data=None):
         """
-        Runs when the user selects a mission row in the All Missions-view
+        Runs when the user selects a mission row in the Finished Missions-view
         """
         model, iter = self.mission_finished_treeview.get_selection().get_selected()
         self.mission_selected = model.get_path(iter)[0]
@@ -165,11 +183,19 @@ class MainGUI(hildon.Program):
         #Switch view
         self.main_notebook.set_current_page(4)
         #Sets texts in the new view
-        self.builder.get_object("mission_dialog_title").set_text(self.missions[self.mission_selected].title)
-        self.builder.get_object("mission_dialog_label").set_text(self.missions[self.mission_selected].__repr__())
+        if (self.mission_notebook.get_current_page() == 2):
+            self.selected_mission = self.finished_missions[self.mission_selected]
+
+        elif (self.mission_notebook.get_current_page() == 1):
+            self.selected_mission = self.all_missions[self.mission_selected]
+        else:
+            self.selected_mission = self.missions[self.mission_selected]
+            
+        self.builder.get_object("mission_dialog_title").set_text(self.selected_mission.title)
+        self.builder.get_object("mission_dialog_label").set_text(self.selected_mission.__repr__())
         
         #Sets checkbox if mission has finished status
-        if (self.missions[self.mission_selected].status == 3):
+        if (self.selected_mission.status == 3):
             self.builder.get_object("mission_finished_checkbutton").set_active(True)
         else:
             self.builder.get_object("mission_finished_checkbutton").set_active(False)
@@ -184,17 +210,21 @@ class MainGUI(hildon.Program):
     def mission_toggle_finished(self, widget, data=None):
         """
         Runs when user checks/unchecks the "finished" checkbox in the detailed mission dialog view
-        Sets status of mission to finished when checked and status 2 when unchecked
+        Sets status of mission to finished (3) when checked and status 2 when unchecked
         """
         button = self.builder.get_object("mission_finished_checkbutton")
         if(button.get_active()):
-            self.missions[self.mission_selected].status = 3
-            self.db.commit()
-            self.builder.get_object("mission_dialog_label").set_text(self.missions[self.mission_selected].__repr__())
+            self.selected_mission.status = 3
+            self.finished_missions.append(self.selected_mission)
         else:
-            self.missions[self.mission_selected].status = 2
-            self.db.commit()
-            self.builder.get_object("mission_dialog_label").set_text(self.missions[self.mission_selected].__repr__())
+            self.selected_mission.status = 2
+            for mission in self.finished_missions:
+                if (mission == self.selected_mission):
+                    self.finished_missions.remove(mission)
+        
+        self.insert_missions()
+        self.db.commit()
+        self.builder.get_object("mission_dialog_label").set_text(self.selected_mission.__repr__())
         
     def mission_zoom_to_map(self, widget, data=None):
         """

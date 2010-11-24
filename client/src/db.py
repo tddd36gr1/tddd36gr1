@@ -100,4 +100,4 @@ class DatabaseWorker(threading.Thread):
         """
         Fetches all objects with finished status (3)
         """
-        return self.__Session.query(Mission).filter_by(status=3)
+        return self.__Session.query(Mission).filter_by(status=3).all()
