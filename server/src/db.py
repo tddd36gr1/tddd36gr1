@@ -93,4 +93,4 @@ class DatabaseWorker(threading.Thread):
         Fetches an object from database with a matching id
         Example: get_one_by_id(Employee, 2) returns the employee object with id == 2
         """
-        return Session.query(object).get(id)
+        return self.__Session.query(object).get(id)
