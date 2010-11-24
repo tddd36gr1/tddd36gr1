@@ -5,7 +5,7 @@ Created on Nov 18, 2010
 '''
 from network.server import Server
 from network.client import Client
-import pickle
+import pickle, socket, SETTINGS, threading, time
 
 def serverStart(db):
     """
@@ -23,3 +23,21 @@ def send(destination, data, datatype):
     msg = pickle.dumps(data)+'<>'+datatype
     client.send(msg)
     client.close()
+
+class PingPaket():
+
+    def __init__():
+        ip = socket.gethostbyname(socket.gethostname())
+        id = SETTINGS.employee_id
+
+class PingService(threading.tread):
+    
+    def run(self):
+        
+        while True:
+            client_ip = socket.gethostbyname(socket.gethostname())
+            server_ip = SETTINGS.destination_ip
+            employee_id = SETTINGS.employee_id
+            send(server_ip, pingpaket(client_ip, employee_id), 'ping')
+            time.sleep(30)
+            
