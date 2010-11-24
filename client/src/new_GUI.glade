@@ -942,3 +942,4 @@
   </object>
   <object class="GtkTextBuffer" id="message_new_textbuffer"/>
 </interface>
+
