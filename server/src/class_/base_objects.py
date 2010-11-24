@@ -1,7 +1,7 @@
 #coding=utf8
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text, Boolean
 from sqlalchemy.orm import relation, backref
 
 #Declarative base for automatic mapping of objects to database tables
