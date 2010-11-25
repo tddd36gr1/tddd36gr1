@@ -12,7 +12,9 @@ db = DatabaseWorker()
 #db.add_or_update(StatusCode('Slutfort'))
 #db.add_or_update(Mission('Brunka', 15.578, 58.4048, 0.0, 1))
 #db.add_or_update(Mission('Bajsa', 15.578, 58.4048, 0.0, 2))
-#db.add_or_update(Mission('Runka', 15.578, 58.4048, 0.0, 3))
+#db.add_or_update(Employee('FF:FF:FF:FF:FF' ,'Adolf', 'Hitler'))
+#db.add_or_update(Mission('Runka', 15.578, 58.4048, 0.0, 3, 'hallo', ))
+
 
 #for i in range(1, 15):
 #    db.add_or_update(Mission('Testa stuff', 15.578, 58.4048, 0.0, 2))

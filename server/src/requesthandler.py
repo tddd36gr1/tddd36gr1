@@ -24,10 +24,12 @@ def request(data, type, db):
     
     elif (type == 'ping'):
         print 'type = ping'
+        """
         employee = db.get_one_by_id(Employee, data.id)
         employee.online = True
         employee.ip = data.ip
         onlineList.append(employee.fname)
+        """
         
         
         

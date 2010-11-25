@@ -1,7 +1,7 @@
 #coding=utf8
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text, Boolean
 from sqlalchemy.orm import relation, backref
 
 """
@@ -14,6 +14,10 @@ Skapar en tabell som binder samman mission-ID med ett text-ID
 missions_to_texts = Table('missions_to_texts', Base.metadata,
                     Column('missions_id', Integer, ForeignKey('missions.id')),
                     Column('missiontexts_id', Integer, ForeignKey('missiontexts.id')))
+
+missions_to_many_users = Table('missions_to_many_users', Base.metadata,
+                    Column('employee_id', Integer, ForeignKey('employee.id')),
+                    Column('missions_id', Integer, ForeignKey('mission.id')))
 
 class Employee(Base, object):
     """
@@ -100,6 +104,7 @@ class Mission(Base, object):
     #Timestamp attribute, haven't found out autotimestamping yet
     timestamp = Column(TIMESTAMP)
     status = Column(Integer, ForeignKey('statuscodes.id'))
+    units = Column(integer, ForeignKey('employee.id'))
 
     """
     status_name is really a StatusCode object. For getting just the name-string and not 
@@ -107,8 +112,9 @@ class Mission(Base, object):
     """
     status_object = relation(StatusCode, backref=backref('missions', order_by=id))
     missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id))
+    mission_to_many_users = relation('employee', secondary=missions_to_many_users, backref=backref('missions', order_by=id))
 
-    def __init__(self, title, long, lat, rad, status, descr):
+    def __init__(self, title, long, lat, rad, status, descr, units):
         """Constructor setting variables"""
         self.title = title
         self.long = long
@@ -116,6 +122,7 @@ class Mission(Base, object):
         self.rad = rad
         self.status = status
         self.missiontexts.append(MissionText(descr))
+        self.units = units
         
     def __repr__(self):
         """String-representation of object in xml"""
