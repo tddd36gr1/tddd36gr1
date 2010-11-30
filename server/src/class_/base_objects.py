@@ -8,16 +8,15 @@ from sqlalchemy.orm import relation, backref
 Declarative base for automatic mapping of objects to database tables
 """
 Base = declarative_base()
-"""
-Skapar en tabell som binder samman mission-ID med ett text-ID
-"""
+
+#Skapar en tabell som binder samman mission-ID med ett text-ID
 missions_to_texts = Table('missions_to_texts', Base.metadata,
                     Column('missions_id', Integer, ForeignKey('missions.id')),
                     Column('missiontexts_id', Integer, ForeignKey('missiontexts.id')))
-
-missions_to_many_users = Table('missions_to_many_users', Base.metadata,
-                    Column('employee_id', Integer, ForeignKey('employee.id')),
-                    Column('missions_id', Integer, ForeignKey('mission.id')))
+#Skapar en tabell som binder samman missions-ID med employees-ID
+missions_to_employees = Table('missions_to_employees', Base.metadata,
+                    Column('employees_id', Integer, ForeignKey('employees.id')),
+                    Column('missions_id', Integer, ForeignKey('missions.id')))
 
 class Employee(Base, object):
     """
@@ -32,12 +31,15 @@ class Employee(Base, object):
     lname = Column(String(45))
     online = Column(Boolean())
     ip = Column(String(20))
+    
+    missions = relation('Mission', secondary=missions_to_employees, backref=backref('employees', order_by=id))
 
-    def __init__(self, n810mac, fname, lname):
+    def __init__(self, n810mac, fname, lname, online=False):
         """Constructor setting variables"""
         self.fname = fname
         self.lname = lname
         self.n810mac = n810mac
+        self.online = online
         
     def __repr__(self):
         """String-representation of object in xml"""
@@ -58,8 +60,7 @@ class TextMessage(Base, object):
     id = Column(Integer, primary_key=True)
     src = Column(String(20))
     dst = Column(String(20))
-    msg = Column(String(1024))
-    
+    msg = Column(String(1024))    
 
     def __init__(self, src, dst, msg):
         """Constructor setting variables"""
@@ -104,17 +105,16 @@ class Mission(Base, object):
     #Timestamp attribute, haven't found out autotimestamping yet
     timestamp = Column(TIMESTAMP)
     status = Column(Integer, ForeignKey('statuscodes.id'))
-    units = Column(integer, ForeignKey('employee.id'))
-
+    
     """
-    status_name is really a StatusCode object. For getting just the name-string and not 
-    the objects xml-representation, print status_name.name
+    status_object is really a StatusCode object. For getting just the name-string and not 
+    the objects xml-representation, print status_object.name
     """
-    status_object = relation(StatusCode, backref=backref('missions', order_by=id))
-    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id))
-    mission_to_many_users = relation('employee', secondary=missions_to_many_users, backref=backref('missions', order_by=id))
-
-    def __init__(self, title, long, lat, rad, status, descr, units):
+    status_object = relation(StatusCode, backref=backref('missions4', order_by=id))
+    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions3', order_by=id))
+    workers = relation('Employee', secondary=missions_to_employees, backref=backref('missions2', order_by=id))
+    
+    def __init__(self, title, long, lat, rad, status, descr):
         """Constructor setting variables"""
         self.title = title
         self.long = long
@@ -122,7 +122,6 @@ class Mission(Base, object):
         self.rad = rad
         self.status = status
         self.missiontexts.append(MissionText(descr))
-        self.units = units
         
     def __repr__(self):
         """String-representation of object in xml"""
@@ -144,6 +143,7 @@ class MissionText(Base, object):
     
     id = Column(Integer, primary_key=True)
     descr = Column(Text)
+    missions = relation('Mission', secondary=missions_to_texts, backref=backref('asdasdsd', order_by=id))
     
     def __init__(self, text):
         self.descr = text
