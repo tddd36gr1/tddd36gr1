@@ -9,8 +9,8 @@ import gui
 print "Läser in kartinformation från kartdata/map.xml"
 mapxml = map_xml_reader.MapXML("kartdata/map.xml")
 
-map = data_storage.MapData(mapxml.get_name(),
-                           mapxml.get_levels())
+    map = data_storage.MapData(mapxml.get_name(),
+                               mapxml.get_levels())
 
 # Ställer in vad kartkomponenten ska fokusera på (visa)
 # (blir mittenpunkten på skärmen, dvs 50% x-led, 50% y-lyd.

@@ -1,29 +1,34 @@
-#coding=utf8
+#coding=utf-8
 """ EXEMPELKOD för hur man kan använda databasen """
 
-import db
-from class_.base_objects import Employee, StatusCode, Mission
-#import pickle
+from db import DatabaseWorker
+from class_.base_objects import Employee, StatusCode, Mission, TextMessage
 
-#db.add(StatusCode('Done'))
-#db.add(Mission('Brunka', 12.2, 13.4, 0.0, 1))
-#olle = Employee('00:00:00:00:00', 'Olle', 'Karlsson')
-#db.add(olle)
+db = DatabaseWorker()
 
-#db.add(Employee('AA:AA:AA:AA:AA', 'MONGO', 'Svensson'))
-#db.add(StatusCode('Testing'))
-#db.add(Mission('Se pa film', 0.0, 0.0, 0.0, 2))
+#db.add_or_update(TextMessage('192.168.2.15', '192.168.2.15', 'Brunk'))
+#db.add_or_update(StatusCode('Inkommet larm'))
+#db.add_or_update(StatusCode('Utryckning!'))
+#db.add_or_update(StatusCode('Slutfort'))
+#db.add_or_update(Mission('Brunka', 15.578, 58.4048, 0.0, 1))
+#db.add_or_update(Mission('Bajsa', 15.578, 58.4048, 0.0, 2))
+#db.add_or_update(Employee('FF:FF:FF:FF:FF' ,'Adolf', 'Hitler'))
+#db.add_or_update(Mission('Runka', 15.578, 58.4048, 0.0, 3, 'hallo', ))
 
-#olle = db.get_one(Employee)
-#db.add_or_update(olle)
-#testarn = Employee('13:37:AS:DF:13:37','Johan', 'Åberg')
-#db.add_or_update(testarn)
-#pickledolle = pickle.dumps(olle)
-#newolle = pickle.loads(pickledolle)
 
-#newolle.lname = 'Johansson'
+#for i in range(1, 15):
+#    db.add_or_update(Mission('Testa stuff', 15.578, 58.4048, 0.0, 2))
+#db.add_or_update(Employee('FF:FF:AS:DF:13:37','Samuel', 'Svensson'))
+#db.get_one(Mission).title = "Pwn"
 
-#db.update(newolle)
+for mission in db.get_all(Mission):
+    print mission
 
+for statuscode in db.get_all(StatusCode):
+    print statuscode
+    
 for employee in db.get_all(Employee):
-    print employee.fname+' '+employee.lname
+    print employee
+    
+for textmessage in db.get_all(TextMessage):
+    print textmessage
