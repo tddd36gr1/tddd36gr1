@@ -244,13 +244,18 @@ class MapWidget(gtk.DrawingArea):
             """      
             if (self.draw_icons == True):
                 self.dbobjects = self.get_objects_from_db()
+                
+                
                 #if (self.i % 20 == 0):
                 for e in self.dbobjects:
-                    (f,g) = self._coord_to_pixel(e.long,e.lat)
+                                        
+                    
                     if e.__class__ == Mission:
-                        self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.mission_pic, 0, 0, int(f), int(g),24,24)
-                    if e.__class__ == Employee:
-                        self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.employee.pic, 0, 0, int(f), int(g),24,24)
+                        (f,g) = self._coord_to_pixel(e.long,e.lat)
+                        if (e.status != 3):
+                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.mission_pic, 0, 0, int(f), int(g),24,24)
+                    #if e.__class__ == Employee:
+                        #self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.employee.pic, 0, 0, int(f), int(g),24,24)
                 self.i = self.i-1  
             
             
@@ -299,9 +304,9 @@ class MapWidget(gtk.DrawingArea):
         for objectos in self.all_missions:
             
             self.objectlist.append(objectos)
-        for objectos in self.all_employees:
+        #for objectos in self.all_employees:
             
-            self.coordlist.append(objectos)
+            #self.objectlist.append(objectos)
              
         return self.objectlist
     """
@@ -313,6 +318,8 @@ class MapWidget(gtk.DrawingArea):
     
     def popup(self):                     
         self.objectlist2 = self.get_objects_from_db()
+        
+        
         
         dialog = gtk.AboutDialog()
         dialog.set_name(self.objectlist2[self.object_counter-1].title)
