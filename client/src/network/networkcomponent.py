@@ -30,7 +30,7 @@ class PingPaket():
         ip = socket.gethostbyname(socket.gethostname())
         id = SETTINGS.employee_id
 
-class PingService(threading.tread):
+class PingService(threading.Thread):
     
     def run(self):
         

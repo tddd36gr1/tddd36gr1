@@ -34,6 +34,7 @@ class DatabaseWorker(threading.Thread):
         #and creating a new SQLAlchemy session
         engine = create_engine(SETTINGS.db_src, encoding='utf-8')
         self.__Session = scoped_session(sessionmaker(bind=engine, autoflush=True, transactional=True))
+        self.__Session2 = sessionmaker(bind=engine, autoflush=True, transactional=True)
         base_objects.create_tables(engine)
         self.start()
 

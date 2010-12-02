@@ -5,7 +5,7 @@ Created on Nov 11, 2010
 @author: alek
 '''
 import network.networkcomponent
-from class_.base_objects import TextMessage
+from class_.base_objects import *
 import SETTINGS
 
 def request(data, type, db):
@@ -22,3 +22,10 @@ def request(data, type, db):
         print 'type: ping'
         networkcomponent.send()
     """
+def send_message(textmessage, db):
+    print "Send_request"
+    db.add_or_update(textmessage)
+    textmessage.src_object = db.get_one_by_id(Employee, textmessage.src)
+    textmessage.dst_object = db.get_one_by_id(Employee, textmessage.dst)
+    db.commit()
+    #networkcomponent.send(SETTINGS.)

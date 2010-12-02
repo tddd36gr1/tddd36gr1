@@ -101,3 +101,13 @@ class DatabaseWorker(threading.Thread):
         Fetches all objects with finished status (3)
         """
         return self.__Session.query(Mission).filter_by(status=3).all()
+    
+    def get_employee_by_name(self, name):
+        """
+        Fetches an employee with the name provided
+        """
+        for employee in self.__Session.query(Employee).all():
+            if (employee.fname+' '+employee.lname == name):
+                return employee
+        
+        return

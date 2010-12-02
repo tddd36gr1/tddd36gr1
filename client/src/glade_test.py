@@ -1,17 +1,19 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 17 nov 2010
 
 @author: Mandrill
 '''
-#coding=utf8
 import gtk
 import hildon
 import pango
 import pygtk
 import sys
 import gtk.glade
+import requesthandler
+import SETTINGS
 from mapwidget.mapwidget import MapWidget
-from class_.base_objects import Mission, StatusCode
+from class_.base_objects import *
 
 class MainGUI(hildon.Program):
     """
@@ -61,12 +63,19 @@ class MainGUI(hildon.Program):
         self.mission_all_liststore = self.builder.get_object("mission_all_liststore")
         self.mission_finished_liststore = self.builder.get_object("mission_finished_liststore")
         
+        self.message_inbox_liststore = self.builder.get_object("message_inbox_liststore")
+        self.message_sent_liststore = self.builder.get_object("message_sent_liststore")
+        
         self.main_notebook = self.builder.get_object("main_notebook")
         self.mission_notebook = self.builder.get_object("mission_notebook")
+        self.message_notebook = self.builder.get_object("message_notebook")
         
         self.mission_my_info_button = self.builder.get_object("mission_my_info_button")
         self.mission_all_info_button = self.builder.get_object("mission_all_info_button")
         self.mission_finished_info_button = self.builder.get_object("mission_finished_info_button")
+        
+        self.message_inbox_open_button = self.builder.get_object("message_inbox_open_button")
+        self.message_sent_open_button = self.builder.get_object("message_sent_open_button")
         
         self.mission_my_treeview = self.builder.get_object("missions_my_treeview")
         self.mission_all_treeview = self.builder.get_object("mission_all_treeview")
@@ -76,11 +85,17 @@ class MainGUI(hildon.Program):
         self.mission_all_button_layout = self.builder.get_object("mission_all_button_layout")
         self.mission_finished_button_layout = self.builder.get_object("mission_finished_button_layout")
         
+        self.message_inbox_button_layout = self.builder.get_object("message_inbox_button_layout")
+        self.message_sent_button_layout = self.builder.get_object("message_sent_button_layout")
+        
+        self.message_inbox_treeview = self.builder.get_object("message_inbox_treeview")
+        self.message_sent_treeview = self.builder.get_object("message_sent_treeview")
+        
+        self.mission_status_combobox = self.builder.get_object("mission_status_combobox")
         self.mission_selected = 0
+        self.message_selected = 0
+        self.employee_id = SETTINGS.employee_id
         self.selected_mission = None
-        self.missions = self.db.get_all(Mission)
-        self.my_missions = self.db.get_all(Mission)
-        self.finished_missions = self.db.get_all_finished_missions()
 
     def __quit__(self, widget, data=None):
         """
@@ -97,35 +112,61 @@ class MainGUI(hildon.Program):
         
         #Import map widget and add to our GUI
         self.map_placeholder = self.builder.get_object("map_placeholder")
-        self.mapWidget = MapWidget(58.3953, 15.5691)
-        self.map_placeholder.add(self.mapWidget)
+        self.mapwidget = MapWidget(58.3953, 15.5691)
+        self.map_placeholder.add(self.mapwidget)
         
     def insert_data(self):
         """
         This function is used to populate various data models
         """
         self.insert_missions()
+        self.insert_messages()
+        self.insert_statuscodes()
     
     def insert_missions(self):
         """
-        Populates the missions-view
+        Populates the missions view
         """
         self.mission_my_liststore.clear()
-        self.mission_all_liststore.clear()
-        self.mission_finished_liststore.clear()
-        
+        self.my_missions = self.db.get_one_by_id(Employee, self.employee_id).missions
         for mission in self.my_missions:
             self.mission_my_liststore.append((mission.title, mission.status_object.name))
             
+        self.mission_all_liststore.clear()
+        self.missions = self.db.get_all(Mission)
         for mission in self.missions:
             self.mission_all_liststore.append((mission.title, mission.status_object.name))
-            
+        
+        self.mission_finished_liststore.clear()        
+        self.finished_missions = self.db.get_all_finished_missions()
         for mission in self.finished_missions:
             self.mission_finished_liststore.append((mission.title, mission.status_object.name))
-
-    def on_mission_notebook_changed(self, widget, data=None):
-        #insert_missions(self)
-        return
+            
+    def insert_messages(self):
+        """
+        Populates the messages view
+        """
+        self.message_inbox_liststore.clear()
+        self.message_sent_liststore.clear()
+        
+        self.inbox_messages = self.db.get_one_by_id(Employee, self.employee_id).txt_received
+        self.sent_messages = self.db.get_one_by_id(Employee, self.employee_id).txt_sent
+        
+        for message in self.inbox_messages:
+            self.message_inbox_liststore.append((message.src_object.fname+' '+message.src_object.lname, message.msg))
+            
+        for message in self.sent_messages:
+            self.message_sent_liststore.append((message.dst_object.fname+' '+message.dst_object.lname, message.msg))
+            
+    def insert_statuscodes(self):
+        """
+        Inserts all status codes from DB
+        """
+        self.status_codes_liststore = self.builder.get_object("status_codes_liststore")
+        for statuscode in self.db.get_all(StatusCode):
+            self.status_codes_liststore.append((statuscode.name, statuscode.id))
+        
+        self.mission_status_combobox.set_active(0)
 
     def on_map_button_clicked(self, widget, data=None):
         """
@@ -175,6 +216,59 @@ class MainGUI(hildon.Program):
         self.mission_selected = model.get_path(iter)[0]
         self.mission_finished_button_layout.move(self.mission_finished_info_button, 0, self.mission_selected*32)
         
+        
+    def on_message_inbox_selected_changed(self, widget, data=None):
+        """
+        Runs when the user selects a message row in the Inbox Messages-view
+        """
+        model, iter = self.message_inbox_treeview.get_selection().get_selected()
+        self.message_selected = model.get_path(iter)[0]
+        self.message_inbox_button_layout.move(self.message_inbox_open_button, 0, self.message_selected*32)
+        
+        
+    def on_message_sent_selected_changed(self, widget, data=None):
+        """
+        Runs when the user selects a mission row in the Sent Messages-view
+        """
+        model, iter = self.message_sent_treeview.get_selection().get_selected()
+        self.message_selected = model.get_path(iter)[0]
+        self.message_sent_button_layout.move(self.message_sent_open_button, 0, self.message_selected*32)
+        
+    def send_new_message(self, widget, data=None):
+        """
+        Runs when user presses the send-button in the new message view
+        """
+        entry = self.builder.get_object("message_new_receiver")
+        to = entry.get_text()
+        buffer = self.builder.get_object("message_new_textview").get_buffer()
+        msg = buffer.get_text(buffer.get_start_iter(),buffer.get_end_iter())
+        employee = self.db.get_employee_by_name(to)
+        
+        if (employee == None):
+            print "Hittade ingen anställd"
+            entry.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("red"))
+            self.builder.get_object("message_new_title").set_markup("<span foreground=\"red\"><big>Ingen anställd med det namnet</big></span>")
+        else:
+            requesthandler.send_message(TextMessage(SETTINGS.employee_id, employee.id, msg), self.db)
+            entry.set_text('')
+            buffer.set_text('')
+            entry.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+            self.builder.get_object("message_new_title").set_markup("<big>Nytt meddelande</big>")
+            self.insert_messages()
+
+            
+    def clear_message(self, widget, data=None):
+        """
+        Runs when user presses the clear button in the new message view
+        """
+        entry = self.builder.get_object("message_new_receiver")
+        entry.set_text("")
+        entry.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+        buffer = self.builder.get_object("message_new_textview").get_buffer()
+        buffer.set_text("")
+        self.builder.get_object("message_new_title").set_markup("<big>Nytt meddelande</big>")
+            
+        
     def on_mission_info_button_clicked(self, widget, data=None):
         """
         Runs when user clicks on an "open" button next to a row in the my missions view
@@ -187,50 +281,73 @@ class MainGUI(hildon.Program):
             self.selected_mission = self.finished_missions[self.mission_selected]
 
         elif (self.mission_notebook.get_current_page() == 1):
-            self.selected_mission = self.all_missions[self.mission_selected]
-        else:
             self.selected_mission = self.missions[self.mission_selected]
-            
-        self.builder.get_object("mission_dialog_title").set_text(self.selected_mission.title)
-        self.builder.get_object("mission_dialog_label").set_text(self.selected_mission.__repr__())
-        
-        #Sets checkbox if mission has finished status
-        if (self.selected_mission.status == 3):
-            self.builder.get_object("mission_finished_checkbutton").set_active(True)
         else:
-            self.builder.get_object("mission_finished_checkbutton").set_active(False)
+            self.selected_mission = self.my_missions[self.mission_selected]
+            
+        self.builder.get_object("mission_dialog_title").set_text("Uppdrag: "+self.selected_mission.title)
+        self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
+        
+        #Display description texts
+        str = ""
+        for text in self.selected_mission.missiontexts:
+            str = str+text.descr+"\n"
+        self.builder.get_object("mission_dialog_description").set_text(str)
     
+    def open_message(self, widget, data=None):
+        """
+        Runs when the user presses an "open"-button in the message inbox or sent-view
+        """
+        
+        #Switch view
+        self.main_notebook.set_current_page(5)
+        
+        #Sets texts in the new view
+        if (self.message_notebook.get_current_page() == 0):
+            self.selected_message = self.inbox_messages[self.message_selected]
+            self.builder.get_object("message_top_label").set_text("Meddelande från: "+self.selected_message.src_object.fname+" "+self.selected_message.src_object.lname)
+        
+        elif (self.message_notebook.get_current_page() == 2):
+            self.selected_message = self.sent_messages[self.message_selected]
+            self.builder.get_object("message_top_label").set_text("Meddelande till: "+self.selected_message.dst_object.fname+" "+self.selected_message.dst_object.lname)
+
+        self.builder.get_object("message_text_label").set_text(self.selected_message.msg)
+        
+    def message_close_dialog(self, widget, data=None):
+        """
+        Runs when user presses "back" button in the opened message view,
+        switches view back to messages view
+        """
+        self.main_notebook.set_current_page(3)
+        
     def mission_close_dialog(self, widget, data=None):
         """
         Runs when user presses "back" button in the mission detailed dialog view,
         switches view back to mission view
         """
         self.main_notebook.set_current_page(1)
-    
-    def mission_toggle_finished(self, widget, data=None):
-        """
-        Runs when user checks/unchecks the "finished" checkbox in the detailed mission dialog view
-        Sets status of mission to finished (3) when checked and status 2 when unchecked
-        """
-        button = self.builder.get_object("mission_finished_checkbutton")
-        if(button.get_active()):
-            self.selected_mission.status = 3
-            self.finished_missions.append(self.selected_mission)
-        else:
-            self.selected_mission.status = 2
-            for mission in self.finished_missions:
-                if (mission == self.selected_mission):
-                    self.finished_missions.remove(mission)
         
-        self.insert_missions()
+    def change_mission_status(self, widget, data=None):
+        """
+        Runs when user changes status of a mission in a combobox
+        """
+        i = self.mission_status_combobox.get_active()
+        if (i == 0):
+            return
+        
+        self.selected_mission.status = i
+        self.selected_mission.status_object = self.db.get_one_by_id(StatusCode, i)
         self.db.commit()
-        self.builder.get_object("mission_dialog_label").set_text(self.selected_mission.__repr__())
+        self.insert_missions()
+        self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
+        self.mission_status_combobox.set_active(0)
         
     def mission_zoom_to_map(self, widget, data=None):
         """
-        Placeholder function, should switch to map view and zoom to the mission's placemark
+        Switch to map view and zoom to the mission's placemark in the opened mission view
         """
-        return
+        self.mapwidget.set_focus((float(self.selected_mission.lat), float(self.selected_mission.long)))
+        self.main_notebook.set_current_page(0)
         
     def run(self):
         self.window.show_all()

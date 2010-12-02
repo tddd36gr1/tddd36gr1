@@ -1,1 +1,0 @@
-Lägg kartkomponentdemo.desktop i /usr/share/applications/hildon/
