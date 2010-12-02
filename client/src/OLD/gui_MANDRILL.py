@@ -10,10 +10,19 @@ import kartkomponent.gui
 import kartkomponent.gps
 import kartkomponent.map_xml_reader
 import kartkomponent.data_storage
+<<<<<<< HEAD:client/src/gui_views_test2.py
+
+gtk.gdk.threads_init()
+
+ 
+class HelloWorldApp(hildon.Program, gtk.Window):
+  def __init__(self):
+=======
 from class_.base_objects import *
  
 class MainGUI(hildon.Program):
   def __init__(self, db):
+>>>>>>> ec0a1a19715034e53c7156dbde61eb8d133fa27f:client/src/OLD/gui_MANDRILL.py
     hildon.Program.__init__(self)
     
     #Reference to Database
@@ -25,6 +34,8 @@ class MainGUI(hildon.Program):
     self.add_window(self.window)
     self.window.fullscreen()
     self.window.set_title('a title')
+    self.CreateBoxes()
+    self.window.show_all()
     
     
     ##    creates a color
@@ -194,8 +205,7 @@ class MainGUI(hildon.Program):
     self.db.commit()
 
   def run(self):
-    self.CreateBoxes()
-    self.window.show_all()
+
     gtk.main() 
     
   def Show_gps_pos(self,widget, data = None):
@@ -208,5 +218,10 @@ class MainGUI(hildon.Program):
     self.HideBoxes()
     self.map_hbox.show_all()
  
+<<<<<<< HEAD:client/src/gui_views_test2.py
+#app = HelloWorldApp()
+#app.run()
+=======
 def start(db):
     MainGUI(db).run()
+>>>>>>> ec0a1a19715034e53c7156dbde61eb8d133fa27f:client/src/OLD/gui_MANDRILL.py
