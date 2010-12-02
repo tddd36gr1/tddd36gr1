@@ -17,11 +17,22 @@ def request(data, type, db):
     elif (type == 'textMessage'):
         print "type: textMessage"
         db.add_or_update(TextMessage(data.src, data.dst, data.msg))
-    """   
-    elif (type == 'ping'):
-        print 'type: ping'
-        networkcomponent.send()
-    """
+
+    elif (type == 'pong'):
+        """
+        Recieves a list with ID
+        """
+        print 'type: pong'
+        onlineLista = data
+        
+        """
+        Updates whos online in db
+        """
+        for id in onlineLista:
+            user = db.get_one_by_id(Employee, id)
+            user.online = True
+        db.commit()
+        
 def send_message(textmessage, db):
     print "Send_request"
     db.add_or_update(textmessage)

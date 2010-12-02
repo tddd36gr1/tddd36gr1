@@ -3,6 +3,7 @@
 
 from db import DatabaseWorker
 from class_.base_objects import Employee, StatusCode, Mission, TextMessage
+import requesthandler
 
 db = DatabaseWorker()
 
@@ -13,6 +14,7 @@ db = DatabaseWorker()
 #db.add_or_update(Mission('Brunka', 15.578, 58.4048, 0.0, 1, "Bajsa och runka samtidigt"))
 #db.add_or_update(Mission('Bajsa', 15.578, 58.4048, 0.0, 2, "Skita"))
 #db.add_or_update(Employee('FF:FF:FF:FF:FF' ,'Adolf', 'Hitler'))
+#db.add_or_update(Employee('FF:FF:FF:FF:F8' ,'Smeagol', 'SatanSkit'))
 #db.add_or_update(Mission('Runka', 15.578, 58.4048, 0.0, 3, 'Ga pa dejt med hogerhanden'))
 
 
@@ -25,6 +27,21 @@ db = DatabaseWorker()
 Example for assigning a mission to an employee:
     db.get_one_by_id(Employee, 1).missions.append(db.get_one_by_id(Mission, 3))
 """
+gnag = db.get_one_by_id(Employee, 2)
+gnag.online = True
+db.commit()
+
+
+onlineList = []
+
+for hej in db.get_all(Employee):
+    if hej.online == True:
+        onlineList.append(hej.fname)
+
+for task in onlineList:        
+    print task
+
+
 for mission in db.get_all(Mission):
     print mission
 

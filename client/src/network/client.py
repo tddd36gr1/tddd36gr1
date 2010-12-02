@@ -29,6 +29,7 @@ class Client():
         sock = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
         sock.connect((HOST, PORT))
         
+        
     #Send
     def send(self, msg):
         try:

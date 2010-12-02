@@ -24,12 +24,26 @@ def request(data, type, db):
     
     elif (type == 'ping'):
         print 'type = ping'
-        """
-        employee = db.get_one_by_id(Employee, data.id)
+        print data
+        print 'då drar vi ner allt i databasen fifan'
+        print data[1]
+
+        employee = db.get_one_by_id(Employee, data[1])
         employee.online = True
-        employee.ip = data.ip
-        onlineList.append(employee.fname)
-        """
+        employee.ip = data[0]
+        db.commit()
+        
+        for employee in db.get_all(Employee):
+            if employee.online == True:
+                onlineList.append(employee.id)
+        
+        send(employee.ip,onlineList,'pong')
         
         
-        
+"""            
+def whosOnline():
+        for employee in db.get_all(Employee):
+            if employee.online == True:
+                onlineList.append(employee.fname)
+                
+"""
