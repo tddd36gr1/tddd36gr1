@@ -13,7 +13,7 @@ def serverStart(db):
     Needs a DatabaseWorker reference (db)
     """
     Server(db).start()
-    send('127.0.0.1','lol','TextMessage')
+    #send('127.0.0.1','lol','TextMessage')
 
 def send(destination, data, datatype):
     """
