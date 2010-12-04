@@ -62,6 +62,7 @@ class MainGUI(hildon.Program):
         self.mission_my_liststore = self.builder.get_object("mission_my_liststore")
         self.mission_all_liststore = self.builder.get_object("mission_all_liststore")
         self.mission_finished_liststore = self.builder.get_object("mission_finished_liststore")
+        self.mission_images_liststore = self.builder.get_object("mission_images_liststore")
         
         self.message_inbox_liststore = self.builder.get_object("message_inbox_liststore")
         self.message_sent_liststore = self.builder.get_object("message_sent_liststore")
@@ -112,7 +113,7 @@ class MainGUI(hildon.Program):
         
         #Import map widget and add to our GUI
         self.map_placeholder = self.builder.get_object("map_placeholder")
-        self.mapwidget = MapWidget(58.3953, 15.5691)
+        self.mapwidget = MapWidget(58.3953, 15.5691, self.db)
         self.map_placeholder.add(self.mapwidget)
         
     def insert_data(self):
@@ -267,7 +268,6 @@ class MainGUI(hildon.Program):
         buffer = self.builder.get_object("message_new_textview").get_buffer()
         buffer.set_text("")
         self.builder.get_object("message_new_title").set_markup("<big>Nytt meddelande</big>")
-            
         
     def on_mission_info_button_clicked(self, widget, data=None):
         """
@@ -285,7 +285,7 @@ class MainGUI(hildon.Program):
         else:
             self.selected_mission = self.my_missions[self.mission_selected]
             
-        self.builder.get_object("mission_dialog_title").set_text("Uppdrag: "+self.selected_mission.title)
+        self.builder.get_object("mission_dialog_title").set_markup("<big>Uppdrag: "+self.selected_mission.title+"</big>")
         self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
         
         #Display description texts
@@ -293,6 +293,11 @@ class MainGUI(hildon.Program):
         for text in self.selected_mission.missiontexts:
             str = str+text.descr+"\n"
         self.builder.get_object("mission_dialog_description").set_text(str)
+        
+        #Display mission images
+        self.mission_images_liststore.clear()
+        for image in self.selected_mission.images:
+            self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("db/images/thumb_"+image.filename), image.title, image.id))
     
     def open_message(self, widget, data=None):
         """
@@ -305,13 +310,13 @@ class MainGUI(hildon.Program):
         #Sets texts in the new view
         if (self.message_notebook.get_current_page() == 0):
             self.selected_message = self.inbox_messages[self.message_selected]
-            self.builder.get_object("message_top_label").set_text("Meddelande från: "+self.selected_message.src_object.fname+" "+self.selected_message.src_object.lname)
+            self.builder.get_object("message_top_label").set_markup("<big>Meddelande från: "+self.selected_message.src_object.fname+" "+self.selected_message.src_object.lname+"</big>")
         
         elif (self.message_notebook.get_current_page() == 2):
             self.selected_message = self.sent_messages[self.message_selected]
-            self.builder.get_object("message_top_label").set_text("Meddelande till: "+self.selected_message.dst_object.fname+" "+self.selected_message.dst_object.lname)
+            self.builder.get_object("message_top_label").set_markup("<big>Meddelande till: "+self.selected_message.dst_object.fname+" "+self.selected_message.dst_object.lname+"</big>")
 
-        self.builder.get_object("message_text_label").set_text(self.selected_message.msg)
+        self.builder.get_object("message_text_label").set_markup(self.selected_message.msg)
         
     def message_close_dialog(self, widget, data=None):
         """
@@ -326,6 +331,13 @@ class MainGUI(hildon.Program):
         switches view back to mission view
         """
         self.main_notebook.set_current_page(1)
+    
+    def mission_close_image(self, widget, data=None):
+        """
+        Runs when user presses "back" button in the mission full screen image view,
+        switches view back to detailed mission view
+        """
+        self.main_notebook.set_current_page(4)
         
     def change_mission_status(self, widget, data=None):
         """
@@ -348,6 +360,15 @@ class MainGUI(hildon.Program):
         """
         self.mapwidget.set_focus((float(self.selected_mission.lat), float(self.selected_mission.long)))
         self.main_notebook.set_current_page(0)
+        
+    def on_mission_image_activated(self, widget, data=None):
+        """
+        Opens up mission image in full screen when user presses enter or double-clicks a mission image
+        """
+        self.main_notebook.set_current_page(6)
+        image = self.selected_mission.images[self.builder.get_object("mission_image_iconview").get_selected_items()[0][0]]
+        self.builder.get_object("mission_image_title").set_markup("<big>"+image.title+"</big>")
+        self.builder.get_object("mission_full_image").set_from_file("db/images/"+image.filename)
         
     def run(self):
         self.window.show_all()

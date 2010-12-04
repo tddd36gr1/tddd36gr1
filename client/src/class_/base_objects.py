@@ -13,6 +13,10 @@ Base = declarative_base()
 missions_to_texts = Table('missions_to_texts', Base.metadata,
                     Column('missions_id', Integer, ForeignKey('missions.id')),
                     Column('missiontexts_id', Integer, ForeignKey('missiontexts.id')))
+#Skapar en tabell som binder samman mission-ID med ett bild-ID
+missions_to_images = Table('missions_to_images', Base.metadata,
+                    Column('missions_id', Integer, ForeignKey('missions.id')),
+                    Column('missionimages_id', Integer, ForeignKey('missionimages.id')))
 #Skapar en tabell som binder samman missions-ID med employees-ID
 missions_to_employees = Table('missions_to_employees', Base.metadata,
                     Column('employees_id', Integer, ForeignKey('employees.id')),
@@ -97,10 +101,10 @@ class StatusCode(Base, object):
         """String-representation of object in xml"""
         return "<StatusCode>\n\t<id>%s</id>\n\t<name>%s</name>\n</StatusCode>" % (self.id, self.name)
     
-"""
-En klass for att lagra missionbeskrivningar
-""" 
 class MissionText(Base, object):
+    """
+    En klass for att lagra missionbeskrivningar
+    """ 
     __tablename__ = 'missiontexts'
     
     id = Column(Integer, primary_key=True)
@@ -111,6 +115,23 @@ class MissionText(Base, object):
                 
     def __repr__(self):
         return '%r' % self.descr
+
+class MissionImage(Base, object):
+    """
+    En klass for att lagra missionbilder
+    """ 
+    __tablename__ = 'missionimages'
+    
+    id = Column(Integer, primary_key=True)
+    title = Column(Text)
+    filename = Column(Text, unique=True)
+    
+    def __init__(self, title, filename):
+        self.title = title
+        self.filename = filename
+                
+    def __repr__(self):
+        return "<MissionImage>\n\t<title>%s</title>\n\t<filename>%s</filename>\n</MissionImage>" % (self.title, self.filename)
    
 class Mission(Base, object):
     """Mission object, with a lot of placemark-related attributes, like longitude and latitude"""
@@ -133,6 +154,7 @@ class Mission(Base, object):
     status_object = relation('StatusCode', backref=backref('missions', order_by=id))
     missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id))
     employees = relation('Employee', secondary=missions_to_employees, backref=backref('missions', order_by=id))
+    images = relation('MissionImage', secondary=missions_to_images, backref=backref('missions', order_by=id))
 
     
     def __init__(self, title, long, lat, rad, status, descr):
