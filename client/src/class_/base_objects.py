@@ -67,8 +67,8 @@ class TextMessage(Base, object):
     dst = Column(Integer, ForeignKey('employees.id'))
     msg = Column(String(1024))
     
-    src_object = relation('Employee', primaryjoin=src==Employee.id, backref="txt_sent")
-    dst_object = relation('Employee', primaryjoin=dst==Employee.id, backref="txt_received")
+    src_object = relation('Employee', primaryjoin=src==Employee.id, backref="txt_sent", lazy=False)
+    dst_object = relation('Employee', primaryjoin=dst==Employee.id, backref="txt_received", lazy=False)
 
     def __init__(self, src, dst, msg):
         """Constructor setting variables"""
@@ -123,8 +123,8 @@ class MissionImage(Base, object):
     __tablename__ = 'missionimages'
     
     id = Column(Integer, primary_key=True)
-    title = Column(Text)
-    filename = Column(Text, unique=True)
+    title = Column(String(30))
+    filename = Column(String(50), unique=True)
     
     def __init__(self, title, filename):
         self.title = title
@@ -151,10 +151,10 @@ class Mission(Base, object):
     status_object is really a StatusCode object. For getting just the name-string and not 
     the objects xml-representation, print status_object.name
     """
-    status_object = relation('StatusCode', backref=backref('missions', order_by=id))
-    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id))
-    employees = relation('Employee', secondary=missions_to_employees, backref=backref('missions', order_by=id))
-    images = relation('MissionImage', secondary=missions_to_images, backref=backref('missions', order_by=id))
+    status_object = relation('StatusCode', lazy=False)
+    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id), lazy=False)
+    employees = relation('Employee', secondary=missions_to_employees, backref=backref('missions', order_by=id), lazy=False)
+    images = relation('MissionImage', secondary=missions_to_images, backref=backref('missions', order_by=id), lazy=False)
 
     
     def __init__(self, title, long, lat, rad, status, descr):

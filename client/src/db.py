@@ -32,6 +32,7 @@ class DatabaseWorker(threading.Thread):
         self.daemon = True
         #Initializing database by opening MySQL-database
         #and creating a new SQLAlchemy session
+        global engine
         engine = create_engine(SETTINGS.db_src, encoding='utf-8')
         self.__Session = scoped_session(sessionmaker(bind=engine, autoflush=True, transactional=True))
         base_objects.create_tables(engine)
@@ -57,8 +58,9 @@ class DatabaseWorker(threading.Thread):
         if there already exists an object with same id or not.
         Used to merge unpickled objects received from the network
         """
-        self.__Session.merge(object)
+        result = self.__Session.merge(object)
         self.__Session.commit()
+        return result
         
     def get_all(self, object):
         """
@@ -111,3 +113,21 @@ class DatabaseWorker(threading.Thread):
                 return employee
         
         return
+    
+    def insert_missions_to_images(self, rows):
+        list = []
+        for row in rows:
+            list.append({'missions_id':row[0],'missionimages_id':row[1]})
+        engine.execute(missions_to_images.insert(), list)
+        
+    def insert_missions_to_employees(self, rows):
+        list = []
+        for row in rows:
+            list.append({'employees_id':row[0],'missions_id':row[1]})
+        engine.execute(missions_to_employees.insert(), list)
+        
+    def insert_missions_to_texts(self, rows):
+        list = []
+        for row in rows:
+            list.append({'missions_id':row[0],'missiontexts_id':row[1]})
+        engine.execute(missions_to_texts.insert(), list)

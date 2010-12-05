@@ -11,7 +11,7 @@ db = DatabaseWorker()
 #db.add_or_update(StatusCode('Utryckning!'))
 #db.add_or_update(StatusCode('Slutfort'))
 #db.add_or_update(Employee("FF:EE:FF:EE:FF:EE", "Johan", "Aberg"))
-#db.add_or_update(Employee('FF:FF:FF:FF:FF' ,'Adolf', 'Hitler'))
+#db.add_or_update(Employee('FF:FF:FF:FF:FF' ,'Samuel', 'Svensson'))
 #db.add_or_update(Mission('Brunka', 34.578, 60.4048, 0.0, 1, "Runka, fast battre"))
 #db.add_or_update(Mission('Bajsa', 15.278, 58.5048, 0.0, 2, 'A cinderella story'))
 #db.add_or_update(Mission('StorBrunk', 15.568, 58.4058, 0.0, 3, 'Du ska kora tills det svartnar'))
@@ -28,9 +28,15 @@ db = DatabaseWorker()
 #db.add(img)
 #db.get_one(Mission).images.append(img)
 #db.commit()
+#test = [(4,1), (4,2), (4,3), (3,2)]
+#db.insert_missions_to_images(test)
+#test = [(1,3), (1,4), (2,1), (2,2), (1,2)]
+#db.insert_missions_to_employees(test)
+#test = [(1,1), (2,2), (3,3)]
+#db.insert_missions_to_texts(test)
 
 for mission in db.get_all(Mission):
-    print mission
+    print mission.employees
 
 for statuscode in db.get_all(StatusCode):
     print statuscode

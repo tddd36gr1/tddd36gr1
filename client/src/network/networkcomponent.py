@@ -40,4 +40,3 @@ class PingService(threading.Thread):
             employee_id = SETTINGS.employee_id
             send(server_ip, pingpaket(client_ip, employee_id), 'ping')
             time.sleep(30)
-            

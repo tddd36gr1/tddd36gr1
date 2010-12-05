@@ -40,5 +40,3 @@ class Client():
     def close(self):
         sock.shutdown()
         sock.close()
-        
-        

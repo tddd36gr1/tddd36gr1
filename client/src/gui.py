@@ -5,13 +5,16 @@ Created on 17 nov 2010
 @author: Mandrill
 '''
 import gtk
+import gtk.gdk
 import hildon
 import pango
 import pygtk
 import sys
+import pickle
 import gtk.glade
 import requesthandler
 import SETTINGS
+import threading
 from mapwidget.mapwidget import MapWidget
 from class_.base_objects import *
 
@@ -32,7 +35,9 @@ class MainGUI(hildon.Program):
         self.set_self_variables()
         self.add_map()
         self.insert_data()
-    
+        
+        gtk.gdk.threads_init()
+
     def setup_window(self):
         """
         Setups main window of the program, links exit buttons
@@ -48,7 +53,7 @@ class MainGUI(hildon.Program):
         self.builder = gtk.Builder()
         self.builder.add_from_file("new_GUI.glade") 
         
-	    #Should fix button actions
+        #Should fix button actions
         self.builder.connect_signals(self)
         
         #reparent the hbox1 from glade to self.window
@@ -59,6 +64,10 @@ class MainGUI(hildon.Program):
         """
         Gets commonly used GTK-components from glade file + some other variables
         """
+        self.mission_notified = False
+        self.message_notified = False
+        
+        
         self.mission_my_liststore = self.builder.get_object("mission_my_liststore")
         self.mission_all_liststore = self.builder.get_object("mission_all_liststore")
         self.mission_finished_liststore = self.builder.get_object("mission_finished_liststore")
@@ -66,6 +75,8 @@ class MainGUI(hildon.Program):
         
         self.message_inbox_liststore = self.builder.get_object("message_inbox_liststore")
         self.message_sent_liststore = self.builder.get_object("message_sent_liststore")
+        
+        self.status_codes_liststore = self.builder.get_object("status_codes_liststore")
         
         self.main_notebook = self.builder.get_object("main_notebook")
         self.mission_notebook = self.builder.get_object("mission_notebook")
@@ -163,7 +174,9 @@ class MainGUI(hildon.Program):
         """
         Inserts all status codes from DB
         """
-        self.status_codes_liststore = self.builder.get_object("status_codes_liststore")
+        self.status_codes_liststore.clear()
+        self.status_codes_liststore.append(("Ändra status: ", 0))
+        
         for statuscode in self.db.get_all(StatusCode):
             self.status_codes_liststore.append((statuscode.name, statuscode.id))
         
@@ -180,6 +193,9 @@ class MainGUI(hildon.Program):
         Runs when the mission button in the main menu is clicked, change to mission view
         """
         self.main_notebook.set_current_page(1)
+        if (self.mission_notified == True):
+            self.builder.get_object("mission_button_img").set_from_file("menybilder/uppdrag.png")
+            self.mission_notified = False
 
     def on_phone_button_clicked(self, widget, data=None):
         """
@@ -192,6 +208,9 @@ class MainGUI(hildon.Program):
         Runs when the messaging button in the main menu is clicked, change to messaging view
         """
         self.main_notebook.set_current_page(3)
+        if (self.message_notified == True):
+            self.builder.get_object("messaging_button_img").set_from_file("menybilder/brev.png")
+            self.message_notified = False
         
     def on_missions_my_selected_changed(self, widget, data=None):
         """
@@ -292,7 +311,7 @@ class MainGUI(hildon.Program):
         str = ""
         for text in self.selected_mission.missiontexts:
             str = str+text.descr+"\n"
-        self.builder.get_object("mission_dialog_description").set_text(str)
+        self.builder.get_object("mission_dialog_description").get_buffer().set_text(str)
         
         #Display mission images
         self.mission_images_liststore.clear()
@@ -339,20 +358,36 @@ class MainGUI(hildon.Program):
         """
         self.main_notebook.set_current_page(4)
         
-    def change_mission_status(self, widget, data=None):
+    def change_mission_status(self):
         """
-        Runs when user changes status of a mission in a combobox
+        Runs when user changes status of a mission in a combobox and decides to save the changes
         """
         i = self.mission_status_combobox.get_active()
         if (i == 0):
             return
         
         self.selected_mission.status = i
-        self.selected_mission.status_object = self.db.get_one_by_id(StatusCode, i)
-        self.db.commit()
-        self.insert_missions()
-        self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
-        self.mission_status_combobox.set_active(0)
+        try:
+            self.selected_mission.status_object = self.db.get_one_by_id(StatusCode, i)
+        except:
+        #except InvalidRequestError:
+            self.db.add_or_update(self.selected_mission)
+            self.insert_missions()
+            self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
+            self.mission_status_combobox.set_active(0)
+        else:
+            self.db.add_or_update(self.selected_mission)
+            self.insert_missions()
+            self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
+            self.mission_status_combobox.set_active(0)
+        
+    def mission_save(self, widget, data=None):
+        """
+        Runs when user presses save button in the detailed mission view,
+        saves all changes to the mission
+        """
+        self.change_mission_status()
+        
         
     def mission_zoom_to_map(self, widget, data=None):
         """
@@ -373,6 +408,35 @@ class MainGUI(hildon.Program):
     def run(self):
         self.window.show_all()
         gtk.main()
+    
+    def notify(self, object):
+        """
+        Run this to notify the GUI about new / updated data, 
+        for example when receiving data from the network
         
+        Just send the new / updated data object as an argument
+        """
+        
+        if (object.__class__ == Mission):
+            self.insert_missions()
+            if (self.mission_notified == False):
+                self.builder.get_object("mission_button_img").set_from_file("menybilder/uppdrag_new.png")
+                self.mission_notified = True
+        elif (object.__class__ == TextMessage):
+            self.insert_messages()
+            if (self.message_notified == False):
+                self.builder.get_object("messaging_button_img").set_from_file("menybilder/brev_new.png")
+                self.message_notified = True
+        elif (object.__class__ == StatusCode):
+            self.insert_statuscodes()
+            
 def start(db):
-    MainGUI(db).run()
+    global maingui
+    maingui = MainGUI(db)
+    maingui.run()
+    
+def notify(object):
+    """
+    See notify inside of MainGUI-class
+    """
+    maingui.notify(object)

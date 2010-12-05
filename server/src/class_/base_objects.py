@@ -123,8 +123,8 @@ class MissionImage(Base, object):
     __tablename__ = 'missionimages'
     
     id = Column(Integer, primary_key=True)
-    title = Column(Text)
-    filename = Column(Text, unique=True)
+    title = Column(String(30))
+    filename = Column(String(50), unique=True)
     
     def __init__(self, title, filename):
         self.title = title

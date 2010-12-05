@@ -105,6 +105,7 @@ class MapWidget(gtk.DrawingArea):
 
     def set_focus(self, value):
         self._focus = value
+        self.zoom_level = MAX_ZOOM_LEVEL
         self.emit("focus-changed", self.focus)
         self.queue_draw()
 
