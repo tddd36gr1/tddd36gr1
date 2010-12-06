@@ -375,11 +375,13 @@ class MainGUI(hildon.Program):
             self.insert_missions()
             self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
             self.mission_status_combobox.set_active(0)
+            self.mapwidget.get_objects_from_db()
         else:
             self.db.add_or_update(self.selected_mission)
             self.insert_missions()
             self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
             self.mission_status_combobox.set_active(0)
+            self.mapwidget.get_objects_from_db()
         
     def mission_save(self, widget, data=None):
         """
@@ -419,6 +421,7 @@ class MainGUI(hildon.Program):
         
         if (object.__class__ == Mission):
             self.insert_missions()
+            self.mapwidget.get_objects_from_db()
             if (self.mission_notified == False):
                 self.builder.get_object("mission_button_img").set_from_file("menybilder/uppdrag_new.png")
                 self.mission_notified = True
