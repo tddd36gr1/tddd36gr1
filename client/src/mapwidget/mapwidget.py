@@ -64,8 +64,11 @@ class MapWidget(gtk.DrawingArea):
         """
         Adding placemark pictures
         """
-        self.mission_pic = gtk.gdk.pixbuf_new_from_file_at_size('ikoner/Mission.png', 25, 25)
-        self.employee_pic = gtk.gdk.pixbuf_new_from_file_at_size('trololo.jpg', 25, 25)
+        self.mission_pic = gtk.gdk.pixbuf_new_from_file_at_size('mapwidget/bilder/red_u.png', 20, 34)
+        self.employee_pic = gtk.gdk.pixbuf_new_from_file_at_size('mapwidget/bilder/employee.png', 30, 30)
+        self.obstacle_pic = gtk.gdk.pixbuf_new_from_file_at_size('mapwidget/bilder/warningos.png', 30, 30)
+        self.water_pic = gtk.gdk.pixbuf_new_from_file_at_size('mapwidget/bilder/firehydrant.png', 30, 30)
+        self.power_pic = gtk.gdk.pixbuf_new_from_file_at_size('mapwidget/bilder/lightning.png', 30, 30)
         
         gtk.DrawingArea.__init__(self)
         self._focus = (float(lat), float(long))
@@ -81,6 +84,7 @@ class MapWidget(gtk.DrawingArea):
         """
         self.all_missions = self.db.get_all(Mission)
         self.all_employees = self.db.get_all(Employee)
+        self.all_placemarks = self.db.get_all(Placemark)
         
         
         self.set_flags(gtk.CAN_FOCUS)
@@ -250,13 +254,19 @@ class MapWidget(gtk.DrawingArea):
                 #if (self.i % 20 == 0):
                 for e in self.dbobjects:
                                         
-                    
+                    (f,g) = self._coord_to_pixel(e.long,e.lat)                    
                     if e.__class__ == Mission:
-                        (f,g) = self._coord_to_pixel(e.long,e.lat)
+                        
                         if (e.status != 3):
-                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.mission_pic, 0, 0, int(f), int(g),24,24)
-                    #if e.__class__ == Employee:
-                        #self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.employee.pic, 0, 0, int(f), int(g),24,24)
+                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.mission_pic, 0, 0, int(f), int(g),19,33)
+                            
+                    if e.__class__ == Placemark:
+                        if (e.type == 1):
+                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.obstacle_pic, 0, 0, int(f), int(g),29,29)
+                        if (e.type == 2):
+                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.water_pic, 0, 0, int(f), int(g),29,29)    
+                        if (e.type == 3):
+                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.power_pic, 0, 0, int(f), int(g),29,29)    
                 self.i = self.i-1  
             
             
@@ -303,13 +313,13 @@ class MapWidget(gtk.DrawingArea):
     def get_objects_from_db(self):
         self.objectlist =[]
         for objectos in self.all_missions:
-            
             self.objectlist.append(objectos)
-        #for objectos in self.all_employees:
-            
-            #self.objectlist.append(objectos)
+        for objectos in self.all_placemarks:
+            self.objectlist.append(objectos)
              
         return self.objectlist
+             
+        
     """
     Creates a popup with info database objects
     """
@@ -324,7 +334,13 @@ class MapWidget(gtk.DrawingArea):
         
         dialog = gtk.AboutDialog()
         dialog.set_name(self.objectlist2[self.object_counter-1].title)
-        dialog.set_comments("Radda kattjaveln i tradet")
+        if (self.objectlist2[self.object_counter-1].__class__ == Mission):
+            s = ""
+            for e in self.objectlist2[self.object_counter-1].missiontexts:
+                s += "%s\n" % (e)
+            dialog.set_comments(s)
+        elif (self.objectlist2[self.object_counter-1].__class__ == Placemark):
+            dialog.set_comments(self.objectlist2[self.object_counter-1].descr)
         dialog.show()
         dialog.run()
         dialog.destroy()
