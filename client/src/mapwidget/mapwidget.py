@@ -10,7 +10,6 @@ import gobject
 from db import DatabaseWorker
 from class_.base_objects import Mission, Employee, Placemark
 
-
 TILE_PATH="mapwidget/cache"
 MAX_ZOOM_LEVEL=15
 MIN_ZOOM_LEVEL=10
