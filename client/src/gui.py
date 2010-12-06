@@ -308,10 +308,7 @@ class MainGUI(hildon.Program):
         self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
         
         #Display description texts
-        str = ""
-        for text in self.selected_mission.missiontexts:
-            str = str+text.descr+"\n"
-        self.builder.get_object("mission_dialog_description").get_buffer().set_text(str)
+        self.builder.get_object("mission_dialog_description").get_buffer().set_text(self.selected_mission.descr)
         
         #Display mission images
         self.mission_images_liststore.clear()
@@ -396,6 +393,7 @@ class MainGUI(hildon.Program):
         Switch to map view and zoom to the mission's placemark in the opened mission view
         """
         self.mapwidget.set_focus((float(self.selected_mission.lat), float(self.selected_mission.long)))
+        self.mapwidget.set_zoom_level(15)
         self.main_notebook.set_current_page(0)
         
     def on_mission_image_activated(self, widget, data=None):

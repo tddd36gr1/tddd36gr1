@@ -125,9 +125,3 @@ class DatabaseWorker(threading.Thread):
         for row in rows:
             list.append({'employees_id':row[0],'missions_id':row[1]})
         engine.execute(missions_to_employees.insert(), list)
-        
-    def insert_missions_to_texts(self, rows):
-        list = []
-        for row in rows:
-            list.append({'missions_id':row[0],'missiontexts_id':row[1]})
-        engine.execute(missions_to_texts.insert(), list)

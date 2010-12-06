@@ -9,10 +9,6 @@ Declarative base for automatic mapping of objects to database tables
 """
 Base = declarative_base()
 
-#Skapar en tabell som binder samman mission-ID med ett text-ID
-missions_to_texts = Table('missions_to_texts', Base.metadata,
-                    Column('missions_id', Integer, ForeignKey('missions.id')),
-                    Column('missiontexts_id', Integer, ForeignKey('missiontexts.id')))
 #Skapar en tabell som binder samman mission-ID med ett bild-ID
 missions_to_images = Table('missions_to_images', Base.metadata,
                     Column('missions_id', Integer, ForeignKey('missions.id')),
@@ -67,8 +63,8 @@ class TextMessage(Base, object):
     dst = Column(Integer, ForeignKey('employees.id'))
     msg = Column(String(1024))
     
-    src_object = relation('Employee', primaryjoin=src==Employee.id, backref="txt_sent")
-    dst_object = relation('Employee', primaryjoin=dst==Employee.id, backref="txt_received")
+    src_object = relation('Employee', primaryjoin=src==Employee.id, backref="txt_sent", lazy=False)
+    dst_object = relation('Employee', primaryjoin=dst==Employee.id, backref="txt_received", lazy=False)
 
     def __init__(self, src, dst, msg):
         """Constructor setting variables"""
@@ -103,15 +99,19 @@ class StatusCode(Base, object):
     
 class MissionText(Base, object):
     """
-    En klass for att lagra missionbeskrivningar
+    En klass for att lagra missiontexter
     """ 
     __tablename__ = 'missiontexts'
     
     id = Column(Integer, primary_key=True)
-    descr = Column(Text)
+    text = Column(Text)
+    m = Column(Integer, ForeignKey('missions.id'))
     
-    def __init__(self, text):
-        self.descr = text
+    mission = relation('Mission', backref=backref('missiontexts', order_by=id), lazy=False)
+    
+    def __init__(self, text, mission):
+        self.text = text
+        self.m = mission
                 
     def __repr__(self):
         return '%r' % self.descr
@@ -145,16 +145,15 @@ class Mission(Base, object):
     #Timestamp attribute, haven't found out autotimestamping yet
     timestamp = Column(TIMESTAMP)
     status = Column(Integer, ForeignKey('statuscodes.id'))
-    
+    descr = Column(String(511))
     
     """
     status_object is really a StatusCode object. For getting just the name-string and not 
     the objects xml-representation, print status_object.name
     """
-    status_object = relation('StatusCode', backref=backref('missions', order_by=id))
-    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id))
-    employees = relation('Employee', secondary=missions_to_employees, backref=backref('missions', order_by=id))
-    images = relation('MissionImage', secondary=missions_to_images, backref=backref('missions', order_by=id))
+    status_object = relation('StatusCode', lazy=False)
+    employees = relation('Employee', secondary=missions_to_employees, backref=backref('missions', order_by=id), lazy=False)
+    images = relation('MissionImage', secondary=missions_to_images, backref=backref('missions', order_by=id), lazy=False)
 
     
     def __init__(self, title, long, lat, rad, status, descr):
@@ -164,7 +163,7 @@ class Mission(Base, object):
         self.lat = lat
         self.rad = rad
         self.status = status
-        self.missiontexts.append(MissionText(descr))
+        self.descr = descr
         
     def __repr__(self):
         """String-representation of object in xml"""
@@ -175,9 +174,32 @@ class Mission(Base, object):
         s += "\n\t<lat>%s</lat>" % (self.lat)
         s += "\n\t<rad>%s</rad>" % (self.rad)
         s += "\n\t<status>%s</status>" % (self.status)
-        s += "\n\t<beskrivning>%s</beskrivning>" % (self.missiontexts)
+        s += "\n\t<beskrivning>%s</beskrivning>" % (self.descr)
         s += "\n</Mission>"
         return s
+    
+class Placemark(Base, object):
+    __tablename__ = 'placemark'
+    
+    id = Column(Integer, primary_key=True)
+    title = Column(String(45))
+    long = Column(Float)
+    lat = Column(Float)
+    type = Column(Integer)
+    descr = Column(String(50))
+    
+    def __init__(self, title, long, lat, descr, type):
+        self.title = title
+        self.long = long
+        self.lat = lat
+        self.type = type
+        self.desrc = descr
+        
+        
+    def __repr__(self):
+        s = "\n\t<long>%s</long>" % (self.long)
+        return s    
+
 
 def create_tables(engine):
     """Function for creating all database-tables"""

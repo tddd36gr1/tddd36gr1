@@ -10,9 +10,7 @@ import network.networkcomponent as networkcomponent
 import battery
 import gui
 
-
-
 db = DatabaseWorker()
-networkcomponent.serverStart(db)
 battery.start()
+networkcomponent.serverStart(db)
 gui.start(db)

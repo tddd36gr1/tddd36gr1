@@ -8,7 +8,7 @@ import tilenames
 import os.path
 import gobject
 from db import DatabaseWorker
-from class_.base_objects import Mission, Employee
+from class_.base_objects import Mission, Employee, Placemark
 
 
 TILE_PATH="mapwidget/cache"
@@ -72,6 +72,7 @@ class MapWidget(gtk.DrawingArea):
         
         gtk.DrawingArea.__init__(self)
         self._focus = (float(lat), float(long))
+        self.zoom_level = MIN_ZOOM_LEVEL
         self.movement_from = {"x": 0, "y":0}
         self.allow_movement = False
         self.last_movement_timestamp = 0.0
@@ -109,7 +110,6 @@ class MapWidget(gtk.DrawingArea):
 
     def set_focus(self, value):
         self._focus = value
-        self.zoom_level = MAX_ZOOM_LEVEL
         self.emit("focus-changed", self.focus)
         self.queue_draw()
 
