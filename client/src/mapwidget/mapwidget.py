@@ -8,7 +8,7 @@ import tilenames
 import os.path
 import gobject
 from db import DatabaseWorker
-from class_.base_objects import Mission, Employee
+from class_.base_objects import Mission, Employee, Placemark
 
 
 TILE_PATH="mapwidget/cache"
@@ -109,7 +109,6 @@ class MapWidget(gtk.DrawingArea):
 
     def set_focus(self, value):
         self._focus = value
-        self.zoom_level = MAX_ZOOM_LEVEL
         self.emit("focus-changed", self.focus)
         self.queue_draw()
 
@@ -168,6 +167,8 @@ class MapWidget(gtk.DrawingArea):
         
         for objects in self.get_objects_from_db():
             self.object_counter = self.object_counter+1
+            if (objects.__class__ == Mission) and (objects.status == 3):
+                continue
             (d,e) = self._coord_to_pixel(objects.long, objects.lat)
                         
             if d < event.x < (d + 25):
@@ -258,7 +259,7 @@ class MapWidget(gtk.DrawingArea):
                     if e.__class__ == Mission:
                         
                         if (e.status != 3):
-                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.mission_pic, 0, 0, int(f), int(g),19,33)
+                            self.window.draw_pixbuf(self.get_style().fg_gc[gtk.STATE_NORMAL], self.mission_pic, 0, 0, int(f), int(g)-10,19,33)
                             
                     if e.__class__ == Placemark:
                         if (e.type == 1):
