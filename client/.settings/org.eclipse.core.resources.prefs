@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#Wed Nov 24 09:50:17 CET 2010
-=======
-#Tue Nov 23 16:02:59 CET 2010
->>>>>>> cba767f20041c7942054bf6836421b955789028c
+#Thu Dec 02 15:16:55 CET 2010
 =\=\=\=\=\=\=
 <<<<<<<=HEAD\:client/.settings/org.eclipse.core.resources.prefs
 >>>>>>>=48d639773843965c63a2e2d5a6c4ac6273539cca\:client/.settings/org.eclipse.core.resources.prefs
@@ -15,6 +11,7 @@ encoding//src/kartkomponent/gui.py=utf-8
 encoding//src/kartkomponent/gui_map.py=utf-8
 encoding//src/kartkomponent/main.py=utf-8
 encoding//src/kartkomponent/map_xml_reader.py=utf-8
+encoding//src/networktest.py=utf8
 encoding//src/push.py=utf8
 encoding//src/push_test.py=utf8
 encoding//src/requesthandler.py=utf8

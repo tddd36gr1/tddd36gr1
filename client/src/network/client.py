@@ -15,7 +15,7 @@ class Client():
     
     def clientStart(self):
         HOST = self.destination
-        PORT = 5040
+        PORT = 5042
         
         # Initialize context, verify certificate
         ctx = SSL.Context(SSL.SSLv23_METHOD)
