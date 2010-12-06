@@ -20,9 +20,11 @@ def send(destination, data, datatype):
     Sends data to a specific destination. For valid datatyp-strings, check requesthandler.py
     """
     client = Client(destination)
+    print "Client created"
     client.clientStart()
+    print "Client started"
     msg = pickle.dumps(data)+'<>'+datatype
+    print "Client pickled"
     client.send(msg)
+    print "Client sent"
     client.close()
-    
-        
