@@ -178,6 +178,29 @@ class Mission(Base, object):
         s += "\n\t<beskrivning>%s</beskrivning>" % (self.missiontexts)
         s += "\n</Mission>"
         return s
+    
+class Placemark(Base, object):
+    __tablename__ = 'placemark'
+    
+    id = Column(Integer, primary_key=True)
+    title = Column(String(45))
+    long = Column(Float)
+    lat = Column(Float)
+    type = Column(Integer)
+    descr = Column(String(50))
+    
+    def __init__(self, title, long, lat, descr, type):
+        self.title = title
+        self.long = long
+        self.lat = lat
+        self.type = type
+        self.desrc = descr
+        
+        
+    def __repr__(self):
+        s = "\n\t<long>%s</long>" % (self.long)
+        return s    
+
 
 def create_tables(engine):
     """Function for creating all database-tables"""
