@@ -101,3 +101,6 @@ class DatabaseWorker(threading.Thread):
         Fetches all objects with finished status (3)
         """
         return self.__Session.query(Mission).filter_by(status=3).all()
+    
+    def get_all_users_online(self):
+        return self.__Session.querry(Employee).filter_by(online=True).all()
