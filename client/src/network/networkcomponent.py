@@ -44,9 +44,7 @@ class PingService(threading.Thread):
         print 'pingpaket fixat borja loopa'
         
         while True:
-
             print 'skickarrrrr'
             send(server_ip, pingpaket, 'ping')
             print 'skickat'
             time.sleep(10)
-            

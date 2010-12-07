@@ -21,5 +21,3 @@ network_port = 5067
 
 
 starting_id = 1001
-
-
