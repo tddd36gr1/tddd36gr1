@@ -18,7 +18,6 @@ class Server(threading.Thread):
     def __init__(self, db):
         threading.Thread.__init__ ( self )
         self.db = db
-    
         
     def run(self):
         # Initialize context, verify certificate

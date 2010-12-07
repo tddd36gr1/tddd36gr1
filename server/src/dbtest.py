@@ -3,20 +3,18 @@
 
 from db import DatabaseWorker
 from class_.base_objects import Employee, StatusCode, Mission, TextMessage
-import requesthandler
 
 db = DatabaseWorker()
-
-#db.add_or_update(TextMessage('192.168.2.15', '192.168.2.15', 'Brunk'))
+#
+#db.add_or_update(TextMessage(2, 1, 'Hej!'))
 #db.add_or_update(StatusCode('Inkommet larm'))
 #db.add_or_update(StatusCode('Utryckning!'))
 #db.add_or_update(StatusCode('Slutfort'))
-#db.add_or_update(Mission('Brunka', 15.578, 58.4048, 0.0, 1, "Bajsa och runka samtidigt"))
-#db.add_or_update(Mission('Bajsa', 15.578, 58.4048, 0.0, 2, "Skita"))
-#db.add_or_update(Employee('FF:FF:FF:FF:FF' ,'Adolf', 'Hitler'))
-#db.add_or_update(Employee('FF:FF:FF:FF:F8' ,'Smeagol', 'SatanSkit'))
-#db.add_or_update(Mission('Runka', 15.578, 58.4048, 0.0, 3, 'Ga pa dejt med hogerhanden'))
-
+#db.add_or_update(Mission('Reparera bro', 15.578, 58.4048, 0.0, 1, "Bro over tannefors ar trasig, du maste fixa den"))
+#db.add_or_update(Mission('Radda katten i tradet', 15.578, 58.4048, 0.0, 2, "Pricken har fastnat"))
+#db.add_or_update(Employee('FF:FF:FF:FF:FF' ,'Samuel', 'Svensson'))
+#db.add_or_update(Employee('FF:FF:FF:FF:F8' ,'Katrin', 'Olsson'))
+#db.add_or_update(Mission('[hg] brinner', 15.578, 58.4048, 0.0, 3, 'Radda olen'))
 
 #for i in range(1, 15):
 #    db.add_or_update(Mission('Testa stuff', 15.578, 58.4048, 0.0, 2))
@@ -32,12 +30,12 @@ Example for assigning a mission to an employee:
 
 onlineList = []
 
-for hej in db.get_all(Employee):
-    if hej.online == True:
-        onlineList.append(hej.fname)
+for employee in db.get_all(Employee):
+    if employee.online == True:
+        onlineList.append(employee.fname)
 
-for task in onlineList:        
-    print task
+for fname in onlineList:        
+    print fname
 
 
 for mission in db.get_all(Mission):

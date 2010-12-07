@@ -30,7 +30,7 @@ class PingPaket():
         ip = socket.gethostbyname(socket.gethostname())
         id = SETTINGS.employee_id
 
-class PingService(threading.tread):
+class PingService(threading.Thread):
     
     def run(self):
         
@@ -40,4 +40,3 @@ class PingService(threading.tread):
             employee_id = SETTINGS.employee_id
             send(server_ip, pingpaket(client_ip, employee_id), 'ping')
             time.sleep(30)
-            

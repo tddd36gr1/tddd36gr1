@@ -13,6 +13,10 @@ Base = declarative_base()
 missions_to_texts = Table('missions_to_texts', Base.metadata,
                     Column('missions_id', Integer, ForeignKey('missions.id')),
                     Column('missiontexts_id', Integer, ForeignKey('missiontexts.id')))
+#Skapar en tabell som binder samman mission-ID med ett bild-ID
+missions_to_images = Table('missions_to_images', Base.metadata,
+                    Column('missions_id', Integer, ForeignKey('missions.id')),
+                    Column('missionimages_id', Integer, ForeignKey('missionimages.id')))
 #Skapar en tabell som binder samman missions-ID med employees-ID
 missions_to_employees = Table('missions_to_employees', Base.metadata,
                     Column('employees_id', Integer, ForeignKey('employees.id')),
@@ -32,7 +36,8 @@ class Employee(Base, object):
     online = Column(Boolean())
     ip = Column(String(20))
     
-    missions = relation('Mission', secondary=missions_to_employees, backref=backref('employees', order_by=id))
+    #txt_sent = relation('TextMessage', primaryjoin=id==TextMessage.src, backref="src_object")
+    #txt_received = relation('TextMessage', primaryjoin=id==TextMessage.dst, backref="dst_object")
 
     def __init__(self, n810mac, fname, lname, online=False):
         """Constructor setting variables"""
@@ -58,16 +63,19 @@ class TextMessage(Base, object):
     __tablename__ = 'text_message'
     
     id = Column(Integer, primary_key=True)
-    src = Column(String(20))
-    dst = Column(String(20))
-    msg = Column(String(1024))    
+    src = Column(Integer, ForeignKey('employees.id'))
+    dst = Column(Integer, ForeignKey('employees.id'))
+    msg = Column(String(1024))
+    
+    src_object = relation('Employee', primaryjoin=src==Employee.id, backref="txt_sent", lazy=False)
+    dst_object = relation('Employee', primaryjoin=dst==Employee.id, backref="txt_received", lazy=False)
 
     def __init__(self, src, dst, msg):
         """Constructor setting variables"""
         self.src = src
         self.dst = dst
         self.msg = msg
-        
+
     def __repr__(self):
         """String-representation of object in xml"""
         s = "<TextMessage>"
@@ -92,6 +100,38 @@ class StatusCode(Base, object):
     def __repr__(self):
         """String-representation of object in xml"""
         return "<StatusCode>\n\t<id>%s</id>\n\t<name>%s</name>\n</StatusCode>" % (self.id, self.name)
+    
+class MissionText(Base, object):
+    """
+    En klass for att lagra missionbeskrivningar
+    """ 
+    __tablename__ = 'missiontexts'
+    
+    id = Column(Integer, primary_key=True)
+    descr = Column(Text)
+    
+    def __init__(self, text):
+        self.descr = text
+                
+    def __repr__(self):
+        return '%r' % self.descr
+
+class MissionImage(Base, object):
+    """
+    En klass for att lagra missionbilder
+    """ 
+    __tablename__ = 'missionimages'
+    
+    id = Column(Integer, primary_key=True)
+    title = Column(String(30))
+    filename = Column(String(50), unique=True)
+    
+    def __init__(self, title, filename):
+        self.title = title
+        self.filename = filename
+                
+    def __repr__(self):
+        return "<MissionImage>\n\t<title>%s</title>\n\t<filename>%s</filename>\n</MissionImage>" % (self.title, self.filename)
    
 class Mission(Base, object):
     """Mission object, with a lot of placemark-related attributes, like longitude and latitude"""
@@ -106,13 +146,16 @@ class Mission(Base, object):
     timestamp = Column(TIMESTAMP)
     status = Column(Integer, ForeignKey('statuscodes.id'))
     
+    
     """
     status_object is really a StatusCode object. For getting just the name-string and not 
     the objects xml-representation, print status_object.name
     """
-    status_object = relation(StatusCode, backref=backref('missions4', order_by=id))
-    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions3', order_by=id))
-    workers = relation('Employee', secondary=missions_to_employees, backref=backref('missions2', order_by=id))
+    status_object = relation('StatusCode', lazy=False)
+    missiontexts = relation('MissionText', secondary=missions_to_texts, backref=backref('missions', order_by=id), lazy=False)
+    employees = relation('Employee', secondary=missions_to_employees, backref=backref('missions', order_by=id), lazy=False)
+    images = relation('MissionImage', secondary=missions_to_images, backref=backref('missions', order_by=id), lazy=False)
+
     
     def __init__(self, title, long, lat, rad, status, descr):
         """Constructor setting variables"""
@@ -135,22 +178,29 @@ class Mission(Base, object):
         s += "\n\t<beskrivning>%s</beskrivning>" % (self.missiontexts)
         s += "\n</Mission>"
         return s
-"""
-En klass for att lagra missionbeskrivningar
-""" 
-class MissionText(Base, object):
-    __tablename__ = 'missiontexts'
+    
+class Placemark(Base, object):
+    __tablename__ = 'placemark'
     
     id = Column(Integer, primary_key=True)
-    descr = Column(Text)
-    missions = relation('Mission', secondary=missions_to_texts, backref=backref('asdasdsd', order_by=id))
+    title = Column(String(45))
+    long = Column(Float)
+    lat = Column(Float)
+    type = Column(Integer)
+    descr = Column(String(50))
     
-    def __init__(self, text):
-        self.descr = text
-        #self.missions = relation('Mission', secondary=missions_to_texts, backref=backref('missiontexts', order_by=id))
+    def __init__(self, title, long, lat, descr, type):
+        self.title = title
+        self.long = long
+        self.lat = lat
+        self.type = type
+        self.desrc = descr
+        
         
     def __repr__(self):
-        return '%r' % self.descr
+        s = "\n\t<long>%s</long>" % (self.long)
+        return s    
+
 
 def create_tables(engine):
     """Function for creating all database-tables"""

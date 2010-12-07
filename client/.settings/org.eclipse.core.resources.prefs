@@ -1,16 +1,26 @@
+<<<<<<< HEAD:client/.settings/org.eclipse.core.resources.prefs
 #Thu Dec 02 17:06:25 CET 2010
+=======
+#Sun Dec 05 21:33:20 CET 2010
+>>>>>>> 9182747a399ff70f099513beaccdcbc04a4c02b4:client/.settings/org.eclipse.core.resources.prefs
 =\=\=\=\=\=\=
 <<<<<<<=HEAD\:client/.settings/org.eclipse.core.resources.prefs
 >>>>>>>=48d639773843965c63a2e2d5a6c4ac6273539cca\:client/.settings/org.eclipse.core.resources.prefs
 eclipse.preferences.version=1
+encoding//src/class_/base_objects\ (copy).py=utf8
 encoding//src/class_/base_objects.py=utf8
 encoding//src/db.py=utf8
 encoding//src/dbtest.py=utf-8
+encoding//src/glade_test.py=utf-8
+encoding//src/gui.py=utf-8
 encoding//src/gui_view_uppdragtest_2.py=utf8
+<<<<<<< HEAD:client/.settings/org.eclipse.core.resources.prefs
 encoding//src/kartkomponent/gui.py=utf-8
 encoding//src/kartkomponent/gui_map.py=utf-8
 encoding//src/kartkomponent/main.py=utf-8
 encoding//src/kartkomponent/map_xml_reader.py=utf-8
+=======
+>>>>>>> 9182747a399ff70f099513beaccdcbc04a4c02b4:client/.settings/org.eclipse.core.resources.prefs
 encoding//src/networktest.py=utf8
 encoding//src/push.py=utf8
 encoding//src/push_test.py=utf8
