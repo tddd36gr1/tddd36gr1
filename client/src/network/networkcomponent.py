@@ -12,7 +12,7 @@ def serverStart(db):
     Starts the networking server and listens for connections
     Needs a DatabaseWorker reference (db)
     """
-    #Server(db).start()
+    Server(db).start()
     PingService().start()
     
 
@@ -31,26 +31,22 @@ class PingService(threading.Thread):
     
     def run(self):
         
-        client_ip = '127.0.0.1'
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("gmail.com",80))
+        client_ip = s.getsockname()
+        
+        client_ip2 = '130.236.77.152'
         server_ip = SETTINGS.destination_ip
         employee_id = SETTINGS.employee_id
         print 'ska fixa pingpaketet'
-        pingpaket = (employee_id, client_ip)
+        pingpaket = (employee_id, client_ip2)
         print pingpaket
         print 'pingpaket fixat borja loopa'
         
         while True:
-<<<<<<< HEAD
+
             print 'skickarrrrr'
-            
             send(server_ip, pingpaket, 'ping')
             print 'skickat'
             time.sleep(10)
             
-=======
-            client_ip = socket.gethostbyname(socket.gethostname())
-            server_ip = SETTINGS.destination_ip
-            employee_id = SETTINGS.employee_id
-            send(server_ip, pingpaket(client_ip, employee_id), 'ping')
-            time.sleep(30)
->>>>>>> 48fd577f66bdb19d816deb7b567e79ac771def97
