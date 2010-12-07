@@ -18,3 +18,8 @@ iplist = ["130.236.77.200"]
 employee_id = '1'
 
 network_port = 5067
+
+
+starting_id = 1001
+
+

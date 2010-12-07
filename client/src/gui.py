@@ -308,10 +308,7 @@ class MainGUI(hildon.Program):
         self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
         
         #Display description texts
-        str = ""
-        for text in self.selected_mission.missiontexts:
-            str = str+text.descr+"\n"
-        self.builder.get_object("mission_dialog_description").get_buffer().set_text(str)
+        self.builder.get_object("mission_dialog_description").get_buffer().set_text(self.selected_mission.descr)
         
         #Display mission images
         self.mission_images_liststore.clear()
@@ -375,11 +372,13 @@ class MainGUI(hildon.Program):
             self.insert_missions()
             self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
             self.mission_status_combobox.set_active(0)
+            self.mapwidget.get_objects_from_db()
         else:
             self.db.add_or_update(self.selected_mission)
             self.insert_missions()
             self.builder.get_object("mission_dialog_status").set_text(self.selected_mission.status_object.name)
             self.mission_status_combobox.set_active(0)
+            self.mapwidget.get_objects_from_db()
         
     def mission_save(self, widget, data=None):
         """
@@ -387,6 +386,9 @@ class MainGUI(hildon.Program):
         saves all changes to the mission
         """
         self.change_mission_status()
+        buffer = self.builder.get_object("mission_dialog_description").get_buffer()
+        self.selected_mission.descr = buffer.get_text(buffer.get_start_iter(),buffer.get_end_iter())
+        self.db.commit()
         
         
     def mission_zoom_to_map(self, widget, data=None):
@@ -394,6 +396,7 @@ class MainGUI(hildon.Program):
         Switch to map view and zoom to the mission's placemark in the opened mission view
         """
         self.mapwidget.set_focus((float(self.selected_mission.lat), float(self.selected_mission.long)))
+        self.mapwidget.set_zoom_level(15)
         self.main_notebook.set_current_page(0)
         
     def on_mission_image_activated(self, widget, data=None):
@@ -416,9 +419,9 @@ class MainGUI(hildon.Program):
         
         Just send the new / updated data object as an argument
         """
-        
         if (object.__class__ == Mission):
             self.insert_missions()
+            self.mapwidget.get_objects_from_db()
             if (self.mission_notified == False):
                 self.builder.get_object("mission_button_img").set_from_file("menybilder/uppdrag_new.png")
                 self.mission_notified = True

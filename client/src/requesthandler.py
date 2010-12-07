@@ -24,6 +24,9 @@ def request(data, type, db):
         print "type: textMessage"
         msg = TextMessage(data.src, data.dst, data.msg)
         db.add_or_update(msg)
+        msg.src_object = db.get_one_by_id(Employee, msg.src)
+        msg.dst_object = db.get_one_by_id(Employee, msg.dst)
+        db.commit()
         gtk.gdk.threads_enter()
         gui.notify(msg)
         gtk.gdk.threads_leave()

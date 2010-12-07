@@ -32,9 +32,9 @@ class DatabaseWorker(threading.Thread):
         self.daemon = True
         #Initializing database by opening MySQL-database
         #and creating a new SQLAlchemy session
+        global engine
         engine = create_engine(SETTINGS.db_src, encoding='utf-8')
         self.__Session = scoped_session(sessionmaker(bind=engine, autoflush=True, transactional=True))
-        self.__Session2 = sessionmaker(bind=engine, autoflush=True, transactional=True)
         base_objects.create_tables(engine)
         self.start()
 
@@ -58,8 +58,9 @@ class DatabaseWorker(threading.Thread):
         if there already exists an object with same id or not.
         Used to merge unpickled objects received from the network
         """
-        self.__Session.merge(object)
+        result = self.__Session.merge(object)
         self.__Session.commit()
+        return result
         
     def get_all(self, object):
         """
@@ -102,3 +103,25 @@ class DatabaseWorker(threading.Thread):
         Fetches all objects with finished status (3)
         """
         return self.__Session.query(Mission).filter_by(status=3).all()
+    
+<<<<<<< HEAD
+    def get_employee_by_name(self, name):
+        """
+        Fetches an employee with the name provided
+        """
+        for employee in self.__Session.query(Employee).all():
+            if (employee.fname+' '+employee.lname == name):
+                return employee
+        return
+    
+    def get_highest_device_id(self, object):
+        rows = self.__Session.query(object).filter(object.id<(SETTINGS.starting_id+999)).filter(object.id>=SETTINGS.starting_id).all()
+        if (len(rows) == 0):
+            return None
+        return rows[-1].id
+    
+database = DatabaseWorker()
+=======
+    def get_all_users_online(self):
+        return self.__Session.querry(Employee).filter_by(online=True).all()
+>>>>>>> f3dc985461609c9d28f2bf9dad75011487c379cd
