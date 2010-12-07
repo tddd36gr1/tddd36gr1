@@ -13,7 +13,7 @@ def serverStart(db):
     Needs a DatabaseWorker reference (db)
     """
     Server(db).start()
-    PingService().start()
+    #PingService().start()
     
 
 def send(destination, data, datatype):
