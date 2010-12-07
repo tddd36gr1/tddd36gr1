@@ -39,6 +39,12 @@ def request(data, type, db):
         """
         Updates whos online in db
         """
+        
+        print 'dbupdate to false'
+        for mongo in db.get_all(Employee):
+            mongo.online=False
+        
+        print 'dbupdate to true from list'
         for id in onlineLista:
             user = db.get_one_by_id(Employee, id)
             user.online = True

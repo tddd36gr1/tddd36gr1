@@ -1,5 +1,5 @@
 from OpenSSL import SSL
-import sys, os, select, socket
+import sys, os, select, socket, SETTINGS
 
 class Client():
     
@@ -15,7 +15,7 @@ class Client():
     
     def clientStart(self):
         HOST = self.destination
-        PORT = 5042
+        PORT = SETTINGS.network_port
         
         # Initialize context, verify certificate
         ctx = SSL.Context(SSL.SSLv23_METHOD)

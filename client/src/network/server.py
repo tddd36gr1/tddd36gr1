@@ -2,7 +2,7 @@ from OpenSSL import SSL
 import sys, os, select, socket
 import threading
 import pickle
-import requesthandler
+import requesthandler, SETTINGS
 
 class Server(threading.Thread):
     
@@ -30,7 +30,7 @@ class Server(threading.Thread):
         
         # Starting server, open socket
         server = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
-        server.bind(('', 5045))
+        server.bind(('', SETTINGS.network_port))
         server.listen(3) 
         server.setblocking(0)
         
