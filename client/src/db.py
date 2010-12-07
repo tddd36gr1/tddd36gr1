@@ -111,17 +111,12 @@ class DatabaseWorker(threading.Thread):
         for employee in self.__Session.query(Employee).all():
             if (employee.fname+' '+employee.lname == name):
                 return employee
-        
         return
     
-    def insert_missions_to_images(self, rows):
-        list = []
-        for row in rows:
-            list.append({'missions_id':row[0],'missionimages_id':row[1]})
-        engine.execute(missions_to_images.insert(), list)
-        
-    def insert_missions_to_employees(self, rows):
-        list = []
-        for row in rows:
-            list.append({'employees_id':row[0],'missions_id':row[1]})
-        engine.execute(missions_to_employees.insert(), list)
+    def get_highest_device_id(self, object):
+        rows = self.__Session.query(object).filter(object.id<(SETTINGS.starting_id+1000)).filter(object.id>=SETTINGS.starting_id).all()
+        if (len(rows) == 0):
+            return None
+        return rows[-1].id
+    
+database = DatabaseWorker()

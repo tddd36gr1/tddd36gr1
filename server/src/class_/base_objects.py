@@ -3,20 +3,57 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text, Boolean
 from sqlalchemy.orm import relation, backref
-
+import db
+import SETTINGS
 """
 Declarative base for automatic mapping of objects to database tables
 """
 Base = declarative_base()
 
+def generate_id_placemark():
+    d = db.database
+    i = d.get_highest_device_id(Placemark)
+    print "Här är i: "
+    print i
+    if (i == None):
+        return SETTINGS.starting_id
+    return i+1
+
+def generate_id_missiontext():
+    d = db.database
+    i = d.get_highest_device_id(MissionText)
+    print "Här är i: "
+    print i
+    if (i == None):
+        return SETTINGS.starting_id
+    return i+1
+
+def generate_id_missionimage():
+    d = db.database
+    i = d.get_highest_device_id(MissionImage)
+    print "Här är i: "
+    print i
+    if (i == None):
+        return SETTINGS.starting_id
+    return i+1
+
+def generate_id_textmessage():
+    d = db.database
+    i = d.get_highest_device_id(TextMessage)
+    print "Här är i: "
+    print i
+    if (i == None):
+        return SETTINGS.starting_id
+    return i+1
+
 #Skapar en tabell som binder samman mission-ID med ett bild-ID
 missions_to_images = Table('missions_to_images', Base.metadata,
-                    Column('missions_id', Integer, ForeignKey('missions.id')),
-                    Column('missionimages_id', Integer, ForeignKey('missionimages.id')))
+                    Column('missions_id', Integer, ForeignKey('missions.id'), primary_key=True),
+                    Column('missionimages_id', Integer, ForeignKey('missionimages.id'), primary_key=True))
 #Skapar en tabell som binder samman missions-ID med employees-ID
 missions_to_employees = Table('missions_to_employees', Base.metadata,
-                    Column('employees_id', Integer, ForeignKey('employees.id')),
-                    Column('missions_id', Integer, ForeignKey('missions.id')))
+                    Column('employees_id', Integer, ForeignKey('employees.id'), primary_key=True),
+                    Column('missions_id', Integer, ForeignKey('missions.id'), primary_key=True))
 
 class Employee(Base, object):
     """
@@ -58,7 +95,7 @@ class TextMessage(Base, object):
     """
     __tablename__ = 'text_message'
     
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, default=generate_id_textmessage)
     src = Column(Integer, ForeignKey('employees.id'))
     dst = Column(Integer, ForeignKey('employees.id'))
     msg = Column(String(1024))
@@ -103,7 +140,7 @@ class MissionText(Base, object):
     """ 
     __tablename__ = 'missiontexts'
     
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, default=generate_id_missiontext)
     text = Column(Text)
     m = Column(Integer, ForeignKey('missions.id'))
     
@@ -122,7 +159,7 @@ class MissionImage(Base, object):
     """ 
     __tablename__ = 'missionimages'
     
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, default=generate_id_missionimage)
     title = Column(String(30))
     filename = Column(String(50), unique=True)
     
@@ -181,7 +218,7 @@ class Mission(Base, object):
 class Placemark(Base, object):
     __tablename__ = 'placemark'
     
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, default=generate_id_placemark)
     title = Column(String(45))
     long = Column(Float)
     lat = Column(Float)
@@ -199,7 +236,6 @@ class Placemark(Base, object):
     def __repr__(self):
         s = "\n\t<long>%s</long>" % (self.long)
         return s    
-
 
 def create_tables(engine):
     """Function for creating all database-tables"""

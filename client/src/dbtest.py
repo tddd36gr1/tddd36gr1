@@ -28,12 +28,6 @@ db.commit()
 #db.add(img)
 #db.get_one(Mission).images.append(img)
 #db.commit()
-#test = [(4,1), (4,2), (4,3), (3,2)]
-#db.insert_missions_to_images(test)
-#test = [(1,3), (1,4), (2,1), (2,2), (1,2)]
-#db.insert_missions_to_employees(test)
-#test = [(1,1), (2,2), (3,3)]
-#db.insert_missions_to_texts(test)
 
 for mission in db.get_all(Mission):
     print mission.employees

@@ -36,14 +36,12 @@ class Battery_check(threading.Thread):
         Else call higherBrightness
         """
         while 1:
-            time.sleep(60)
             x = self.getBatteryPercent()
-            print x
             if (x < 26):
                 self.lowerBrightness()
-            
             elif (x > 26):
                 self.higherBrightness()
+            time.sleep(60)
                 
 def start():
     global battery_check

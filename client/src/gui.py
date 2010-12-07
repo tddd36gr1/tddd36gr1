@@ -386,6 +386,9 @@ class MainGUI(hildon.Program):
         saves all changes to the mission
         """
         self.change_mission_status()
+        buffer = self.builder.get_object("mission_dialog_description").get_buffer()
+        self.selected_mission.descr = buffer.get_text(buffer.get_start_iter(),buffer.get_end_iter())
+        self.db.commit()
         
         
     def mission_zoom_to_map(self, widget, data=None):
@@ -416,7 +419,6 @@ class MainGUI(hildon.Program):
         
         Just send the new / updated data object as an argument
         """
-        
         if (object.__class__ == Mission):
             self.insert_missions()
             self.mapwidget.get_objects_from_db()
