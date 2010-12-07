@@ -27,9 +27,7 @@ db = db.database
 Example for assigning a mission to an employee:
     db.get_one_by_id(Employee, 1).missions.append(db.get_one_by_id(Mission, 3))
 """
-#gnag = db.get_one_by_id(Employee, 2)
-#gnag.online = True
-#db.commit()
+
 
 
 #onlineList = []

@@ -7,6 +7,7 @@ import gtk
 import tilenames
 import os.path
 import gobject
+import kamera
 from db import DatabaseWorker
 from class_.base_objects import Mission, Employee, Placemark
 
@@ -134,10 +135,12 @@ class MapWidget(gtk.DrawingArea):
         Handles key presses while mapwidget has focus
         """
         if event.keyval == gtk.keysyms.F6:
-            if self.window_in_fullscreen:
-                self.window.unfullscreen()
-            else:
-                self.window.fullscreen()
+            kamera.click()
+            #if 
+            #self.window_in_fullscreen:
+                #self.window.unfullscreen()
+            #else:
+             #   self.window.fullscreen()
         # Zoom -
         elif event.keyval == gtk.keysyms.F8:
             self.zoom_level -= 1

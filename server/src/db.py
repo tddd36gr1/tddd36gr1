@@ -104,6 +104,7 @@ class DatabaseWorker(threading.Thread):
         """
         return self.__Session.query(Mission).filter_by(status=3).all()
     
+<<<<<<< HEAD
     def get_employee_by_name(self, name):
         """
         Fetches an employee with the name provided
@@ -120,3 +121,7 @@ class DatabaseWorker(threading.Thread):
         return rows[-1].id
     
 database = DatabaseWorker()
+=======
+    def get_all_users_online(self):
+        return self.__Session.querry(Employee).filter_by(online=True).all()
+>>>>>>> f3dc985461609c9d28f2bf9dad75011487c379cd
