@@ -8,7 +8,7 @@ from sqlalchemy.orm import  sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from class_ import base_objects
 from class_.base_objects import *
-import SETTINGS
+import SETTINGS, push
 
 class DatabaseWorker(threading.Thread):
     """
@@ -60,6 +60,7 @@ class DatabaseWorker(threading.Thread):
         """
         result = self.__Session.merge(object)
         self.__Session.commit()
+        push.Queue.put()
         return result
         
     def get_all(self, object):

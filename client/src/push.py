@@ -1,12 +1,21 @@
 #coding=utf8
 from class_.base_objects import Mission, StatusCode, Employee, TextMessage
 import network.networkcomponent as networkcomponent
-import SETTINGS
+import SETTINGS, Queue
 
 def pushStart(db):
     """
     Starts pushing shit from database, yeh? Requires a motherf*ing DatabaseWorker
     """
+    
+    queue = Queue.Queue()
+    
+    Qlist = []
+    
+    def funktionname():
+        print 'yo'
+    
+    
 
     ip = SETTINGS.destination_ip
     
