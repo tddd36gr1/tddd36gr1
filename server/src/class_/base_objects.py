@@ -5,6 +5,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Ta
 from sqlalchemy.orm import relation, backref
 import db
 import SETTINGS
+
 """
 Declarative base for automatic mapping of objects to database tables
 """
@@ -22,8 +23,6 @@ def generate_id_placemark():
 def generate_id_missiontext():
     d = db.database
     i = d.get_highest_device_id(MissionText)
-    print "Här är i: "
-    print i
     if (i == None):
         return SETTINGS.starting_id
     return i+1
@@ -31,8 +30,6 @@ def generate_id_missiontext():
 def generate_id_missionimage():
     d = db.database
     i = d.get_highest_device_id(MissionImage)
-    print "Här är i: "
-    print i
     if (i == None):
         return SETTINGS.starting_id
     return i+1
@@ -40,8 +37,6 @@ def generate_id_missionimage():
 def generate_id_textmessage():
     d = db.database
     i = d.get_highest_device_id(TextMessage)
-    print "Här är i: "
-    print i
     if (i == None):
         return SETTINGS.starting_id
     return i+1
@@ -151,7 +146,7 @@ class MissionText(Base, object):
         self.m = mission
                 
     def __repr__(self):
-        return '%r' % self.descr
+        return '%r' % self.text
 
 class MissionImage(Base, object):
     """
@@ -232,10 +227,21 @@ class Placemark(Base, object):
         self.type = type
         self.desrc = descr
         
-        
     def __repr__(self):
-        s = "\n\t<long>%s</long>" % (self.long)
+        s = "<Placemark>\n\t<title>%s</title>\n\t<long>%s</long>\n</Placemark>" % (self.title, self.long)
         return s    
+    
+class QueueRow(Base, object):
+    __tablename__ = 'queue_rows'
+    
+    e_id = Column('e_id', Integer, ForeignKey('employees.id'), primary_key=True)
+    class_name = Column('class_name', String(50), primary_key=True)
+    object_id = Column('object_id', Integer, primary_key=True)
+    
+    def __init__(self, e_id, class_name, object_id):
+        self.e_id = e_id
+        self.class_name = class_name
+        self.object_id = object_id
 
 def create_tables(engine):
     """Function for creating all database-tables"""

@@ -1,47 +1,86 @@
 #coding=utf8
+import db
 from class_.base_objects import *
 import network.networkcomponent as networkcomponent
 import SETTINGS
+import Queue
+import threading
 
-def pushStart(db):
-    """
-    Starts pushing shit from database, yeh? Requires a motherf*ing DatabaseWorker
-    """
+db = db.database
+Qlist = []
+Qdone = Queue.Queue()
+Qerrors = Queue.Queue()
 
-    ip = SETTINGS.destination_ip
-    
-    #testmsg = TextMessage('192.168.2.15', '192.168.2.15', 'Hej')
-    #networkcomponent.send(ip, testmsg, 'textMessage')
-    
-    #Send all status codes
-    print "Status codes"
-    for statuscode in db.get_all(StatusCode):
-        networkcomponent.send(ip,statuscode,'db_add_or_update')
-        print statuscode
-    
-    #Send all missions
-    print "Missions"
-    for mission in db.get_all(Mission):
-        networkcomponent.send(ip,mission,'db_add_or_update')
-        print mission
-    
-    #Send all employees
-    print "Employees"
-    for employee in db.get_all(Employee): 
-        networkcomponent.send(ip,employee,'db_add_or_update')
-        print employee
+def populateQueue():
+    """
+    Run this initially to fill up queue first time ever the system runs. Pushes out ALL relevant data to all employees
+    """
+    for e in db.get_all(Employee):
+        for o in db.get_all(Mission):
+            db.add_or_update(QueueRow(e.id, "Mission", o.id))
         
-    #Send all mission images
-    print "Mission images"
-    for image in db.get_all(MissionImage):
-        networkcomponent.send(ip, image, 'db_add_or_update')
+        for o in db.get_all(StatusCode):
+            db.add_or_update(QueueRow(e.id, "StatusCode", o.id))
+            
+        for o in db.get_all(Employee):
+            db.add_or_update(QueueRow(e.id, "Employee", o.id))
         
-    #Send all mission texts
-    print "Mission texts"
-    for text in db.get_all(MissionText):
-        networkcomponent.send(ip, text, 'db_add_or_update')
+        #Special for text messages, only send if employee is receiver or sender    
+        for o in db.get_all(TextMessage):
+            if (e.id == o.src) or (e.id == o.dst):
+                db.add_or_update(QueueRow(e.id, "TextMessage", o.id))
+          
+        for o in db.get_all(MissionText):
+            db.add_or_update(QueueRow(e.id, "MissionText", o.id))
         
-    #Send all text messages
-    print "Text messages"
-    for msg in db.get_all(TextMessage):
-        networkcomponent.send(ip, msg, 'textMessage')
+        for o in db.get_all(MissionImage):
+            db.add_or_update(QueueRow(e.id, "MissionImage", o.id))
+            
+        for o in db.get_all(Placemark):
+            db.add_or_update(QueueRow(e.id, "Placemark", o.id))
+
+class QueuePusher(threading.Thread):
+    def __init__(self, employee):
+        threading.Thread.__init__ ( self )
+        self.employee = employee
+        self.q = Qlist[employee.id]
+        
+    def run(self):
+        while 1:
+            row = self.q.get()
+            if (row.class_name == "Mission"):
+                object = db.get_one_by_id(Mission, row.object_id)
+            elif (row.class_name == "StatusCode"):
+                object = db.get_one_by_id(StatusCode, row.object_id)
+            elif (row.class_name == "Employee"):
+                object = db.get_one_by_id(Employee, row.object_id)
+            elif (row.class_name == "TextMessage"):
+                object = db.get_one_by_id(TextMessage, row.object_id)
+            elif (row.class_name == "MissionText"):
+                object = db.get_one_by_id(MissionText, row.object_id)
+            elif (row.class_name == "MissionImage"):
+                object = db.get_one_by_id(MissionImage, row.object_id)
+            elif (row.class_name == "Placemark"):
+                object = db.get_one_by_id(Placemark, row.object_id)
+
+            print object
+            self.q.task_done()
+
+def add(object):
+    return
+    
+
+def pushStart():
+    """
+    Starts pushing-loop, preferably, this is started as a thread
+    """
+    Qlist.append(Queue.Queue())
+    
+    for all in db.get_all(Employee):
+        Qlist.append(Queue.Queue())
+    
+    for row in db.get_all(QueueRow):
+        Qlist[row.e_id].put(row)
+            
+    for employee in db.get_all(Employee):
+        QueuePusher(employee).start()

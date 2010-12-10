@@ -54,6 +54,7 @@ class DatabaseWorker(threading.Thread):
 
     def add_or_update(self, object):
         """
+        
         Adds or updates the given object into the database depending
         if there already exists an object with same id or not.
         Used to merge unpickled objects received from the network
@@ -114,12 +115,13 @@ class DatabaseWorker(threading.Thread):
         return
     
     def get_highest_device_id(self, object):
-        rows = self.__Session.query(object).filter(object.id<(SETTINGS.starting_id+999)).filter(object.id>=SETTINGS.starting_id).all()
+        rows = self.__Session.query(object).filter(object.id<(SETTINGS.starting_id+1000)).filter(object.id>=SETTINGS.starting_id).all()
         if (len(rows) == 0):
             return None
         return rows[-1].id
     
-    def get_all_users_online(self):
-        return self.__Session.query(Employee).filter_by(online=True).all()
-
+    def remove(self, object):
+        self.__Session.remove(object)
+        self.__Session.commit()
+    
 database = DatabaseWorker()
