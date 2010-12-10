@@ -54,6 +54,7 @@ class DatabaseWorker(threading.Thread):
 
     def add_or_update(self, object):
         """
+        
         Adds or updates the given object into the database depending
         if there already exists an object with same id or not.
         Used to merge unpickled objects received from the network
@@ -118,5 +119,9 @@ class DatabaseWorker(threading.Thread):
         if (len(rows) == 0):
             return None
         return rows[-1].id
+    
+    def remove(self, object):
+        self.__Session.remove(object)
+        self.__Session.commit()
     
 database = DatabaseWorker()
