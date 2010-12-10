@@ -3,24 +3,56 @@ from class_.base_objects import Mission, StatusCode, Employee, TextMessage
 import network.networkcomponent as networkcomponent
 import SETTINGS, Queue
 
+def fillQueue():
+    """
+    Run this initially to fill up queue first time ever the system runs. Pushes out ALL relevant data to all employees
+    """
+
+    for o in db.get_all(Mission):
+        db.add_or_update(QueueRow("Mission", o.id))
+    
+    for o in db.get_all(StatusCode):
+        db.add_or_update(QueueRow("StatusCode", o.id))
+        
+    for o in db.get_all(Employee):
+        db.add_or_update(QueueRow("Employee", o.id))
+    
+    #Special for text messages, only send if employee is receiver or sender    
+    for o in db.get_all(TextMessage):
+        if (e.id == o.src) or (e.id == o.dst):
+            db.add_or_update(QueueRow("TextMessage", o.id))
+      
+    for o in db.get_all(MissionText):
+        db.add_or_update(QueueRow("MissionText", o.id))
+    
+    for o in db.get_all(MissionImage):
+        db.add_or_update(QueueRow("MissionImage", o.id))
+        
+    for o in db.get_all(Placemark):
+        db.add_or_update(QueueRow("Placemark", o.id))
+        
+def sendQueue():
+    while 1:
+        
+
 def pushStart(db):
     """
     Starts pushing shit from database, yeh? Requires a motherf*ing DatabaseWorker
     """
     
-    queue = Queue.Queue()
-    
+    sendqueue = Queue.Queue()
     Qlist = []
     
-    def funktionname():
-        print 'yo'
     
+    
+    
+    
+    def QueuePusher():
+        while 1:
+            
+            
     
 
-    ip = SETTINGS.destination_ip
-    
-    testmsg = TextMessage('192.168.2.15', '192.168.2.15', 'Hej')
-    networkcomponent.send(ip, testmsg, 'textMessage')
     
     #Send all status codes
     #print "StatusCodes"

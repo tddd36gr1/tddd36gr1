@@ -229,7 +229,17 @@ class Placemark(Base, object):
         
     def __repr__(self):
         s = "<Placemark>\n\t<title>%s</title>\n\t<long>%s</long>\n</Placemark>" % (self.title, self.long)
-        return s    
+        return s
+    
+class QueueRow(Base, object):
+    __tablename__ = 'queue_rows'
+    
+    class_name = Column('class_name', String(50), primary_key=True)
+    object_id = Column('object_id', Integer, primary_key=True)
+    
+    def __init__(self, class_name, object_id):
+        self.class_name = class_name
+        self.object_id = object_id
 
 def create_tables(engine):
     """Function for creating all database-tables"""

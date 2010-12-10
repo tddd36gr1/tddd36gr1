@@ -57,11 +57,21 @@ class DatabaseWorker(threading.Thread):
         
         Adds or updates the given object into the database depending
         if there already exists an object with same id or not.
+        Used to merge object from the gui
+        """
+        result = self.__Session.merge(object)
+        self.__Session.commit()
+        push.sendQueue.put(object)
+        return result
+    
+    def from_network_db_add_or_update(self):
+        """
+        Adds or updates the given object into the database depending
+        if there already exists an object with same id or not.
         Used to merge unpickled objects received from the network
         """
         result = self.__Session.merge(object)
         self.__Session.commit()
-        push.Queue.put()
         return result
         
     def get_all(self, object):
