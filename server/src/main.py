@@ -1,6 +1,6 @@
 #coding=utf8
 import push
-from db import DatabaseWorker
+import threading
 
-db = DatabaseWorker()
-push.pushStart(db)
+#push.populateQueue()
+threading.Thread(target=push.pushStart())

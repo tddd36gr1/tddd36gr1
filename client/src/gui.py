@@ -67,7 +67,6 @@ class MainGUI(hildon.Program):
         self.mission_notified = False
         self.message_notified = False
         
-        
         self.mission_my_liststore = self.builder.get_object("mission_my_liststore")
         self.mission_all_liststore = self.builder.get_object("mission_all_liststore")
         self.mission_finished_liststore = self.builder.get_object("mission_finished_liststore")

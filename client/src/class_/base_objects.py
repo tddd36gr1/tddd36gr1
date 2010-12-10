@@ -22,8 +22,6 @@ def generate_id_placemark():
 def generate_id_missiontext():
     d = db.database
     i = d.get_highest_device_id(MissionText)
-    print "Här är i: "
-    print i
     if (i == None):
         return SETTINGS.starting_id
     return i+1
@@ -31,8 +29,6 @@ def generate_id_missiontext():
 def generate_id_missionimage():
     d = db.database
     i = d.get_highest_device_id(MissionImage)
-    print "Här är i: "
-    print i
     if (i == None):
         return SETTINGS.starting_id
     return i+1
@@ -40,8 +36,6 @@ def generate_id_missionimage():
 def generate_id_textmessage():
     d = db.database
     i = d.get_highest_device_id(TextMessage)
-    print "Här är i: "
-    print i
     if (i == None):
         return SETTINGS.starting_id
     return i+1
@@ -151,7 +145,7 @@ class MissionText(Base, object):
         self.m = mission
                 
     def __repr__(self):
-        return '%r' % self.descr
+        return '%r' % self.text
 
 class MissionImage(Base, object):
     """
@@ -234,7 +228,7 @@ class Placemark(Base, object):
         
         
     def __repr__(self):
-        s = "\n\t<long>%s</long>" % (self.long)
+        s = "<Placemark>\n\t<title>%s</title>\n\t<long>%s</long>\n</Placemark>" % (self.title, self.long)
         return s    
 
 def create_tables(engine):

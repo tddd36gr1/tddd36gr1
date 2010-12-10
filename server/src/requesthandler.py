@@ -4,11 +4,11 @@ Created on Nov 11, 2010
 
 @author: alek
 '''
-import network.networkcomponent as networkcomponent
 from class_.base_objects import Employee
 #import SETTINGS
 
 def request(data, type, db):
+    import network.networkcomponent as networkcomponent
     """
     Does different things depending on the datatype-object
     """
