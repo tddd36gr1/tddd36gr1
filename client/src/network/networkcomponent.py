@@ -7,12 +7,12 @@ from network.server import Server
 from network.client import Client
 import pickle, socket, threading, time, SETTINGS
 
-def serverStart(db):
+def serverStart():
     """
     Starts the networking server and listens for connections
     Needs a DatabaseWorker reference (db)
     """
-    Server(db).start()
+    Server().start()
     #PingService().start()
     
 

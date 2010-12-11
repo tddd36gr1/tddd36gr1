@@ -235,12 +235,12 @@ class QueueRow(Base, object):
     __tablename__ = 'queue_rows'
     
     e_id = Column('e_id', Integer, ForeignKey('employees.id'), primary_key=True)
-    class_name = Column('class_name', String(50), primary_key=True)
+    tablename = Column('tablename', String(50), primary_key=True)
     object_id = Column('object_id', Integer, primary_key=True)
     
-    def __init__(self, e_id, class_name, object_id):
+    def __init__(self, e_id, tablename, object_id):
         self.e_id = e_id
-        self.class_name = class_name
+        self.tablename = tablename
         self.object_id = object_id
 
 def create_tables(engine):

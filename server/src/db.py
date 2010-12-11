@@ -120,8 +120,8 @@ class DatabaseWorker(threading.Thread):
             return None
         return rows[-1].id
     
-    def remove(self, object):
-        self.__Session.remove(object)
+    def delete(self, object):
+        self.__Session.delete(object)
         self.__Session.commit()
     
 database = DatabaseWorker()
