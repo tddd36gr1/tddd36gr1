@@ -15,10 +15,8 @@ class Server(threading.Thread):
         print 'Got certificate: %s' % cert.get_subject()
         return ok
     
-    def __init__(self, db):
+    def __init__(self):
         threading.Thread.__init__ ( self )
-        self.db = db
-    
         
     def run(self):
         # Initialize context, verify certificate
@@ -61,9 +59,10 @@ class Server(threading.Thread):
                         data = spliteddata[0]
                         data = pickle.loads(data)
                         datatype = spliteddata[1]
+                        employee_id = spliteddata[2]
                         
                         #forwarding data to requesthandler
-                        requesthandler.request(data, datatype, self.db)
+                        requesthandler.request(data, datatype, employee_id)
                         
                     except (SSL.WantReadError, SSL.WantWriteError, SSL.WantX509LookupError):
                         pass

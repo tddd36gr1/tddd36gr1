@@ -3,7 +3,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text, Boolean
 from sqlalchemy.orm import relation, backref
-import db
 import SETTINGS
 """
 Declarative base for automatic mapping of objects to database tables
@@ -11,6 +10,7 @@ Declarative base for automatic mapping of objects to database tables
 Base = declarative_base()
 
 def generate_id_placemark():
+    import db
     d = db.database
     i = d.get_highest_device_id(Placemark)
     print "Här är i: "
@@ -20,6 +20,7 @@ def generate_id_placemark():
     return i+1
 
 def generate_id_missiontext():
+    import db
     d = db.database
     i = d.get_highest_device_id(MissionText)
     if (i == None):
@@ -27,6 +28,7 @@ def generate_id_missiontext():
     return i+1
 
 def generate_id_missionimage():
+    import db
     d = db.database
     i = d.get_highest_device_id(MissionImage)
     if (i == None):
@@ -34,6 +36,7 @@ def generate_id_missionimage():
     return i+1
 
 def generate_id_textmessage():
+    import db
     d = db.database
     i = d.get_highest_device_id(TextMessage)
     if (i == None):

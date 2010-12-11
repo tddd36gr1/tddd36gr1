@@ -6,7 +6,7 @@ Created on Nov 17, 2010
 import threading
 from sqlalchemy.orm import  sessionmaker, scoped_session
 from sqlalchemy import create_engine
-from class_ import base_objects
+import class_.base_objects as base_objects
 from class_.base_objects import *
 import SETTINGS, push
 
@@ -64,7 +64,7 @@ class DatabaseWorker(threading.Thread):
         push.sendQueue.put(object)
         return result
     
-    def from_network_db_add_or_update(self):
+    def from_network_db_add_or_update(self, object):
         """
         Adds or updates the given object into the database depending
         if there already exists an object with same id or not.
