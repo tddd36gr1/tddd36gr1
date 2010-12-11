@@ -17,17 +17,18 @@ import SETTINGS
 import threading
 from mapwidget.mapwidget import MapWidget
 from class_.base_objects import *
+import db
 
 class MainGUI(hildon.Program):
     """
     This class basically creats and controls the whole GUI (except map widget) 
     """
 
-    def __init__(self, db):
+    def __init__(self):
         hildon.Program.__init__(self)
         
         #set reference to databaseworker
-        self.db = db
+        self.db = db.database
         
         #Self-explanary function names ftw
         self.setup_window()
@@ -431,10 +432,15 @@ class MainGUI(hildon.Program):
                 self.message_notified = True
         elif (object.__class__ == StatusCode):
             self.insert_statuscodes()
-            
-def start(db):
-    global maingui
-    maingui = MainGUI(db)
+    
+    def notify_battery(self):
+        hildon.hildon_banner_show_information(self.window, None, "Motherfucking low battery")
+        
+    def notify_connection(self):
+        hildon.hildon_banner_show_information(self.window, None, "Find that halfling")
+
+maingui = MainGUI()
+def start():
     maingui.run()
     
 def notify(object):
@@ -442,3 +448,6 @@ def notify(object):
     See notify inside of MainGUI-class
     """
     maingui.notify(object)
+
+def notify_battery():
+    maingui.notify_battery()
