@@ -34,6 +34,7 @@ def fillQueue():
 def sendQueue():
     while 1:
         
+        
 
 def pushStart(db):
     """
@@ -47,9 +48,35 @@ def pushStart(db):
     
     
     
+    
     def QueuePusher():
+
+        self.q = Qlist[employee.id]
+        
         while 1:
+            row = self.q.get()
+            if (row.class_name == "Mission"):
+                object = db.get_one_by_id(Mission, row.object_id)
+            elif (row.class_name == "StatusCode"):
+                object = db.get_one_by_id(StatusCode, row.object_id)
+            elif (row.class_name == "Employee"):
+                object = db.get_one_by_id(Employee, row.object_id)
+            elif (row.class_name == "TextMessage"):
+                object = db.get_one_by_id(TextMessage, row.object_id)
+            elif (row.class_name == "MissionText"):
+                object = db.get_one_by_id(MissionText, row.object_id)
+            elif (row.class_name == "MissionImage"):
+                object = db.get_one_by_id(MissionImage, row.object_id)
+            elif (row.class_name == "Placemark"):
+                object = db.get_one_by_id(Placemark, row.object_id)
+
+            print object
+            self.q.task_done()
+
             
+            
+            threading.Thread.__init__ ( self )
+
             
     
 
