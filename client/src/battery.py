@@ -42,11 +42,12 @@ class Battery_check(threading.Thread):
             x = self.getBatteryPercent()
             if (x < 26):
                 self.lowerBrightness()
-            elif (x > 26):
-                self.higherBrightness()
                 gtk.gdk.threads_enter()
                 gui.notify_battery()
                 gtk.gdk.threads_leave()
+            elif (x > 26):
+                self.higherBrightness()
+
             time.sleep(60)
                 
 def start():
