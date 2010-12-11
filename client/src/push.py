@@ -1,9 +1,10 @@
 #coding=utf8
 from class_.base_objects import Mission, StatusCode, Employee, TextMessage
-import network.networkcomponent as networkcomponent
 import SETTINGS, Queue
 
 def fillQueue():
+    import db
+    db = db.database
     """
     Run this initially to fill up queue first time ever the system runs. Pushes out ALL relevant data to all employees
     """
@@ -32,10 +33,11 @@ def fillQueue():
         db.add_or_update(QueueRow("Placemark", o.id))
         
 def sendQueue():
+    import network.networkcomponent as networkcomponent
     while 1:
-        
+        return
 
-def pushStart(db):
+def pushStart():
     """
     Starts pushing shit from database, yeh? Requires a motherf*ing DatabaseWorker
     """
@@ -43,13 +45,9 @@ def pushStart(db):
     sendqueue = Queue.Queue()
     Qlist = []
     
-    
-    
-    
-    
     def QueuePusher():
         while 1:
-            
+            return
             
     
 

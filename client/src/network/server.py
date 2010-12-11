@@ -15,9 +15,8 @@ class Server(threading.Thread):
         print 'Got certificate: %s' % cert.get_subject()
         return ok
     
-    def __init__(self, db):
+    def __init__(self):
         threading.Thread.__init__ ( self )
-        self.db = db
         
     def run(self):
         # Initialize context, verify certificate
@@ -62,7 +61,7 @@ class Server(threading.Thread):
                         datatype = spliteddata[1]
                         
                         #forwarding data to requesthandler
-                        requesthandler.request(data, datatype, self.db)
+                        requesthandler.request(data, datatype)
                         
                     except (SSL.WantReadError, SSL.WantWriteError, SSL.WantX509LookupError):
                         pass

@@ -6,9 +6,11 @@ Created on Nov 11, 2010
 '''
 from class_.base_objects import Employee
 #import SETTINGS
+import db
+db = db.database
 
-def request(data, type, db):
-    import network.networkcomponent as networkcomponent
+def request(data, type, employee):
+    #import network.networkcomponent as networkcomponent
     """
     Does different things depending on the datatype-object
     """
@@ -16,11 +18,6 @@ def request(data, type, db):
     if (type == 'db_add_or_update'): #Updating database
         print 'type = db_add_or_update'
         db.add_or_update(data)
-        #networkcomponent.send(SETTINGS.destination_ip, data, type) #Updating the second server
-    elif (type == 'textMessage'): #Sending message
-        print 'type = textMessage'
-        txtmsg = data
-        networkcomponent.send(txtmsg.dst, txtmsg, 'textMessage')
     
     elif (type == 'ping'):
         print 'type = ping'

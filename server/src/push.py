@@ -5,6 +5,7 @@ import network.networkcomponent as networkcomponent
 import SETTINGS
 import Queue
 import threading
+import time
 
 db = db.database
 Qlist = []
@@ -17,27 +18,27 @@ def populateQueue():
     """
     for e in db.get_all(Employee):
         for o in db.get_all(Mission):
-            db.add_or_update(QueueRow(e.id, "Mission", o.id))
+            db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
         
         for o in db.get_all(StatusCode):
-            db.add_or_update(QueueRow(e.id, "StatusCode", o.id))
+            db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
             
         for o in db.get_all(Employee):
-            db.add_or_update(QueueRow(e.id, "Employee", o.id))
+            db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
         
         #Special for text messages, only send if employee is receiver or sender    
         for o in db.get_all(TextMessage):
             if (e.id == o.src) or (e.id == o.dst):
-                db.add_or_update(QueueRow(e.id, "TextMessage", o.id))
+                db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
           
         for o in db.get_all(MissionText):
-            db.add_or_update(QueueRow(e.id, "MissionText", o.id))
+            db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
         
         for o in db.get_all(MissionImage):
-            db.add_or_update(QueueRow(e.id, "MissionImage", o.id))
+            db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
             
         for o in db.get_all(Placemark):
-            db.add_or_update(QueueRow(e.id, "Placemark", o.id))
+            db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
 
 class QueuePusher(threading.Thread):
     def __init__(self, employee):
@@ -47,28 +48,47 @@ class QueuePusher(threading.Thread):
         
     def run(self):
         while 1:
+            # Om användaren är offline, vänta och försök igen
+            if (self.employee.online == False):
+                print self.employee.fname+" offline"
+                time.sleep(5)
+                continue    #Försök igen
             row = self.q.get()
-            if (row.class_name == "Mission"):
+            
+            if (row.tablename == "missions"):
                 object = db.get_one_by_id(Mission, row.object_id)
-            elif (row.class_name == "StatusCode"):
+            elif (row.tablename == "statuscodes"):
                 object = db.get_one_by_id(StatusCode, row.object_id)
-            elif (row.class_name == "Employee"):
+            elif (row.tablename == "employees"):
                 object = db.get_one_by_id(Employee, row.object_id)
-            elif (row.class_name == "TextMessage"):
+            elif (row.tablename == "text_message"):
                 object = db.get_one_by_id(TextMessage, row.object_id)
-            elif (row.class_name == "MissionText"):
+            elif (row.tablename == "missiontexts"):
                 object = db.get_one_by_id(MissionText, row.object_id)
-            elif (row.class_name == "MissionImage"):
+            elif (row.tablename == "missionimages"):
                 object = db.get_one_by_id(MissionImage, row.object_id)
-            elif (row.class_name == "Placemark"):
+            elif (row.tablename == "placemark"):
                 object = db.get_one_by_id(Placemark, row.object_id)
+            
+            try:
+                networkcomponent.send(self.employee.ip, object, "db_add_or_update")
+            except:
+                print "Fail"
+                self.q.put(row)
+                self.employee.online = False
+                db.add_or_update(self.employee)
+            else:
+                Qdone.put(row)
+                self.q.task_done()
 
-            print object
-            self.q.task_done()
-
-def add(object):
-    return
-    
+def add(object, sender):
+    for e in db.get_all(Employee):
+        if (e == sender):
+            continue
+        row = QueueRow(e.id, object.__tablename__, object.id)
+        db.add_or_update(row)
+        Qlist[e.id].put(row)
+        
 
 def pushStart():
     """
@@ -84,3 +104,8 @@ def pushStart():
             
     for employee in db.get_all(Employee):
         QueuePusher(employee).start()
+
+    while 1:
+        if (Qdone.empty() != True):
+            print "Task done!"
+            db.delete(Qdone.get())

@@ -2,6 +2,8 @@ import dbus
 import os
 import time
 import threading
+import gtk
+import gui
 
 """
 Function that return an int value of the clients battery percent
@@ -26,6 +28,7 @@ class Battery_check(threading.Thread):
     """
     def lowerBrightness(self):
         os.system('chroot /mnt/initfs dsmetest -l 50')
+        ##pittar
         
     def higherBrightness(self):
         os.system('chroot /mnt/initfs dsmetest -l 250')
@@ -41,6 +44,9 @@ class Battery_check(threading.Thread):
                 self.lowerBrightness()
             elif (x > 26):
                 self.higherBrightness()
+                gtk.gdk.threads_enter()
+                gui.notify_battery()
+                gtk.gdk.threads_leave()
             time.sleep(60)
                 
 def start():

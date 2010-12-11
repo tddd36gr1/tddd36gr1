@@ -10,26 +10,28 @@ import SETTINGS
 import gui
 import gtk.gdk
 import pickle
+import db
+db = db.database
 
-def request(data, type, db):
+def request(data, type):
     print 'request starts!'
     if (type == 'db_add_or_update'):
         print "type: db_add_or_update"
-        db.add_or_update(data)
+        db.from_network_db_add_or_update(data)
         gtk.gdk.threads_enter()
         gui.notify(data)
         gtk.gdk.threads_leave()
         
-    elif (type == 'textMessage'):
-        print "type: textMessage"
-        msg = TextMessage(data.src, data.dst, data.msg)
-        db.add_or_update(msg)
-        msg.src_object = db.get_one_by_id(Employee, msg.src)
-        msg.dst_object = db.get_one_by_id(Employee, msg.dst)
-        db.commit()
-        gtk.gdk.threads_enter()
-        gui.notify(msg)
-        gtk.gdk.threads_leave()
+#    elif (type == 'textMessage'):
+#        print "type: textMessage"
+#        msg = TextMessage(data.src, data.dst, data.msg)
+#        db.add_or_update(msg)
+#        msg.src_object = db.get_one_by_id(Employee, msg.src)
+#        msg.dst_object = db.get_one_by_id(Employee, msg.dst)
+#        db.commit()
+#        gtk.gdk.threads_enter()
+#        gui.notify(msg)
+#        gtk.gdk.threads_leave()
 
     elif (type == 'pong'):
         """
