@@ -432,10 +432,22 @@ class MainGUI(hildon.Program):
                 self.message_notified = True
         elif (object.__class__ == StatusCode):
             self.insert_statuscodes()
+
+    
+    def notify_battery(self):
+        hildon.hildon_banner_show_information(self.window, None, "Batterinivån är låg")
+        
+    def notify_connection(self):
+        hildon.hildon_banner_show_information(self.window, None, "Inget nätverk hittades")
+
+maingui = MainGUI()
+
+
             
 def start():
     global maingui
     maingui = MainGUI()
+
     maingui.run()
     
 def notify(object):
@@ -443,3 +455,8 @@ def notify(object):
     See notify inside of MainGUI-class
     """
     maingui.notify(object)
+
+def notify_battery():
+    maingui.notify_battery()
+def notify_connection():
+    maingui.notify_connection()
