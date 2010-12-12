@@ -15,7 +15,7 @@ class Client():
     
     def clientStart(self):
         HOST = self.destination
-        PORT = SETTINGS.network_port
+        PORT = SETTINGS.network_port_send
         print PORT
         print HOST
         

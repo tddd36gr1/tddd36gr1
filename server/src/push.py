@@ -1,5 +1,5 @@
 #coding=utf8
-import db
+from db import Database
 from class_.base_objects import *
 import network.networkcomponent as networkcomponent
 import SETTINGS
@@ -7,10 +7,10 @@ import Queue
 import threading
 import time
 
-db = db.database
 Qlist = []
 Qdone = Queue.Queue()
 Qerrors = Queue.Queue()
+db = Database()
 
 def populateQueue():
     """
@@ -41,18 +41,21 @@ def populateQueue():
             db.add_or_update(QueueRow(e.id, o.__tablename__, o.id))
 
 class QueuePusher(threading.Thread):
-    def __init__(self, employee):
+    def __init__(self, e_id):
         threading.Thread.__init__ ( self )
-        self.employee = employee
-        self.q = Qlist[employee.id]
+        self.e_id = e_id
+        self.employee = db.get_one_by_id(Employee, e_id)
+        self.q = Qlist[e_id]
         
     def run(self):
         while 1:
             # Om användaren är offline, vänta och försök igen
+            print self.employee
             if (self.employee.online == False):
                 print self.employee.fname+" offline"
                 time.sleep(5)
                 continue    #Försök igen
+            print self.employee.fname+" online"
             row = self.q.get()
             
             if (row.tablename == "missions"):
@@ -103,7 +106,7 @@ def pushStart():
         Qlist[row.e_id].put(row)
             
     for employee in db.get_all(Employee):
-        QueuePusher(employee).start()
+        QueuePusher(employee.id).start()
 
     while 1:
         if (Qdone.empty() != True):
