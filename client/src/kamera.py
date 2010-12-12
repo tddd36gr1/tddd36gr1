@@ -17,6 +17,7 @@ def click():
     saveThumbFile(filename)
     picture_number = picture_number + 1
     bild = 'image' + str(picture_number) + '.jpg'
+    return filename
 
 def saveThumbFile(filename):
     print filename

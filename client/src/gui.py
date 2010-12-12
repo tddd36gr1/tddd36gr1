@@ -18,6 +18,7 @@ import threading
 from mapwidget.mapwidget import MapWidget
 from class_.base_objects import *
 import db
+import kamera
 
 class MainGUI(hildon.Program):
     """
@@ -38,6 +39,8 @@ class MainGUI(hildon.Program):
         self.insert_data()
         
         gtk.gdk.threads_init()
+        
+        
 
     def setup_window(self):
         """
@@ -315,7 +318,7 @@ class MainGUI(hildon.Program):
         for image in self.selected_mission.images:
             self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("db/images/thumb_"+image.filename), image.title, image.id))
     
-        self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("ikoner/camera.png"),"Lägg till ny bild", -1))
+        self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("ikoner/camera.png"),"Markera ikonen och tryck \n enter för att ta ny bild", -1))
     
     def open_message(self, widget, data=None):
         """
@@ -406,7 +409,7 @@ class MainGUI(hildon.Program):
         """
         i = self.builder.get_object("mission_image_iconview").get_selected_items()[0][0]
         if (i >= len(self.selected_mission.images)):
-            print "TAKE A FUCKING PICTURE!!!!"
+            self.take_picture()
             return
         self.main_notebook.set_current_page(6)
         image = self.selected_mission.images[i]
@@ -444,10 +447,20 @@ class MainGUI(hildon.Program):
         
     def notify_connection(self, connected):
         if (connected == True):
-            hildon.hildon_banner_show_information(self.window, None, "Nätverksanslutning åteInget nätverk hittadesrupprättad")
+            hildon.hildon_banner_show_information(self.window, None, "Nätverksanslutning återupprättad")
         elif (connected == False):
             hildon.hildon_banner_show_information(self.window, None, "Inget nätverk hittades")
 
+
+    def take_picture(self):
+        bild = kamera.click()
+
+        image = MissionImage("Kamerabild", bild)
+        image = self.db.add_or_update(image)
+        self.selected_mission.images.append(image)
+        self.db.add_or_update(self.selected_mission)
+        self.on_mission_info_button_clicked(None)
+        
 
 maingui = MainGUI()
 
@@ -467,6 +480,9 @@ def notify(object):
 
 def notify_battery():
     maingui.notify_battery()
-    
+
+
+
 def notify_connection(connected):
     maingui.notify_connection(connected)
+
