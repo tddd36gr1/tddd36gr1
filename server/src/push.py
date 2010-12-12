@@ -50,7 +50,6 @@ class QueuePusher(threading.Thread):
     def run(self):
         while 1:
             # Om användaren är offline, vänta och försök igen
-            print self.employee
             if (self.employee.online == False):
                 print self.employee.fname+" offline"
                 time.sleep(5)
@@ -86,11 +85,12 @@ class QueuePusher(threading.Thread):
 
 def add(object, sender):
     for e in db.get_all(Employee):
-        if (e == sender):
+        if (int(e.id) == int(sender)):
             continue
         row = QueueRow(e.id, object.__tablename__, object.id)
-        db.add_or_update(row)
+        row = db.add_or_update(row)
         Qlist[e.id].put(row)
+        print "Added to queue"
         
 
 def pushStart():

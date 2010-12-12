@@ -54,7 +54,7 @@ class Server(threading.Thread):
                 else:
                     try:
                         #Receieving data, spliting, unpickle..
-                        ret = cli.recv(1024)
+                        ret = cli.recv(102400)
                         spliteddata = ret.split('<>')
                         data = spliteddata[0]
                         data = pickle.loads(data)

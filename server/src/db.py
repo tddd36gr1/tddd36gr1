@@ -9,6 +9,7 @@ from sqlalchemy import create_engine
 from class_ import base_objects
 from class_.base_objects import *
 import SETTINGS
+from threading import Lock
 
 class Database():
     
@@ -16,6 +17,7 @@ class Database():
         """
         This should be the only object having direct access with the database.
         """
+        lock = Lock()
 
         def __init__(self):
             threading.Thread.__init__(self)
@@ -32,15 +34,19 @@ class Database():
             """
             Adds a list of objects into the database
             """
+            self.lock.acquire()
             self.__Session.add_all(objects)
             self.__Session.commit()
+            self.lock.release()
             
         def add(self, object):
             """
             Adds an object into the database
             """
+            self.lock.acquire()
             self.__Session.add(object)
             self.__Session.commit()
+            self.lock.release()
     
         def add_or_update(self, object):
             """
@@ -49,8 +55,10 @@ class Database():
             if there already exists an object with same id or not.
             Used to merge unpickled objects received from the network
             """
+            self.lock.acquire()
             result = self.__Session.merge(object)
             self.__Session.commit()
+            self.lock.release()
             return result
             
         def get_all(self, object):
@@ -59,7 +67,10 @@ class Database():
             
             For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
             """
-            return self.__Session.query(object).all()
+            self.lock.acquire()
+            result = self.__Session.query(object).all()
+            self.lock.release()
+            return result
     
         def get_one(self, object):
             """
@@ -67,14 +78,19 @@ class Database():
             
             For more advanced queries, see http://www.sqlalchemy.org/docs/04/ormtutorial.html#datamapping_querying
             """
-            return self.__Session.query(object).first()
+            self.lock.acquire()
+            result = self.__Session.query(object).first()
+            self.lock.release()
+            return result
         
         def commit(self):
             """
             Commits object changes to the database. Use this if you get an object from the database
             and then change some of its attributes
             """
+            self.lock.acquire()
             self.__Session.commit()
+            self.lock.release()
             
         def get_session(self):
             """
@@ -87,37 +103,46 @@ class Database():
             Fetches an object from database with a matching id
             Example: get_one_by_id(Employee, 2) returns the employee object with id == 2
             """
-            return self.__Session.query(object).get(id)
+            self.lock.acquire()
+            result = self.__Session.query(object).get(id)
+            self.lock.release()
+            return result
         
         def get_all_finished_missions(self):
             """
             Fetches all objects with finished status (3)
             """
-            return self.__Session.query(Mission).filter_by(status=3).all()
+            self.lock.acquire()
+            result = self.__Session.query(Mission).filter_by(status=3).all()
+            self.lock.release()
+            return result
         
         def get_employee_by_name(self, name):
             """
             Fetches an employee with the name provided
             """
+            self.lock.acquire()
             for employee in self.__Session.query(Employee).all():
                 if (employee.fname+' '+employee.lname == name):
-                    return employee
-            return
+                    result = employee
+            self.lock.release()
+            return result
         
         def get_highest_device_id(self, object):
+            self.lock.acquire()
             rows = self.__Session.query(object).filter(object.id<(SETTINGS.starting_id+1000)).filter(object.id>=SETTINGS.starting_id).all()
             if (len(rows) == 0):
+                self.lock.release()
                 return None
-            return rows[-1].id
+            result = rows[-1].id
+            self.lock.release()
+            return result
         
         def delete(self, object):
+            self.lock.acquire()
             self.__Session.delete(object)
             self.__Session.commit()
-
-
-        def spam(self):
-            """ Test method, return singleton id """
-            return id(self)
+            self.lock.release()
 
     # storage for the instance reference
     __instance = None
