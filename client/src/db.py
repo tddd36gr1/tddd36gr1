@@ -8,7 +8,7 @@ from sqlalchemy.orm import  sessionmaker, scoped_session
 from sqlalchemy import create_engine
 import class_.base_objects as base_objects
 from class_.base_objects import *
-import SETTINGS, push
+import SETTINGS
 
 class DatabaseWorker(threading.Thread):
     """
@@ -59,9 +59,12 @@ class DatabaseWorker(threading.Thread):
         if there already exists an object with same id or not.
         Used to merge object from the gui
         """
+        
         result = self.__Session.merge(object)
         self.__Session.commit()
-        push.add(object)
+        print result.id
+        import push
+        push.add(result)
         return result
     
     def add_or_update_no_push(self, object):

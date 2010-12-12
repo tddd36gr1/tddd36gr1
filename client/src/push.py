@@ -1,6 +1,7 @@
 #coding=utf8
-from class_.base_objects import Mission, StatusCode, Employee, TextMessage
-import SETTINGS, Queue, gui, gtk, db
+from class_.base_objects import *
+import SETTINGS, Queue, gui, gtk, db, threading
+import network.networkcomponent as networkcomponent
 
 db = db.database
 q = Queue.Queue()
@@ -13,37 +14,41 @@ def queuePusher():
     while 1:
         
         row = q.get()
+        print row
 
-        if (row.class_name == "Mission"):
+        if (row.tablename == "missions"):
             object = db.get_one_by_id(Mission, row.object_id)
-        elif (row.class_name == "StatusCode"):
+        elif (row.tablename == "statuscodes"):
             object = db.get_one_by_id(StatusCode, row.object_id)
-        elif (row.class_name == "Employee"):
+        elif (row.tablename == "employees"): 
             object = db.get_one_by_id(Employee, row.object_id)
-        elif (row.class_name == "TextMessage"):
+        elif (row.tablename == "text_message"):
             object = db.get_one_by_id(TextMessage, row.object_id)
-        elif (row.class_name == "MissionText"):
+        elif (row.tablename == "missiontexts"):
             object = db.get_one_by_id(MissionText, row.object_id)
-        elif (row.class_name == "MissionImage"):
+        elif (row.tablename == "missionimages"):
             object = db.get_one_by_id(MissionImage, row.object_id)
-        elif (row.class_name == "Placemark"):
+        elif (row.tablename == "placemark"):
             object = db.get_one_by_id(Placemark, row.object_id)
 
-        try:
-            networkcomponent.send(SETTINGS.ip_destination, object, "db_add_or_update")
-        except:
-            print "Fail"
-            gtk.gdk.threads_enter()
-            gui.notify_connection(False)
-            gtk.gdk.threads_leave()
-            q.put(row)
-        else:
-            Qdone.put(row)
-            q.task_done()
+        networkcomponent.send(SETTINGS.destination_ip, object, "db_add_or_update")
+     #   try:
+     #       networkcomponent.send(SETTINGS.ip_destination, object, "db_add_or_update")
+     #   except:
+    #        print "Fail from push"
+   #         gtk.gdk.threads_enter()
+  #          gui.notify_connection(False)
+ #           gtk.gdk.threads_leave()
+#            q.put(row)
+#        else:
+#            Qdone.put(row)
+#            q.task_done()
             
 def add(object):
+        print "PushAdd"
         row = QueueRow(object.__tablename__, object.id)
         db.add_or_update_no_push(row)
+        print "Queuerow added to queue"
         q.put(row)
     
 def pushStart():
@@ -54,8 +59,8 @@ def pushStart():
     for row in db.get_all(QueueRow):
         q.put(row)
            
-    threading.Thread(Target=queuePusher).start()
-    threading.Thread(Target=runDoneQueue).start()   
+    threading.Thread(target=queuePusher).start()
+    threading.Thread(target=runDoneQueue).start()   
     #QueuePusher().start()
 
 
