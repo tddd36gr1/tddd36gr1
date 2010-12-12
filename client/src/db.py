@@ -59,10 +59,12 @@ class DatabaseWorker(threading.Thread):
         if there already exists an object with same id or not.
         Used to merge object from the gui
         """
-        import push
+        
         result = self.__Session.merge(object)
         self.__Session.commit()
-        push.add(object)
+        print result.id
+        import push
+        push.add(result)
         return result
     
     def add_or_update_no_push(self, object):

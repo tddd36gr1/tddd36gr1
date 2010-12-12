@@ -19,6 +19,7 @@ def send(destination, data, datatype):
     """
     Sends data to a specific destination. For valid datatyp-strings, check requesthandler.py
     """
+    print "Trying to send"
     client = Client(destination)
     client.clientStart()
     msg = pickle.dumps(data)+'<>'+datatype+'<>'+str(SETTINGS.employee_id)
@@ -47,6 +48,7 @@ class PingService(threading.Thread):
                 gtk.gdk.threads_enter()
                 gui.notify_connection(False)
                 gtk.gdk.threads_leave()
+                time.sleep(40)
             else:
                 print 'skickat'
-                time.sleep(10)
+                time.sleep(55)

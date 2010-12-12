@@ -243,6 +243,9 @@ class QueueRow(Base, object):
     def __init__(self, tablename, object_id):
         self.tablename = tablename
         self.object_id = object_id
+        
+    def __repr__(self):
+        return "Queuerow: table: %s, id: %s" % (self.tablename, self.object_id)
 
 def create_tables(engine):
     """Function for creating all database-tables"""

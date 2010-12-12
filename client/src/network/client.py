@@ -26,10 +26,7 @@ class Client():
         
         #Starting client
         global sock
-        print PORT
-        print HOST
         sock = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
-        print 'sux'
         sock.connect((HOST, PORT))
         
         
