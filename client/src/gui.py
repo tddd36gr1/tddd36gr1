@@ -441,7 +441,7 @@ class MainGUI(hildon.Program):
         
     def notify_connection(self, connected):
         if (connected == True):
-            hildon.hildon_banner_show_information(self.window, None, "Nätverksanslutning återupprättad")
+            hildon.hildon_banner_show_information(self.window, None, "Nätverksanslutning åteInget nätverk hittadesrupprättad")
         elif (connected == False):
             hildon.hildon_banner_show_information(self.window, None, "Inget nätverk hittades")
 
