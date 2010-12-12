@@ -17,7 +17,7 @@ def request(data, type):
     print 'request starts!'
     if (type == 'db_add_or_update'):
         print "type: db_add_or_update"
-        db.from_network_db_add_or_update(data)
+        db.add_or_update_no_push(data)
         gtk.gdk.threads_enter()
         gui.notify(data)
         gtk.gdk.threads_leave()

@@ -127,7 +127,7 @@ class MainGUI(hildon.Program):
         
         #Import map widget and add to our GUI
         self.map_placeholder = self.builder.get_object("map_placeholder")
-        self.mapwidget = MapWidget(58.3953, 15.5691, self.db)
+        self.mapwidget = MapWidget(58.3953, 15.5691)
         self.map_placeholder.add(self.mapwidget)
         
     def insert_data(self):
@@ -481,8 +481,9 @@ def notify(object):
 
 def notify_battery():
     maingui.notify_battery()
-    
-def notify_connection():
-    maingui.notify_connection()
 
+
+
+def notify_connection(connected):
+    maingui.notify_connection(connected)
 
