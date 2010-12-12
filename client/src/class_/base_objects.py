@@ -237,11 +237,11 @@ class Placemark(Base, object):
 class QueueRow(Base, object):
     __tablename__ = 'queue_rows'
     
-    class_name = Column('class_name', String(50), primary_key=True)
+    tablename = Column('tablename', String(50), primary_key=True)
     object_id = Column('object_id', Integer, primary_key=True)
     
-    def __init__(self, class_name, object_id):
-        self.class_name = class_name
+    def __init__(self, tablename, object_id):
+        self.tablename = tablename
         self.object_id = object_id
 
 def create_tables(engine):

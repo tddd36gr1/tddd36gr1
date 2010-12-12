@@ -35,8 +35,7 @@ class Client():
         try:
             sock.sendall(msg)
         except SSL.Error:
-            print 'Connection died unexpectedly'
-            return
+            pass
     #Close socket
     def close(self):
         sock.shutdown()
