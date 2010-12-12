@@ -1,10 +1,10 @@
 #coding=utf-8
 """ EXEMPELKOD för hur man kan använda databasen """
 
-import db
+from db import Database
 from class_.base_objects import *
 
-db = db.database
+db = Database()
 
 #db.add_or_update(TextMessage(2, 1, 'Hej!'))
 #db.add_or_update(StatusCode('Inkommet larm'))

@@ -3,7 +3,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, TIMESTAMP, Table, Text, Boolean
 from sqlalchemy.orm import relation, backref
-import db
 import SETTINGS
 
 """
@@ -12,7 +11,8 @@ Declarative base for automatic mapping of objects to database tables
 Base = declarative_base()
 
 def generate_id_placemark():
-    d = db.database
+    from db import Database
+    d = Database()
     i = d.get_highest_device_id(Placemark)
     print "Här är i: "
     print i
@@ -21,21 +21,24 @@ def generate_id_placemark():
     return i+1
 
 def generate_id_missiontext():
-    d = db.database
+    from db import Database
+    d = Database()
     i = d.get_highest_device_id(MissionText)
     if (i == None):
         return SETTINGS.starting_id
     return i+1
 
 def generate_id_missionimage():
-    d = db.database
+    from db import Database
+    d = Database()
     i = d.get_highest_device_id(MissionImage)
     if (i == None):
         return SETTINGS.starting_id
     return i+1
 
 def generate_id_textmessage():
-    d = db.database
+    from db import Database
+    d = Database()
     i = d.get_highest_device_id(TextMessage)
     if (i == None):
         return SETTINGS.starting_id
@@ -81,6 +84,8 @@ class Employee(Base, object):
         s += "\n\t<n810mac>%s</n810mac>" % (self.n810mac)
         s += "\n\t<fname>%s</fname>" % (self.fname)
         s += "\n\t<lname>%s</lname>" % (self.lname)
+        s += "\n\t<online>%s</online>" % (self.online)
+        s += "\n\t<ip>%s</ip>" % (self.ip)
         s += "\n</Employee>"
         return s      
     
