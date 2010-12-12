@@ -10,10 +10,9 @@ import pickle, socket, threading, time, SETTINGS
 def serverStart():
     """
     Starts the networking server and listens for connections
-    Needs a DatabaseWorker reference (db)
     """
     Server().start()
-    #PingService().start()
+    PingService().start()
     
 
 def send(destination, data, datatype):
@@ -22,7 +21,7 @@ def send(destination, data, datatype):
     """
     client = Client(destination)
     client.clientStart()
-    msg = pickle.dumps(data)+'<>'+datatype
+    msg = pickle.dumps(data)+'<>'+datatype+'<>'+str(SETTINGS.employee_id)
     client.send(msg)
     client.close()
 
@@ -35,16 +34,11 @@ class PingService(threading.Thread):
         s.connect(("gmail.com",80))
         client_ip = s.getsockname()
         
-        client_ip2 = '130.236.77.152'
+        client_ip2 = '130.236.76.110'
         server_ip = SETTINGS.destination_ip
-        employee_id = SETTINGS.employee_id
-        print 'ska fixa pingpaketet'
-        pingpaket = (employee_id, client_ip2)
-        print pingpaket
-        print 'pingpaket fixat borja loopa'
         
         while True:
             print 'skickarrrrr'
-            send(server_ip, pingpaket, 'ping')
+            send(server_ip, client_ip2, 'ping')
             print 'skickat'
             time.sleep(10)

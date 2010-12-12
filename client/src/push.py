@@ -1,6 +1,6 @@
 #coding=utf8
-from class_.base_objects import Mission, StatusCode, Employee, TextMessage
-import SETTINGS, Queue, gui, gtk, db
+from class_.base_objects import *
+import SETTINGS, Queue, gui, gtk, db, threading
 
 db = db.database
 q = Queue.Queue()
@@ -14,19 +14,19 @@ def queuePusher():
         
         row = q.get()
 
-        if (row.class_name == "Mission"):
+        if (row.tablename == "Mission"):
             object = db.get_one_by_id(Mission, row.object_id)
-        elif (row.class_name == "StatusCode"):
+        elif (row.tablename == "StatusCode"):
             object = db.get_one_by_id(StatusCode, row.object_id)
-        elif (row.class_name == "Employee"):
+        elif (row.tablename == "Employee"):
             object = db.get_one_by_id(Employee, row.object_id)
-        elif (row.class_name == "TextMessage"):
+        elif (row.tablename == "TextMessage"):
             object = db.get_one_by_id(TextMessage, row.object_id)
-        elif (row.class_name == "MissionText"):
+        elif (row.tablename == "MissionText"):
             object = db.get_one_by_id(MissionText, row.object_id)
-        elif (row.class_name == "MissionImage"):
+        elif (row.tablename == "MissionImage"):
             object = db.get_one_by_id(MissionImage, row.object_id)
-        elif (row.class_name == "Placemark"):
+        elif (row.tablename == "Placemark"):
             object = db.get_one_by_id(Placemark, row.object_id)
 
         try:
@@ -54,8 +54,8 @@ def pushStart():
     for row in db.get_all(QueueRow):
         q.put(row)
            
-    threading.Thread(Target=queuePusher).start()
-    threading.Thread(Target=runDoneQueue).start()   
+    threading.Thread(target=queuePusher).start()
+    threading.Thread(target=runDoneQueue).start()   
     #QueuePusher().start()
 
 

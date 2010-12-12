@@ -29,7 +29,7 @@ class Server(threading.Thread):
         
         # Starting server, open socket
         server = SSL.Connection(ctx, socket.socket(socket.AF_INET, socket.SOCK_STREAM))
-        server.bind(('', SETTINGS.network_port))
+        server.bind(('', SETTINGS.network_port_recieve))
         server.listen(3) 
         server.setblocking(0)
         

@@ -7,7 +7,7 @@ Created on Nov 12, 2010
 
 db_src = 'sqlite:///db/n810.db'
 
-destination_ip = '130.236.77.200'
+destination_ip = "130.236.76.131"
 
 secondary_ip = 3
 
@@ -17,7 +17,8 @@ iplist = ["130.236.77.200","127.0.0.1"]
 
 employee_id = 2
 
-network_port = 5067
+network_port_send = 5050
 
+network_port_recieve = 5051
 
 starting_id = 1001
