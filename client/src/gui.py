@@ -314,6 +314,8 @@ class MainGUI(hildon.Program):
         self.mission_images_liststore.clear()
         for image in self.selected_mission.images:
             self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("db/images/thumb_"+image.filename), image.title, image.id))
+        
+        self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("")))
     
     def open_message(self, widget, data=None):
         """
@@ -458,5 +460,6 @@ def notify(object):
 
 def notify_battery():
     maingui.notify_battery()
+    
 def notify_connection():
     maingui.notify_connection()
