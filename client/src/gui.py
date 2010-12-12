@@ -439,8 +439,12 @@ class MainGUI(hildon.Program):
     def notify_battery(self):
         hildon.hildon_banner_show_information(self.window, None, "Batterinivån är låg")
         
-    def notify_connection(self):
-        hildon.hildon_banner_show_information(self.window, None, "Inget nätverk hittades")
+    def notify_connection(self, connected):
+        if (connected == True):
+            hildon.hildon_banner_show_information(self.window, None, "Nätverksanslutning återupprättad")
+        elif (connected == False):
+            hildon.hildon_banner_show_information(self.window, None, "Inget nätverk hittades")
+
 
 maingui = MainGUI()
 

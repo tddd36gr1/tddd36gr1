@@ -35,9 +35,13 @@ class Connection_check(threading.Thread):
             s.connect(address)
             if (self.connected == False):
                 self.connected = True
+                gtk.gdk.threads_enter()
+                gui.notify_connection(True)
+                gtk.gdk.threads_leave()
             
         except Exception, e:
             #alert("Something's wrong with %s. Exception type is %s" % (address, e))
+                self.connected = False
                 gtk.gdk.threads_enter()
                 gui.notify_connection(False)
                 gtk.gdk.threads_leave()
