@@ -12,7 +12,6 @@ class Server(threading.Thread):
     
     #Verifyingfunction, not complete
     def verify_cb(conn, cert, errnum, depth, ok):
-        print 'Got certificate: %s' % cert.get_subject()
         return ok
     
     def __init__(self):
@@ -48,7 +47,6 @@ class Server(threading.Thread):
                 if cli == server:
                     #Accepting the connection from server
                     cli,addr = server.accept()
-                    print 'Connection from %s' % (addr,)
                     clients[cli] = addr
         
                 else:
@@ -84,8 +82,6 @@ class Server(threading.Thread):
         if errors:
             print 'Client %s left unexpectedly:' % (clients[cli],)
             print '  ', errors
-        else:
-            print 'Client %s left politely' % (clients[cli],)
         del clients[cli]
         if writers.has_key(cli):
             del writers[cli]

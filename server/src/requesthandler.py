@@ -22,15 +22,9 @@ def request(data, type, e_id):
         push.add(data, e_id)
     
     elif (type == 'ping'):
-        print 'type = ping'
-        print data
-
         e_status = db.get_one_by_id(EmployeeStatus, e_id)
         print "Tagit emot pingpaket från employee-id: %s" % (e_status.e_id)
         e_status.online = True
         e_status.ip = data
-        print e_status
         db.commit()
         db.add_or_update(e_status)
-        
-        print 'uppdaterat databasen'

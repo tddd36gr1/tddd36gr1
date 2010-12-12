@@ -14,7 +14,6 @@ def serverStart():
     """
     Starts the networking server and listens for connections
     """
-    print "Server is running"
     Server().start()
     #send('127.0.0.1','lol','TextMessage')
 
@@ -27,7 +26,6 @@ def send(destination, data, datatype):
     client = Client(destination)
     try:
         client.clientStart()
-        print "Client started"
         client.send(msg)
         print "Client sent"
         client.close()

@@ -10,14 +10,11 @@ class Client():
     
     #Verifyingfunction, not complete
     def verify_cb(conn, cert, errnum, depth, ok):
-        print 'Got certificate: %s' % cert.get_subject()
         return ok
     
     def clientStart(self):
         HOST = self.destination
         PORT = SETTINGS.network_port_send
-        print PORT
-        print HOST
         
         # Initialize context, verify certificate
         ctx = SSL.Context(SSL.SSLv23_METHOD)

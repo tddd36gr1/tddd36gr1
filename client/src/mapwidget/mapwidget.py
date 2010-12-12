@@ -338,13 +338,7 @@ class MapWidget(gtk.DrawingArea):
         
         dialog = gtk.AboutDialog()
         dialog.set_name(self.objectlist2[self.object_counter-1].title)
-        if (self.objectlist2[self.object_counter-1].__class__ == Mission):
-            s = ""
-            for e in self.objectlist2[self.object_counter-1].missiontexts:
-                s += "%s\n" % (e)
-            dialog.set_comments(s)
-        elif (self.objectlist2[self.object_counter-1].__class__ == Placemark):
-            dialog.set_comments(self.objectlist2[self.object_counter-1].descr)
+        dialog.set_comments(self.objectlist2[self.object_counter-1].descr)
         dialog.show()
         dialog.run()
         dialog.destroy()
