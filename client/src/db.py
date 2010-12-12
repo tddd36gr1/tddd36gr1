@@ -61,10 +61,10 @@ class DatabaseWorker(threading.Thread):
         """
         result = self.__Session.merge(object)
         self.__Session.commit()
-        push.sendQueue.put(object)
+        push.add(object)
         return result
     
-    def from_network_db_add_or_update(self, object):
+    def add_or_update_no_push(self, object):
         """
         Adds or updates the given object into the database depending
         if there already exists an object with same id or not.

@@ -8,7 +8,6 @@ import tilenames
 import os.path
 import gobject
 import kamera
-from db import DatabaseWorker
 from class_.base_objects import Mission, Employee, Placemark
 
 TILE_PATH="mapwidget/cache"
@@ -51,11 +50,12 @@ class MapWidget(gtk.DrawingArea):
     _focus = (0,0)
     _zoom_level = MIN_ZOOM_LEVEL
 
-    def __init__(self, lat, long, db):
+    def __init__(self, lat, long):
         """
         Creates a new MapWidget focused on (lat, long) coordinates.
         """
-        self.db = db
+        import db
+        self.db = db.database
         self.object_counter = 0
         self.i = 0
         self.draw_icons = True

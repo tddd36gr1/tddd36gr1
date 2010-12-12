@@ -1,6 +1,6 @@
 #coding=utf8
 from class_.base_objects import Mission, StatusCode, Employee, TextMessage
-import SETTINGS, Queue
+import SETTINGS, Queue, gui, gtk, db
 
 db = db.database
 q = Queue.Queue()
@@ -8,38 +8,10 @@ Qdone = Queue.Queue()
 Qerrors = Queue.Queue()
 
 
-def fillQueue():
-    import db
-    db = db.database
-    """
-    Run this initially to fill up queue first time ever the system runs. Pushes out ALL relevant data to all employees
-    """
-
-    for o in db.get_all(Mission):
-        db.add_or_update(QueueRow(o.__tablename__, o.id))
-    
-    for o in db.get_all(StatusCode):
-        db.add_or_update(QueueRow(o.__tablename__, o.id))
-        
-    for o in db.get_all(Employee):
-        db.add_or_update(QueueRow(o.__tablename__, o.id))
-    
-    #Special for text messages, only send if employee is receiver or sender    
-    for o in db.get_all(TextMessage):
-        if (e.id == o.src) or (e.id == o.dst):
-            db.add_or_update(QueueRow(o.__tablename__, o.id))
-      
-    for o in db.get_all(MissionText):
-        db.add_or_update(QueueRow(o.__tablename__, o.id))
-    
-    for o in db.get_all(MissionImage):
-        db.add_or_update(QueueRow(o.__tablename__, o.id))
-        
-    for o in db.get_all(Placemark):
-        db.add_or_update(QueueRow(o.__tablename__, o.id))
-
 def queuePusher():
+
     while 1:
+        
         row = q.get()
 
         if (row.class_name == "Mission"):
@@ -58,14 +30,21 @@ def queuePusher():
             object = db.get_one_by_id(Placemark, row.object_id)
 
         try:
-            networkcomponent.send(SETTINGS.ip_destination.ip, object, "db_add_or_update")
+            networkcomponent.send(SETTINGS.ip_destination, object, "db_add_or_update")
         except:
             print "Fail"
-            
+            gtk.gdk.threads_enter()
+            gui.notify_connection(False)
+            gtk.gdk.threads_leave()
             q.put(row)
         else:
             Qdone.put(row)
             q.task_done()
+            
+def add(object):
+        row = QueueRow(object.__tablename__, object.id)
+        db.add_or_update_no_push(row)
+        q.put(row)
     
 def pushStart():
     """
@@ -75,9 +54,12 @@ def pushStart():
     for row in db.get_all(QueueRow):
         q.put(row)
            
-    threading.Thread(Target=queuePusher).start()     
+    threading.Thread(Target=queuePusher).start()
+    threading.Thread(Target=runDoneQueue).start()   
     #QueuePusher().start()
 
+
+def runDoneQueue():
     while 1:
         if (Qdone.empty() != True):
             print "Task done!"
