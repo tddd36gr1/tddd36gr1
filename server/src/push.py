@@ -44,13 +44,14 @@ class QueuePusher(threading.Thread):
     def __init__(self, e_id):
         threading.Thread.__init__ ( self )
         self.e_id = e_id
+        self.e_status = db.get_one_by_id(EmployeeStatus, e_id)
         self.employee = db.get_one_by_id(Employee, e_id)
         self.q = Qlist[e_id]
         
     def run(self):
         while 1:
             # Om användaren är offline, vänta och försök igen
-            if (self.employee.online == False):
+            if (self.e_status.online == False):
                 print self.employee.fname+" offline"
                 time.sleep(5)
                 continue    #Försök igen
@@ -73,12 +74,12 @@ class QueuePusher(threading.Thread):
                 object = db.get_one_by_id(Placemark, row.object_id)
             
             try:
-                networkcomponent.send(self.employee.ip, object, "db_add_or_update")
+                networkcomponent.send(self.e_status.ip, object, "db_add_or_update")
             except:
                 print "Fail"
                 self.q.put(row)
-                self.employee.online = False
-                db.add_or_update(self.employee)
+                self.e_status.online = False
+                db.add_or_update(self.e_status.employee)
             else:
                 Qdone.put(row)
                 self.q.task_done()

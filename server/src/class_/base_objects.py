@@ -247,6 +247,20 @@ class QueueRow(Base, object):
         self.e_id = e_id
         self.tablename = tablename
         self.object_id = object_id
+        
+class EmployeeStatus(Base, object):
+    __tablename__ = 'employeestatus'
+    
+    e_id = Column('e_id', Integer, ForeignKey('employees.id'), primary_key=True)
+    online = Column('online', Boolean)
+    ip = Column('ip', String(25))
+    
+    employee = relation('Employee', primaryjoin=e_id==Employee.id, lazy=False)
+    
+    def __init__(self, e_id, online, ip):
+        self.e_id = e_id
+        self.online = online
+        self.ip = ip
 
 def create_tables(engine):
     """Function for creating all database-tables"""

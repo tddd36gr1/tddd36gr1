@@ -4,7 +4,7 @@ Created on Nov 11, 2010
 
 @author: alek
 '''
-from class_.base_objects import Employee
+from class_.base_objects import EmployeeStatus
 #import SETTINGS
 from db import Database
 db = Database()
@@ -25,12 +25,12 @@ def request(data, type, e_id):
         print 'type = ping'
         print data
 
-        employee = db.get_one_by_id(Employee, e_id)
-        print "Tagit emot pingpaket från employee-id: %s" % (employee.id)
-        employee.online = True
-        employee.ip = data
-        print employee
+        e_status = db.get_one_by_id(EmployeeStatus, e_id)
+        print "Tagit emot pingpaket från employee-id: %s" % (e_status.e_id)
+        e_status.online = True
+        e_status.ip = data
+        print e_status
         db.commit()
-        db.add_or_update(employee)
+        db.add_or_update(e_status)
         
         print 'uppdaterat databasen'
