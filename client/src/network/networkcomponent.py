@@ -23,6 +23,7 @@ def send(destination, data, datatype):
     client = Client(destination)
     client.clientStart()
     msg = pickle.dumps(data)+'<>'+datatype+'<>'+str(SETTINGS.employee_id)
+    print str(SETTINGS.employee_id)
     client.send(msg)
     client.close()
 
@@ -39,7 +40,7 @@ class PingService(threading.Thread):
         server_ip = SETTINGS.destination_ip
         
         while True:
-            print 'skickarrrrr'
+            print 'PING skickarrrrr'
 
             try:
                 send(server_ip, client_ip2, 'ping')

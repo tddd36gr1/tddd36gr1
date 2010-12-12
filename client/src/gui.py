@@ -390,8 +390,7 @@ class MainGUI(hildon.Program):
         self.change_mission_status()
         buffer = self.builder.get_object("mission_dialog_description").get_buffer()
         self.selected_mission.descr = buffer.get_text(buffer.get_start_iter(),buffer.get_end_iter())
-        self.db.commit()
-        
+        self.db.add_or_update(self.selected_mission)        
         
     def mission_zoom_to_map(self, widget, data=None):
         """

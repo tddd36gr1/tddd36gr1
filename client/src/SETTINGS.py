@@ -15,7 +15,7 @@ mac_address = '00:1f:5b:84:1d:c4'
 
 iplist = ["130.236.77.200","127.0.0.1"]
 
-employee_id = 2
+employee_id = 1
 
 network_port_send = 5050
 
