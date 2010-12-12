@@ -314,8 +314,8 @@ class MainGUI(hildon.Program):
         self.mission_images_liststore.clear()
         for image in self.selected_mission.images:
             self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("db/images/thumb_"+image.filename), image.title, image.id))
-        
-        self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("")))
+    
+        self.mission_images_liststore.append((gtk.gdk.pixbuf_new_from_file("ikoner/camera.png"),"Lägg till ny bild", -1))
     
     def open_message(self, widget, data=None):
         """
@@ -405,8 +405,12 @@ class MainGUI(hildon.Program):
         """
         Opens up mission image in full screen when user presses enter or double-clicks a mission image
         """
+        i = self.builder.get_object("mission_image_iconview").get_selected_items()[0][0]
+        if (i >= len(self.selected_mission.images)):
+            print "TAKE A FUCKING PICTURE!!!!"
+            return
         self.main_notebook.set_current_page(6)
-        image = self.selected_mission.images[self.builder.get_object("mission_image_iconview").get_selected_items()[0][0]]
+        image = self.selected_mission.images[i]
         self.builder.get_object("mission_image_title").set_markup("<big>"+image.title+"</big>")
         self.builder.get_object("mission_full_image").set_from_file("db/images/"+image.filename)
         
