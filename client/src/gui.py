@@ -469,5 +469,5 @@ def notify(object):
 def notify_battery():
     maingui.notify_battery()
     
-def notify_connection():
-    maingui.notify_connection()
+def notify_connection(connected):
+    maingui.notify_connection(connected)

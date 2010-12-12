@@ -14,5 +14,5 @@ import push
 battery.start()
 connection.start()
 networkcomponent.serverStart()
-push.pushStart()
+#push.pushStart()
 gui.start()

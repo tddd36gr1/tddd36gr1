@@ -18,7 +18,7 @@ def queuePusher():
             object = db.get_one_by_id(Mission, row.object_id)
         elif (row.tablename == "StatusCode"):
             object = db.get_one_by_id(StatusCode, row.object_id)
-        elif (row.tablename == "Employee"):
+        elif (row.tablename == "Employee"): 
             object = db.get_one_by_id(Employee, row.object_id)
         elif (row.tablename == "TextMessage"):
             object = db.get_one_by_id(TextMessage, row.object_id)
@@ -32,7 +32,7 @@ def queuePusher():
         try:
             networkcomponent.send(SETTINGS.ip_destination, object, "db_add_or_update")
         except:
-            print "Fail"
+            print "Fail from push"
             gtk.gdk.threads_enter()
             gui.notify_connection(False)
             gtk.gdk.threads_leave()

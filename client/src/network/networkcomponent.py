@@ -39,6 +39,14 @@ class PingService(threading.Thread):
         
         while True:
             print 'skickarrrrr'
-            send(server_ip, client_ip2, 'ping')
-            print 'skickat'
-            time.sleep(10)
+
+            try:
+                send(server_ip, client_ip2, 'ping')
+            except:
+                print "Fail'd to skick ping to serveh"
+                gtk.gdk.threads_enter()
+                gui.notify_connection(False)
+                gtk.gdk.threads_leave()
+            else:
+                print 'skickat'
+                time.sleep(10)
